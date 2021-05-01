@@ -1,0 +1,314 @@
+<!--pages/shouye/jizou/jizou.wxml-->
+<view class="page" data-weui-theme="{{theme}}">
+  <!-- 提醒文字不要超过1行，否则影响其他信息显示。 -->
+  <view wx:if="{{isToptips}}" style="background-color:gold; color:blue;" class="weui-toptips weui-toptips_warn">
+    {{text_toptips}}
+    <view wx:if="{{isBianji}}" style="color:black;">
+      编辑内容：
+      <view class="weui-cell__bd">
+        <textarea class="weui-textarea" placeholder-class="weui-input__placeholder" placeholder="请输入文本"
+          style="height: 3.3em; background-color:white" bindinput="inputToptips" value="{{text_toptips}}" />
+        <view class="weui-textarea-counter" style="color:red;" >!!!!提醒文字不要超过1行，否则影响其他信息显示。</view>
+        <view hover-class="hover" style="margin-left:450rpx; width:200rpx; background-color:SpringGreen; color:white ;border-radius:24rpx;font-weight:bold;" bindtap="toToptips_text">提交</view>
+      </view>
+    </view>
+  </view>
+  <form bindsubmit="toSubmit" wx:if="{{!isXiadan}}">
+    <view class="weui-form" style="padding-top: 50rpx;">
+      <!-- 头部标题 -->
+      <view class="weui-form__text-area">
+        <!-- 顶部开启 弹出 -->
+        <view wx:if="{{isToptips}}" style="height:50rpx;"></view>
+        <!-- 编辑 弹出 -->
+        <view wx:if="{{isBianji&&isToptips}}" style="height:250rpx;"></view>
+        <!-- 标题 注意事项 -->
+        <h2 class="weui-form__title" bindtap="toYincangOpen" >注意事项</h2>
+        <view hidden="{{isHidden}}">
+          <mp-icon icon="close2" color="black" size="{{15}}" style="float:right;"  bindtap="toYincangClose"></mp-icon>
+          <!-- 事项1 -->
+          <view class="flexjuzhong">
+            <view class="weui-form__desc ziti_xiao">{{shiXiang_1}}</view>
+          </view>
+          <view wx:if="{{isBianji}}" style="color:black;background-color:gold;border-radius: 10rpx;margin-top:20rpx; ">
+            <input class="weui-input" type="text" value="{{shiXiang_1}}" bindinput="inputShixiang_1" />
+          </view>
+          <!-- 事项2 -->
+          <view class="weui-form__desc ziti_xiao">{{shiXiang_2}}</view>
+          <view wx:if="{{isBianji}}" style="color:black;background-color:gold;border-radius: 10rpx;margin-top:20rpx; ">
+            <input class="weui-input" type="text" value="{{shiXiang_2}}" bindinput="inputShixiang_2" />
+          </view>
+          <!-- 事项3 -->
+          <view class="weui-form__desc ziti_xiao">{{shiXiang_3}}</view>
+          <view wx:if="{{isBianji}}" style="color:black;background-color:gold;border-radius: 10rpx;margin-top:20rpx; ">
+            <input class="weui-input" type="text" value="{{shiXiang_3}}" bindinput="inputShixiang_3" />
+          </view>
+        </view>
+        <!-- 提交变更 -->
+        <view wx:if="{{isBianji}}" style="color:black;margin-top:20rpx;">
+            <view hover-class="hover2" style="margin-left:420rpx; width:200rpx; background-color:SpringGreen; color:white; border-radius:24rpx;font-weight:bold;" bindtap="toShixiang">变更</view>
+        </view>
+        <!-- 管理员编辑开关 -->
+        <view class="weui-cell weui-cell_active weui-cell_switch" wx:if="{{isAdmin}}">
+          <view class="weui-cell__bd">管理员编辑</view>
+          <view class="weui-cell__ft">
+            <label class="weui-switch-cp">
+              <switch bindchange="toBianji" />
+            </label>
+          </view>
+          <view wx:if="{{isBianji}}">
+            顶部提醒：<switch checked="{{isToptips}}" bindchange="toToptips" />
+          </view>
+        </view>
+      
+      </view>
+      <!-- 控制区域 -->
+      <view class="weui-form__control-area" style="margin-top: 50rpx;">
+        <!-- 第一部分 本人信息 -->
+        <view class="weui-cells__group weui-cells__group_form">
+          <view class="weui-cells__title  ziti_s">取件信息</view>
+          <view class="weui-cells weui-cells_form">
+            <!-- 快递姓名 -->
+            <view class="weui-cell weui-cell_active {{isWaring_JJ_Name ? 'weui-cell_warn' : ''}}">
+              <view class="weui-cell__hd">
+                <label class="weui-label ziti_s">姓名</label>
+              </view>
+              <view class="weui-cell__bd weui-flex ziti_s">
+
+                <input class="weui-input" type="text" placeholder="填写自己的姓名" name="JJ_Name"
+                  placeholder-class="weui-input__placeholder" value="{{value_JJ_Name}}" bindinput="onInput_JJ_Name" />
+                <view wx:if="{{showClearBtn_JJ_Name}}" class="weui-btn_reset weui-btn_icon weui-btn_input-clear"
+                  bindtap="onClear_JJ_Name">
+                  <i class="weui-icon-clear"></i>
+                </view>
+              </view>
+            </view>
+
+            <!-- 手机号码 -->
+            <view class="weui-cell weui-cell_active {{isWaring_JJ_PhoNum   ? 'weui-cell_warn' : ''}}">
+              <view class="weui-cell__hd">
+                <label class="weui-label ziti_s">手机号码</label>
+              </view>
+              <view class="weui-cell__bd weui-flex ziti_s">
+
+                <input class="weui-input" type="text" maxlength="11" placeholder="填写本人的手机号码" name="JJ_PhoNum"
+                  placeholder-class="weui-input__placeholder" value="{{value_JJ_PhoNum}}" bindinput="onInput_JJ_PhoNum"
+                  type="number" />
+                <view wx:if="{{showClearBtn_JJ_PhoNum}}" class="weui-btn_reset weui-btn_icon weui-btn_input-clear"
+                  bindtap="onClear_JJ_PhoNum">
+                  <i class="weui-icon-clear"></i>
+                </view>
+
+              </view>
+            </view>
+            <!-- 取件时间 -->
+            <view class="weui-cell weui-cell_active">
+              <view class="weui-cell__hd">
+                <label class="weui-label ziti_s">取件时间</label>
+              </view>
+              <view class="weui-cell__bd ziti_s">
+                <view class="weui-input xuanZeqi" placeholder-class="weui-input__placeholder" bindtap="openAndroid">
+                  {{qujTime}}
+                </view>
+              </view>
+            </view>
+            <!-- 加入新的选择器 弹出式菜单-->
+            <!-- 选择取件时间 -->
+            <view wx:if="{{showAndroidDialog}}" class="weui-skin_android fadeIn">
+              <view class="weui-mask"></view>
+              <view class="weui-actionsheet">
+                <view class="weui-actionsheet__menu">
+                  <view class="weui-actionsheet__cell" wx:for="{{qujTimeList}}" wx:key='index' bindtap="toqujTime"
+                    data-name="{{item.name}}">{{item.name}}
+                  </view>
+                </view>
+              </view>
+            </view>
+            <!-- 预约寄件后取件地点 -->
+            <!-- 宿舍区域 及 具体楼栋 2级选择 -->
+            <view class="weui-cell weui-cell_active">
+              <view class="weui-cell__hd">
+                <label class="weui-label ziti_s">取件地点</label>
+              </view>
+              <view>
+                <view class="weui-cell__bd ziti_s">
+                  <picker mode="multiSelector" bindchange="bindMultiPickerChange"
+                    bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex_JJ}}" range="{{multiArray_JJ}}">
+                    <view class="picker">
+                      <a class="xuanZeqi">{{JJ_Didian}}</a>
+                    </view>
+                  </picker>
+                </view>
+                <!-- 选择 其他自定义送达地址 的输入框 -->
+                <view class="weui-cell__bd weui-flex ziti_s" wx:if="{{isZiDingYi}}">
+                  <input class="weui-input" type="text" placeholder="填入校内地址" name="input_JJ_Didian"
+                    placeholder-class="weui-input__placeholder" value="{{value_JJ_Didian}}"
+                    bindinput="onInput_JJ_Didian" />
+                  <view wx:if="{{showClearBtn_JJ_Didian}}" class="weui-btn_reset weui-btn_icon weui-btn_input-clear"
+                    bindtap="onClear_JJ_Didian">
+                    <i class="weui-icon-clear"></i>
+                  </view>
+                </view>
+              </view>
+
+            </view>
+          </view>
+        </view>
+
+        <!-- 第二部分 发件人信息 -->
+        <view class="weui-cells__group weui-cells__group_form">
+          <view class="weui-cells__title  ziti_s">发件人信息
+
+            <text style="color:red;">（默认，无法变更）</text>
+          </view>
+          <view class="weui-cells weui-cells_form">
+            <!-- 快递姓名 -->
+            <view class="weui-cell weui-cell_active {{isWaring_JJ_Name ? 'weui-cell_warn' : ''}}">
+              <view class="weui-cell__hd">
+                <label class="weui-label ziti_s">姓名&电话</label>
+              </view>
+              <view class="weui-cell__bd weui-flex ziti_s">
+
+                <text user-select='true'>小蜜蜂工作室 17607038950</text>
+                <!-- <input class="weui-input" type="text" placeholder="默认小蜜蜂工作室" name="JJ_Name"
+                  placeholder-class="weui-input__placeholder" value="{{value_JJ_Name}}" bindinput="onInput_JJ_Name" />
+                <view wx:if="{{showClearBtn_JJ_Name}}" class="weui-btn_reset weui-btn_icon weui-btn_input-clear"
+                  bindtap="onClear_JJ_Name">
+                  <i class="weui-icon-clear"></i>
+                </view> -->
+              </view>
+            </view>
+          </view>
+        </view>
+
+        <!-- 第三部分 收件人信息 -->
+        <view class="weui-cells__group weui-cells__group_form">
+          <view class="weui-cells__title ziti_s">收件人信息</view>
+          <view class="weui-cells weui-cells_form">
+            <!-- 详细信息 -->
+            <view class="weui-cell weui-cell_active" style="height:150rpx; ">
+              <view class="weui-cell__hd">
+                <label class="weui-label ziti_s">详细地址:<text style="font-size:28rpx">(含姓名电话)</text></label>
+              </view>
+              <view class="weui-cell__bd ziti_s">
+                <view class="weui-cell__bd  weui-flex">
+                  <textarea class="weui-textarea" placeholder-class="weui-input__placeholder" value="{{value_mdd}}"
+                    name="mdd" placeholder="请输入文本" style="height: 5.5em; background-color:WhiteSmoke; font-size:25rpx;"
+                    bindinput="onInput_mdd" bindchange='inputChange_mdd'>
+                  </textarea>
+        <view wx:if="{{showClearBtn_mdd}}" class="weui-btn_reset weui-btn_icon weui-btn_input-clear"
+          bindtap="onClear_mdd">
+          <i class="weui-icon-clear"></i>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- <button class="weui-btn" bindtap="toHuoqu">获取token</button>
+            <button class="weui-btn" bindtap="toShibie">识别地址</button> -->
+  <!-- <button class="weui-btn" bindtap="toTiqu">提取</button> -->
+
+  <!-- 重量 -->
+  <view class="weui-cell weui-cell_active {{isWaring_JJ_weight ? 'weui-cell_warn' : ''}}">
+    <view class="weui-cell__hd">
+      <label class="weui-label ziti_s">重量估计</label>
+    </view>
+    <view class="weui-cell__bd weui-flex ziti_s">
+      <input style="width:90rpx;" class="weui-input" type="number" maxlength="4" placeholder=""
+        placeholder-class="weui-input__placeholder" name="JJ_weight" value="{{value_JJ_weight}}"
+        bindinput="onInput_JJ_weight" />
+      <text>公斤 (首重1公斤)</text>
+      <view wx:if="{{showClearBtn_JJ_weight}}" class="weui-btn_reset weui-btn_icon weui-btn_input-clear"
+        bindtap="onClear_JJ_weight">
+        <i class="weui-icon-clear"></i>
+      </view>
+    </view>
+  </view>
+  <!-- 费用预计 -->
+  <view class="weui-cell weui-cell_active {{isWaring_JJ_weight ? 'weui-cell_warn' : ''}}">
+    <view class="weui-cell__hd">
+      <label class="weui-label ziti_s">费用预计</label>
+    </view>
+    <view class="weui-cell__bd weui-flex ziti_s">
+      <a>{{JJ_feiyong}} 元</a>
+    </view>
+  </view>
+</view>
+</view>
+</view>
+<view class="weui-form__tips-area">
+  <view class="weui-form__tips" bindtap="toCopywx">
+    请添加此区域取件微信号：
+  </view>
+  <view class="weui-form__tips" bindtap="toCopywx">
+    <a href="javascript:">{{wxPaisong}} 复制</a>
+  </view>
+</view>
+<!-- 下单按钮 -->
+<view class="weui-form__opr-area" style="margin-bottom: 56rpx">
+  <!-- <a class="weui-btn weui-btn_primary">下单</a> -->
+  <button class="weui-btn weui-btn_primary" form-type="submit" bindtap="openConfirm" size="">下单
+  </button>
+</view>
+<!-- [弹窗] 下单信息 核对 -->
+<mp-dialog title="请确认" show="{{dialogShow}}" bindbuttontap="tapDialogButton" buttons="{{buttons}}">
+  <view>
+    姓名：{{JJ_Name}}
+  </view>
+  <view>
+    手机号码：{{JJ_PhoNum}}
+  </view>
+  <view>
+    目的地：{{mdd}}
+  </view>
+</mp-dialog>
+<!-- 底部 -->
+<view class="weui-form__extra-area">
+  <view class="weui-footer">
+    <view class="weui-footer__links">
+      <a href="javascript:" class="weui-footer__link" bindtap="toDingDan">查看所有订单
+      </a>
+    </view>
+    <view class="weui-footer__text">Copyright © 2021 xiaomif</view>
+  </view>
+</view>
+</view>
+</form>
+
+<!-- 下单成功结果显示 -->
+
+<view class="weui-msg" wx:if="{{isXiadan}}">
+  <view class="weui-msg__icon-area">
+    <i class="weui-icon-success weui-icon_msg"></i>
+  </view>
+  <view class="weui-msg__text-area">
+    <h2 class="weui-msg__title">下单成功</h2>
+    <view class="weui-msg__desc" style="margin-top:50rpx;">{{mdd}}</view>
+    <view class="weui-msg__desc ">{{JJ_weight}} 公斤</view>
+    <view class="weui-msg__desc ">预计 {{JJ_feiyong}} 元</view>
+    <view class="weui-msg__desc">{{JJ_Name}}</view>
+    <view class="weui-msg__desc">{{JJ_PhoNum}}</view>
+    <view class="weui-msg__desc">{{JJ_Didian}}</view>
+  </view>
+  <view class="weui-msg__opr-area">
+    <view class="weui-btn-area">
+      <a href="javascript:history.back();" class="weui-btn weui-btn_primary" bindtap="toContinue">继续下单
+      </a>
+    </view>
+  </view>
+  <view class="weui-msg__tips-area">
+    <!-- <view class="weui-msg__tips">提示详情，可根据实际需要安排，如果换行则不超过规定长度，居中展现<a>文字链接</a></view> -->
+    <view class="weui-msg__tips" bindtap="toCopywx">此区域取件微信wx：</view>
+    <view class="weui-msg__tips" bindtap="toCopywx">
+      {{wxPaisong}}<a>复制</a>
+    </view>
+  </view>
+  <view class="weui-form__extra-area">
+    <view class="weui-footer">
+      <view class="weui-footer__links">
+        <a href="javascript:" class="weui-footer__link" bindtap="toDingDan">查看所有订单
+        </a>
+      </view>
+      <view class="weui-footer__text">Copyright © 2021 xiaomif</view>
+    </view>
+  </view>
+</view>
+</view>

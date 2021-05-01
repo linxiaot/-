@@ -1,0 +1,61 @@
+{
+  "pages": [
+    "pages/shouye/shouye",
+    "pages/shouye/daiqu/daiqu",
+    "pages/shouye/jizou/jizou",
+    "pages/shouye/meishi/meishi",
+    
+    "pages/xuanzq/xuanzq",
+    
+    "pages/wode/wode",
+    "pages/wode/ziliao/ziliao",
+    "pages/wode/jifen/jifen",
+    "pages/wode/dingdan/dingdan",
+    "pages/wode/xiangqing/xiangqing",
+    
+    "pages/qiang/pinche/pinche",
+    "pages/qiang/qiang",
+    "pages/qiang/xunwu/xunwu",
+    "pages/qiang/zhaoling/zhaoling",
+    "pages/qiang/jianzhi/jianzhi",
+    "pages/qiang/ershou/ershou",
+    "pages/qiang/huzhu/huzhu"
+    
+  ],
+  "window": {
+    "backgroundColor": "#F6F6F6",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#F6F6F6",
+    "navigationBarTitleText": "小蜜蜂代取",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "",
+    "selectedColor": "",
+    "backgroundColor": "",
+    "position": "bottom",
+    "borderStyle": "black",
+    "list": [{
+        "pagePath": "pages/shouye/shouye",
+        "text": "首页",
+        "iconPath": "images/tabBar/mifeng.png",
+        "selectedIconPath": "images/tabBar/mifeng_1.png"
+      },
+
+      {
+        "pagePath": "pages/wode/wode",
+        "text": "我的",
+        "iconPath": "images/tabBar/wode.png",
+        "selectedIconPath": "images/tabBar/wode_1.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2",
+
+  "useExtendedLib": {
+    "kbone": true,
+    "weui": true
+  }
+
+}

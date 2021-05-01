@@ -1,0 +1,30 @@
+<!--pages/qiang/qiang.wxml-->
+
+<view class="content">
+  <view class="qiang">
+    <view class="zhuan" hover-class="hover" bindtap="toXunWu">寻物</view>
+    <view class="kong"></view>
+  </view>
+  <view class="qiang" >
+    <view class="kong"></view>
+    <view class="zhuan" hover-class="hover" bindtap="toZhaoLing">招领</view>
+  </view>
+  <view class="qiang" >
+    <view class="zhuan" hover-class="hover" bindtap="toPinChe">拼车</view>
+    <view class="kong"></view>
+  </view>
+  <view class="qiang" >
+    <view class="kong"></view>
+    <view class="zhuan" hover-class="hover" bindtap="toJianZhi">兼职</view>
+  </view>
+  <view class="qiang" >
+    <view class="zhuan" hover-class="hover" bindtap="toErShou">二手</view>
+    <view class="kong"></view>
+  </view>
+  <view class="qiang" >
+    <view class="kong"></view>
+    <view class="zhuan" hover-class="hover" bindtap="toHuZhu">互助</view>
+  </view>
+
+  <text>大事件通知...</text>
+</view>

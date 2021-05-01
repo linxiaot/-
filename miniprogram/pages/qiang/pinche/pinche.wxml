@@ -1,0 +1,63 @@
+<!--pages/qiang/pinche/pinche.wxml-->
+<!-- 页面标题 -->
+<view class="biaoti">
+  <text>拼车信息</text>
+</view>
+<view class="fabu">
+  <view>
+    <view>全部</view>
+    <view>已发布</view>
+    <view>已拼车</view>
+  </view>
+  <view>+去发布</view>
+</view>
+<view class="one_info" wx:for="{{pincheList}}" wx:for-item="pinche" wx:key="_id">
+  <!-- 头像 -->
+  <view class="touxiang">
+    <button class="userinfo-avatar"
+      style="background-image: url({{pinche.avatarUrl}}); width: 84rpx; height: 84rpx; display: block; box-sizing: border-box"
+      size="default"></button>
+  </view>
+  <!-- 拼车信息 -->
+  <view class="info">
+    <view>{{pinche.nickName}}</view>
+    <!-- 内容 -->
+    <view class="neirong">
+      <!-- 满员展示 三个人 选中不选中 数字展示举例：3/4 -->
+      <view class="neirong_1">
+        <view wx:for="{{pinche.pincheRen}}" wx:for-item="pincheRen" wx:key="index">
+          <image src="{{pincheRen.avatarUrl}}" style="width:50rpx" mode="widthFix" ></image>
+        </view>
+        <!-- <view>
+          <image src="{{imageUrl_2}}" style="width:50rpx" mode="widthFix"></image>
+        </view>
+        <view>
+          <image src="{{imageUrl_3}}" style="width:50rpx" mode="widthFix"></image>
+        </view> -->
+        <!-- 拼车 人数 -->
+        <view>
+          <text style="color:red;">{{pinche.pincheNum.nowNum}}</text>
+          <text>/</text>
+          <text>{{pinche.pincheNum.needNum}}</text>
+        </view>
+      </view>
+      <!-- 出发点 - 目的地 -->
+      <view class="neirong_1">
+        <view>{{pinche.start}}</view>
+        <view>——></view>
+        <view>{{pinche.end}}</view>
+      </view>
+      <!-- 按钮 联系  加入拼车-->
+      <view class="neirong_1">
+        <view> </view>
+        <view> </view>
+        <view>
+          <button>联系</button>
+        </view>
+        <view>
+          <button bindtap="toPinChe" disabled="{{disabled}}" id="{{pinche._id}}" data-pinche="{{pinche}}">拼车</button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

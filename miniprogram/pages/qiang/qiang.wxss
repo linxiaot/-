@@ -1,0 +1,25 @@
+/* pages/qiang/qiang.wxss */
+.content{
+  flex-direction: column;
+  margin: 20rpx;
+}
+.qiang{
+  display: flex;
+}
+.hover{
+  opacity: 0.8;
+  background: orange;
+}
+.zhuan{
+  flex: 1;
+  text-align: center;
+  border: 5rpx solid orange;
+  height: 100rpx;
+  padding-top: 50rpx;
+}
+.kong{
+  flex: 0.5;
+}
+.zl{
+  flex-flow: right;
+}

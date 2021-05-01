@@ -1,0 +1,109 @@
+<!--pages/wode/dingdan/dingdan.wxml-->
+<!-- 订单表头 -->
+<view class="page__bd">
+  <!-- <view class="weui-cells__title">新消息提示跟摘要信息后，统一在列表右侧</view> -->
+  <view class="weui-cells">
+    <view class="weui-cell weui-cell_active weui-cell_access ddTouBu">
+      <view class="weui-cell__bd flex_1 {{isDaiqu ? 'class_toTap' : 'class_unTap'}}" hover-class="hover"
+        bindtap="tapDaiqu">代取</view>
+      <view class="weui-cell__bd flex_1 {{isJijian ? 'class_toTap' : 'class_unTap'}}" hover-class="hover"
+        bindtap="tapJijian">寄件</view>
+      <view class="weui-cell__bd flex_1" hover-class="hover" bindtap="">已发布</view>
+      <!-- <view class="weui-cell__bd flex_1" hover-class="hover">已完成</view> -->
+    </view>
+  </view>
+  <view class="weui-cells isJijian ? 'class_toTap' : 'class_unTap'" wx:if="{{isJijian}}">
+    <view class="weui-cell weui-cell_active weui-cell_access ddTouBu">
+      <view class="weui-cell__bd flex_1 {{isChuli ? 'class_toTap' : 'class_unTap'}}" hover-class="hover"
+        bindtap="toChuli">处理中 {{chuliNum}}</view>
+      <view class="weui-cell__bd flex_1 {{!isChuli ? 'class_toTap' : 'class_unTap'}}" hover-class="hover"
+        bindtap="toYijichu">已寄出</view>
+      <!-- <view class="weui-cell__bd flex_1" hover-class="hover">已完成</view> -->
+    </view>
+  </view>
+</view>
+<!-- 代取订单列表渲染 -->
+<view class="page__bd">
+  <!-- 代取订单列表 -->
+  <view class="weui-form-preview" wx:if="{{isDaiqu}}" bindtap="toXiangQing" hover-class="hover" wx:for="{{dingdanList}}"
+    wx:key="index" data-id="{{item._id}}" data-index="{{index}}">
+    <view class="weui-form-preview__hd">
+      <view class="weui-form-preview__item">
+        <label class="weui-form-preview__label">取货码</label>
+        <em class="weui-form-preview__value">{{item.qh_Ma}}</em>
+      </view>
+    </view>
+    <view class="weui-form-preview__bd">
+      <view class="weui-form-preview__item">
+        <label class="weui-form-preview__label">快递点</label>
+        <text class="weui-form-preview__value">{{item.kd_Dian}}</text>
+      </view>
+      <view class="weui-form-preview__item">
+        <label class="weui-form-preview__label">下单时间</label>
+        <text class="weui-form-preview__value">{{item.xd_time}}</text>
+      </view>
+    </view>
+  </view>
+  <!-- 寄件订单列表 -->
+  <!-- <view class="weui-form-preview" wx:if="{{isJijian}}"> -->
+    <!-- 处理中订单列表 -->
+    <view class="weui-form-preview" wx:if="{{isChuli}}" bindtap="toXiangQing" hover-class="hover"
+      wx:for="{{dingdanListJJchuli}}" wx:key="index" data-id="{{item._id}}" data-index="{{index}}">
+      <view class="weui-form-preview__hd">
+        <view class="weui-form-preview__item">
+          <label class="weui-form-preview__label">目的地</label>
+          <em class="weui-form-preview__value" style="font-size:25rpx;">{{item.mdd}}</em>
+        </view>
+      </view>
+      <view class="weui-form-preview__bd">
+        <view class="weui-form-preview__item">
+          <label class="weui-form-preview__label">重量</label>
+          <text class="weui-form-preview__value">{{item.JJ_weight}}</text>
+        </view>
+        <view class="weui-form-preview__item">
+          <label class="weui-form-preview__label">下单时间</label>
+          <text class="weui-form-preview__value">{{item.xd_time}}</text>
+        </view>
+      </view>
+    </view>
+    <!-- 已寄出 订单列表 -->
+    <view class="weui-form-preview" wx:if="{{!isChuli}}" bindtap="toXiangQing" hover-class="hover"
+      wx:for="{{dingdanListJJyijichu}}" wx:key="index" data-id="{{item._id}}" data-index="{{index}}">
+      <view class="weui-form-preview__hd">
+        <view class="weui-form-preview__item">
+          <label class="weui-form-preview__label">目的地</label>
+          <em class="weui-form-preview__value" style="font-size:25rpx;">{{item.mdd}}</em>
+        </view>
+      </view>
+      <view class="weui-form-preview__bd">
+        <view class="weui-form-preview__item">
+          <label class="weui-form-preview__label">快递公司</label>
+          <text class="weui-form-preview__value">动态识别一下</text>
+        </view>
+        <view class="weui-form-preview__item">
+          <label class="weui-form-preview__label">运单号</label>
+          <text class="weui-form-preview__value">{{item.yundanNum}}</text>
+        </view>
+        <view class="weui-form-preview__item">
+          <label class="weui-form-preview__label">重量</label>
+          <text class="weui-form-preview__value">{{item.JJ_weight}}</text>
+        </view>
+        <view class="weui-form-preview__item">
+          <label class="weui-form-preview__label">下单时间</label>
+          <text class="weui-form-preview__value">{{item.xd_time}}</text>
+        </view>
+      </view>
+    </view>
+  <!-- </view> -->
+  <!-- 底部加载 无更多 显示 -->
+  <view class="weui-loadmore" wx:if="{{isShowLoading}}">
+    <i class="weui-loading"></i>
+    <text class="weui-loadmore__tips">正在加载</text>
+  </view>
+  <view class="weui-loadmore weui-loadmore_line" wx:if="{{isZanWu}}">
+    <text class="weui-loadmore__tips">暂无数据</text>
+  </view>
+  <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot" wx:if="{{isGengDuo}}">
+    <text class="weui-loadmore__tips"></text>
+  </view>
+</view>

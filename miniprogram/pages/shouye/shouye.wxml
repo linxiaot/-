@@ -1,0 +1,36 @@
+<!--pages/shouye/shouye.wxml-->
+<!-- <view class="banner">
+
+  <image src="https://img.alicdn.com/imgextra/i3/184/O1CN01teinpL1DEJXyyvcbS_!!184-0-luban.jpg" mode="widthFix"></image>
+</view>
+
+<view class="choose">
+  <view hover-class="hover" bindtap="toDaiQu">代取</view>
+  <text>|</text>
+  <view hover-class="hover" bindtap="toJiZou">寄走</view>
+  <text>|</text>
+  <view hover-class="hover" bindtap="toMeiShi">美食</view>
+</view> -->
+<!-- 临时页面 -->
+<view class="linshi">
+  <view>
+    <image class="image" src="{{url}}" mode="widthFix" bindtap="toDaiQu"></image>
+  </view>
+
+  <view class="btn">
+    <button class="weui-btn weui-btn_default" bindtap="toDaiQu">代取下单</button>
+  </view>
+  <!-- <view class="btn">
+    <button class="weui-btn weui-btn_default" bindtap="toJiZou">预约寄件</button>
+  </view> -->
+
+
+
+</view>
+
+<image class="image2" style="margin:auto;" src="{{url_2}}" mode="widthFix" bindtap="erWeima"></image>
+<view style="margin:auto; font-size:small;">联系我</view>
+
+<!-- <view class="btn">
+  <button class="weui-btn weui-btn_default" open-type="contact">进入客服消息</button>
+</view> -->

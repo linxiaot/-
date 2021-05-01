@@ -1,0 +1,60 @@
+{
+    "setting": {},
+    "condition": {
+        "plugin": {
+            "list": []
+        },
+        "game": {
+            "list": []
+        },
+        "gamePlugin": {
+            "list": []
+        },
+        "miniprogram": {
+            "list": [
+                {
+                    "name": "我的资料",
+                    "pathName": "pages/wode/ziliao/ziliao",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "代取下单",
+                    "pathName": "pages/shouye/daiqu/daiqu",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "订单",
+                    "pathName": "pages/wode/dingdan/dingdan",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "我的",
+                    "pathName": "pages/wode/wode",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "预约寄件",
+                    "pathName": "pages/shouye/jizou/jizou",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "拼车",
+                    "pathName": "pages/qiang/pinche/pinche",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "管理",
+                    "pathName": "pages/xuanzq/xuanzq",
+                    "query": "",
+                    "scene": null
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,26 @@
+/* pages/xuanzq/xuanzq.wxss */
+.page{height:100%}
+.class_toTap{
+  font-weight: bold;
+  font-size: 40rpx;
+}
+.class_unTap{
+  font-weight: lighter;
+}
+.chaxun{
+  border:2rpx solid gold;
+  margin: 20rpx;
+  border-radius: 20rpx;
+}
+.weui-btn{
+  border-radius: 48rpx;
+  background-color: gold;
+  color: black;
+}
+.weui-flex{
+  justify-content: center;
+}
+.toubu{
+  display: flex;
+  
+}

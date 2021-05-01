@@ -1,0 +1,93 @@
+<!--pages/xuanzq/xuanzq.wxml-->
+<view class="page">
+  <view class="page__hd" wx:if="{{isAdmin}}">
+    <!-- 起始时间 -->
+    <view class="chaxun">
+      <view class="toubu" style="margin-top:30rpx;margin-bottom:20rpx;">
+        <view class="{{isDaiqu ? 'class_toTap' : 'class_unTap'}}" style="flex:1; text-align:center; " hover-class="hover" bindtap="tapDaiqu">代取</view>
+        <view class="{{isJijian ? 'class_toTap' : 'class_unTap'}}" style="flex:1; text-align:center; border-left: 2rpx solid black;" hover-class="hover" bindtap="tapJijian">寄件</view>
+      </view>
+    </view>
+
+    <!-- 终点时间 -->
+    <view class="chaxun">
+      <view class="weui-flex" style="margin-top:30rpx;margin-bottom:20rpx;">
+        <view class="" style="">起始：</view>
+        <picker mode="date" value="{{date1}}" bindchange="bindDateChange_1">
+          <view class="" style="">{{date1}}</view>
+        </picker>
+        <picker mode="time" value="{{time1}}" bindchange="bindTimeChange_1">
+          <view class="" style="padding-left:10rpx;">{{time1}}</view>
+        </picker>
+      </view>
+      <view class="weui-flex" style="margin-top:30rpx;margin-bottom:20rpx;">
+        <picker mode="date" value="{{date2}}" bindchange="bindDateChange_2">
+          <view class="" style="">终止：{{date2}}</view>
+        </picker>
+        <picker mode="time" value="{{time2}}" bindchange="bindTimeChange_2">
+          <view class="" style="padding-left:10rpx;"> {{time2}}</view>
+        </picker>
+      </view>
+    </view>
+    <!-- 底部按钮 代取快递-->
+    <view style="margin-top:80rpx; text-align:center; margin-bottom:40rpx" wx:if="{{isChaxun_Daiqu}}">
+      <view bindtap="toUrlcopy" wx:if="{{url}}" style="font-size:25rpx;margin-bottom:35rpx;">复制地址到浏览器打开</view>
+      <view bindtap="toUrlcopy" style="font-size:20rpx;margin-bottom:35rpx;">{{url}}</view>
+      <button class="weui-btn weui-btn_default" bindtap="toChaxun">查 询</button>
+    </view>
+
+    <view style="margin-top:80rpx; text-align:center; margin-bottom:40rpx" wx:if="{{!isChaxun_Daiqu}}">
+      <button class="weui-btn weui-btn_default" bindtap="toExcel">获取下载链接</button>
+    </view>
+    <!-- 查询结果 -->
+    <mp-loading wx:if="{{showLoading}}" type="circle"></mp-loading>
+    <view class="weui-loadmore weui-loadmore_line" wx:if="{{!isChaxun_Daiqu}}">
+      <text class="weui-loadmore__tips">查询结果：{{chaxunList.length}}条</text>
+    </view>
+    <view style="margin-left:30rpx; margin-right:20rpx;margin-bottom:100rpx;">
+      <!-- 代取快递 列表-->
+      <view wx:if="{{isDaiqu}}" wx:for="{{chaxunList}}" wx:key="index" class="weui-flex">
+        <text user-select='true' style="margin-bottom: 10rpx;font-size:15rpx;flex:1;">{{item.qh_Ma}}</text>
+        <text user-select='true' style="margin-bottom: 10rpx;font-size:15rpx;flex:0.8;">{{item.kd_Name}}</text>
+        <text user-select='true' style="margin-bottom: 10rpx;font-size:15rpx;flex:0.8;">{{item.kd_PhoNum}}</text>
+        <text user-select='true' style="margin-bottom: 10rpx;font-size:15rpx;flex:1.2;">{{item.sd_Didian}}</text>
+        <text user-select='true' style="margin-bottom: 10rpx;font-size:15rpx;flex:0.7;">{{item.kd_Dian}}</text>
+        <text user-select='true' style="margin-bottom: 10rpx;font-size:15rpx;flex:1.5;">{{item.xd_time}}</text>
+      </view>
+      <!--预约寄件 列表-->
+        <view wx:if="{{isJijian}}" wx:for="{{chaxunList}}" wx:key="index" class="weui-flex">
+          <text user-select='true' style="margin-bottom: 10rpx; font-size:15rpx;flex:0.8;">{{item.JJ_Didian}}</text>
+          <text user-select='true' style="margin-bottom: 10rpx; font-size:15rpx;flex:0.5;">{{item.JJ_Name}}</text>
+          <text user-select='true' style="margin-bottom: 10rpx; font-size:15rpx;flex:0.9;">{{item.JJ_PhoNum}}</text>
+          <text user-select='true' style="margin-bottom: 10rpx; font-size:15rpx;flex:1.7;">{{item.mdd}}</text>
+          <text user-select='true' style="margin-bottom: 10rpx; font-size:15rpx;flex:0.5;">{{item.qujTime}}</text>
+          <text user-select='true' style="margin-bottom: 10rpx; font-size:15rpx;flex:0.5;text-align:center; ">{{item.JJ_weight}}</text>
+          <text user-select='true' style="margin-bottom: 10rpx; font-size:15rpx;flex:0.8;">{{item.xd_time}}</text>
+        </view>
+
+    </view>
+    <view class="weui-loadmore weui-loadmore_line" wx:if="{{!isChaxun_Daiqu}}">
+      <text class="weui-loadmore__tips weui-loadmore__tips_in-line">无更多数据</text>
+    </view>
+
+
+  </view>
+
+  <!-- 登陆界面 -->
+  <view class="weui-form" wx:if="{{!isAdmin}}">
+    <view class="weui-form__text-area">
+      <h2 class="weui-form__title">管理员登陆</h2>
+      <view class="weui-form__desc">仅限管理员</view>
+
+    </view>
+    <view class="weui-form__control-area">
+      <view class="weui-cells__group weui-cells__group_form">
+        <view class="weui-cells weui-cells_form">
+        </view>
+      </view>
+    </view>
+    <view class="weui-form__opr-area" bindtap="toGuanli">
+      <a class="weui-btn weui-btn_primary weui-btn_disabled">管理员授权登陆</a>
+    </view>
+  </view>
+</view>

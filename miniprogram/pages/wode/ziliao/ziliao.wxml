@@ -1,0 +1,55 @@
+<!--pages/wode/ziliao/ziliao.wxml-->
+
+
+<view class="page" data-weui-theme="{{theme}}">
+  <view class="page__bd">
+    <!-- <view class="weui-form" style="width: 686rpx; height: 1028rpx; display: flex; box-sizing: border-box"> -->
+    <view class="weui-form" >
+      <view class="weui-form__text-area">
+        <!-- 已登陆显示 -->
+        <view class="weui-form__text-area" wx:if="{{login_ok}}">
+          <view class="weui-cell__bd">
+            <button class="userinfo-avatar"
+              style="background-image: url({{avatarUrl}}); width: 120rpx; height: 120rpx; display: block; box-sizing: border-box"
+              size="default"></button>
+            <view style="display:flex; margin-top:60rpx; margin-bottom:60rpx" >
+              <view class="danCeng1" style="flex:1;">
+                <view>昵 称：</view>
+                <view>性 别：</view>
+                <view>省 份：</view>
+                <!-- <view>电 话：</view> -->
+                <!-- <view>注册时间：</view> -->
+              </view>
+              <view class="danCeng2"style="flex:1;">
+                <view>{{nickName}}</view>
+                <view>{{gender}}</view>
+                <view>{{province}}</view>
+                <!-- <view>{{userPhoneNumber}}</view> -->
+                <!-- <view>{{zhuceTime}}</view> -->
+              </view>
+            </view> 
+          </view>
+          <!-- 退出登陆 -->
+          <button type="default" plain="true" bindtap="onRemoveStorage" style="position: relative; left: 0rpx; top: 106rpx;   border-radius: 48rpx;  border-color: gold;">退出登陆</button>
+        </view>
+        <!-- 未登陆显示 -->
+        <!--用户授权-->
+        <view wx:if="{{!login_ok}}" class="weui-form__text-area">
+          <button class="userinfo-avatar"
+            style="background-image: url({{Url}}); width: 120rpx; height: 120rpx; display: block; box-sizing: border-box"
+            size="default" bindtap="toZiliao"></button>
+          <view class="weui-cell__bd" style="margin-top:30rpx">
+            <view style="font-size: 13px; color: #888;">未登陆</view>
+          </view>
+          <view>
+            <button bindtap="onGetUserInfo" style="border-radius: 48rpx; background-color: gold; color: black; position: relative; left: 0rpx; top: 106rpx">微信授权登陆</button>
+          </view>
+        </view>
+        <!-- <view> -->
+        <!-- <view>手机号码</view> -->
+        <!-- <input type="number" placeholder="请输入11位手机号码" confirm-type="go" bindinput="inputPhoneNumber" /> -->
+        <!-- </view> -->
+      </view>
+    </view>
+  </view>
+</view>

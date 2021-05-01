@@ -1,0 +1,12 @@
+/* pages/wode/xiangqing/xiangqing.wxss */
+
+.page__bd {
+  margin-top: 60rpx;
+  margin-left: 30rpx;
+  margin-right: 30rpx;
+  
+}
+
+.quhuoma {
+  text-align: center;
+}

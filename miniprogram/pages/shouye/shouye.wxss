@@ -1,0 +1,64 @@
+/* pages/shouye/shouye.wxss */
+.banner {
+  display: flex;
+  margin: auto;
+  margin-top: 20rpx;
+}
+
+.choose {
+  margin-top: 20rpx;
+  display: flex;
+}
+
+.choose view {
+  flex: 1;
+  text-align: center;
+  margin: 10rpx;
+
+}
+
+.choose text {
+
+  text-align: center;
+  margin: 10rpx;
+
+}
+
+.hover {
+  opacity: 0.8;
+  background: orange;
+}
+
+.linshi {
+  padding-top: 150rpx;
+  /* margin-top: 500rpx; */
+  margin: auto;
+  margin-top: 20rpx;
+  margin-bottom: 100rpx;
+}
+
+.image {
+  border-radius: 50%;
+  width: 400rpx;
+  height: 400rpx;
+}
+
+.image2 {
+  justify-content: center;
+  border-radius: 5%;
+  width: 100rpx;
+  height: 100rpx;
+}
+.view2{
+  padding-left: 100rpx;
+  padding-top: 100rpx;
+}
+
+.btn {
+  margin-top: 100rpx;
+}
+.weui-btn{
+  border-radius: 48rpx;
+  background-color: gold;
+  color: black;
+}

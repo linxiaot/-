@@ -1,0 +1,59 @@
+/* pages/qiang/pinche/pinche.wxss */
+
+.biaoti {
+  height: 150rpx;
+  background: snow;
+  font-size: large;
+  text-align: center;
+  padding-top: 75rpx;
+}
+
+.fabu {
+  display: flex;
+}
+
+.fabu>view:first-child {
+  display: flex;
+  flex-basis: 75%;
+}
+
+.fabu>view:first-child>view {
+  margin-left: 15rpx;
+}
+
+.fabu>view:last-child {
+  flex-basis: 25%;
+}
+
+.one_info {
+  display: flex;
+  margin-top: 40rpx;
+  margin-bottom: 40rpx;
+}
+
+.touxiang {
+  flex: 1;
+  padding-left: 10rpx;
+  padding-right: 10rpx;
+}
+
+.info {
+  flex: 4;
+}
+
+.neirong_1 {
+  display: flex;
+  margin-top: 15rpx;
+}
+
+.neirong_1 view {
+  flex-basis: 20%;
+}
+.neirong_1>view:last-child{
+  flex-basis: 20%;
+}
+.neirong_1 image {
+  width: 100rpx;
+  height: 100rpx;
+  /* background-color: tomato; */
+}

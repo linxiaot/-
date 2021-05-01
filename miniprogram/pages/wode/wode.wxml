@@ -1,0 +1,98 @@
+<!-- 我的个人中心页面 -->
+
+<!-- 我的资料  头像-->
+
+<!-- <view class="ziliao" bindtap="toZiliao">点击 查看我的资料</view> -->
+
+<!-- 新的头像区域 -->
+<view class="page" data-weui-theme="{{theme}}">
+  <mp-loading wx:if="{{showLoading}}" type="circle"></mp-loading>
+  <view class="page__bd">
+    <view class="weui-cell weui-cell_active " style="margin-top:20rpx;">
+
+      <view class="weui-cell__hd"
+        style="position: relative; margin-right: 30rpx; margin-left: 30rpx; margin-top: 30rpx;" wx:if="{{login_ok}}">
+        <button class="userinfo-avatar"
+          style="background-image: url({{avatarUrl}}); width: 120rpx; height: 120rpx; display: block; box-sizing: border-box"
+          size="default" bindtap="toZiliao"></button>
+        <!-- 性别角标 -->
+        <!-- <text class="weui-badge" style="position: absolute; top: -0.4em; right: -0.4em;">男</text> -->
+      </view>
+      <view class="weui-cell__bd" wx:if="{{login_ok}}" style="margin-top:20rpx;">
+        <view>{{nickName}}</view>
+        <view style="font-size: 13px; color: #888;">已登陆</view>
+        <view class="weui-flex">
+          <view style="font-size: 13px; color: 	#4682B4;" bindtap="toJifen">积分{{jifen_total}}</view>
+          <view style="font-size: 13px; color: #888; margin-left:30rpx; " bindtap="toRefresh">
+            <mp-icon icon="refresh" color="black" size="{{15}}"></mp-icon>
+          </view>
+
+        </view>
+      </view>
+
+      <!-- 如果未登陆 显示以下 -->
+      <view class="weui-cell__hd"
+        style="position: relative; margin-right: 30rpx; margin-left: 30rpx; margin-top: 30rpx;" wx:if="{{!login_ok}}">
+        <button class="userinfo-avatar"
+          style="background-image: url({{Url}}); width: 120rpx; height: 120rpx; display: block; box-sizing: border-box"
+          size="default" bindtap="toZiliao"></button>
+      </view>
+      <view class="weui-cell__bd" wx:if="{{!login_ok}}" style="margin-top:20rpx;">
+        <view style="font-size: 13px; color: #888;">点击头像登陆</view>
+      </view>
+    </view>
+    <!-- 我的订单 -->
+    <!-- <view class="weui-cells__title">带图标、说明、跳转的列表项</view> -->
+    <view class="weui-cells weui-cells_after-title">
+      <!-- 我的订单 -->
+      <navigator url="../wode/dingdan/dingdan" class="weui-cell weui-cell_access ziti" hover-class="weui-cell_active">
+        <view class="weui-cell__hd">
+          <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
+        </view>
+        <view class="weui-cell__bd">我的订单</view>
+        <view class="weui-cell__ft weui-cell__ft_in-access">查看更多</view>
+      </navigator>
+      <view class="weui-cells weui-cells_after-title">
+        <!-- 帮助与反馈 -->
+        <!-- <navigator url="" class="weui-cell weui-cell_example weui-cell_access" hover-class="weui-cell_active">
+        <view class="weui-cell__hd">
+          <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
+          <button open-type="feedback" class="weui-cell__bd"
+          style="font-weight:normal; text-align: left; padding-left: 72rpx;">帮助与反馈</button>
+        </view>
+        <view class="weui-cell__bd">
+        </view>
+        <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+      </navigator> -->
+        <!-- 联系客服 -->
+        <navigator url="" class="weui-cell weui-cell_example weui-cell_access" style="padding-top:0rpx;padding-bottom:0rpx;" hover-class="weui-cell_active">
+          <view class="weui-cell__hd">
+            <!-- <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image> -->
+            <button open-type="contact" class="weui-cell__bd ziti"
+              style="font-weight:normal; text-align: left; padding-left: 72rpx;">联系客服</button>
+          </view>
+          <view class="weui-cell__bd">
+          </view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
+        <!-- 管理登陆 -->
+        <navigator url="{{guanliUrl}}" class="weui-cell weui-cell_access ziti" hover-class="weui-cell_active">
+          <view class="weui-cell__hd">
+            <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
+          </view>
+          <view class="weui-cell__bd">管理</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access">去登陆</view>
+        </navigator>
+        <!-- <button bindtap="toDingyue">订阅消息</button>
+        <button bindtap="toTuisong">推送消息</button>
+        <button bindtap="towebhook">webhook</button> -->
+        <!-- <button bindtap="toJianting">开启监听</button> -->
+      </view>
+    </view>
+  </view>
+</view>
+
+<!--我的订单-->
+<!-- <view>显示现在的时间{{timeNow}}</view> -->
+<!-- <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">点击获取手机号码</button> -->
+<!--我的发布-->

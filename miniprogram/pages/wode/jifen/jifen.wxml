@@ -1,0 +1,26 @@
+<view class="page__bd">
+  <!-- 表头 -->
+  <view class="weui-form-preview__hd weui-flex" style="padding-left:120rpx;">
+    <view class="weui-form-preview__item" style="margin-left:30rpx;">
+      <em class="weui-form-preview__value">{{jifen_total}}</em>
+    </view>
+    <view class="weui-form-preview__item" style="margin-left:30rpx; font-size: 10pt;">
+      <text>积分</text>
+    </view>
+  </view>
+  <!-- 积分列表 -->
+  <view class="weui-form-preview" wx:for="{{jifen}}" wx:key="index">
+    <view class="weui-form-preview__bd">
+      <view class="weui-form-preview__item">
+        <label class="weui-form-preview__label">{{item.jifen_name}}</label>
+        <text class="weui-form-preview__value">
+          <text wx:if="{{item.jifen_num >= 0}}">+</text>{{item.jifen_num}}
+        </text>
+      </view>
+      <view class="weui-form-preview__item">
+        <label class="weui-form-preview__label " style="font-size:25rpx;">{{item.jifen_time}}</label>
+        <!-- <text class="weui-form-preview__value">{{item.xd_time}}</text> -->
+      </view>
+    </view>
+  </view>
+</view>

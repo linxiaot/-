@@ -1,0 +1,23 @@
+/* pages/wode/dingdan/dingdan.wxss */
+.ddTouBu {
+  display: flex;
+}
+
+.flex_1 {
+  flex: 1;
+  font-size: small;
+}
+.hover{
+  opacity: 0.9;
+  background: #F5F5F5;
+}
+.weui-form-preview{margin-bottom:10px}
+.weui-cells{margin-bottom:10px}
+
+.class_toTap{
+  font-weight: bold;
+  font-size: 40rpx;
+}
+.class_unTap{
+  font-weight: lighter;
+}

@@ -1,0 +1,14 @@
+/* pages/wode/wode.wxss */
+.page__bd {
+  margin-top: 30rpx;
+  margin-left: 30rpx;
+  margin-right: 30rpx;
+  
+}
+.ziti{
+  font-size: 30rpx;
+  padding-top: 20rpx;
+  padding-bottom: 20rpx;
+}
+
+
