@@ -1,0 +1,63 @@
+<!--pages/wode/renwu/renwu.wxml-->
+<view class="page_rewu">
+
+
+    <view class="renwu_title">
+        <view>新手任务</view>
+    </view>
+    <view class="weui-cells">
+        <view class="renwu_item weui-cell weui-cell_access" style="padding-bottom: 10rpx;">
+            <view class="renwu_item_item1">完善资料至100%（{{isZiliaoPercent?1:0}}/1）</view>
+            <view class="{{isZiliaoPercent?'renwu_item_item2_after':'renwu_item_item2'}}">
+                <view wx:if="{{!isZiliaoPercent}}" bindtap="toComplete_ziliao">去完成</view>
+                <view wx:if="{{isZiliaoPercent}}">已完成</view>
+            </view>
+        </view>
+        <view class="ziliao">
+        <view>当前资料完整度：{{ziliaoPercent}}%</view>
+        <!-- <view wx:if="{{isZiliaoPercent}}" style="color: darkblue;">积分 +200</view> -->
+        
+        </view>
+    </view>
+    <view class="renwu_title">
+        <view>今日任务</view>
+    </view>
+    <view class="weui-cells">
+        <view class="renwu_item weui-cell weui-cell_access">
+            <view class="renwu_item_item1">每日签到获得积分（{{isQiandao?1:0}}/1）</view>
+            <view class="{{isQiandao?'renwu_item_item2_after':'renwu_item_item2'}}">
+                <view wx:if="{{!isQiandao}}" bindtap="toComplete_qiandao">去完成</view>
+                <view wx:if="{{isQiandao}}">已完成</view>
+            </view>
+        </view>
+    </view>
+    <view class="weui-cells">
+        <view class="renwu_item weui-cell weui-cell_access">
+            <view class="renwu_item_item1">每日点赞获得积分（{{ isDianzan?1:0 }}/1）</view>
+            <view class="{{isDianzan?'renwu_item_item2_after':'renwu_item_item2'}}">
+                <view wx:if="{{!isDianzan}}" bindtap="toComplete_dianzan">去完成</view>
+                <view wx:if="{{isDianzan}}">已完成</view>
+            </view>
+        </view>
+    </view>
+    <view class="weui-cells">
+        <view class="renwu_item weui-cell weui-cell_access">
+            <view class="renwu_item_item1">每日评论获得积分（{{ isPinglun?1:0 }}/1）</view>
+            <view class="{{isPinglun?'renwu_item_item2_after':'renwu_item_item2'}}">
+                <view wx:if="{{!isPinglun}}" bindtap="toComplete_pinglun">去完成</view>
+                <view wx:if="{{isPinglun}}">已完成</view>
+            </view>
+        </view>
+    </view>
+    <view class="weui-cells">
+        <view class="renwu_item weui-cell weui-cell_access">
+            <view class="renwu_item_item1">去《墙》发布信息（{{ qiangFabu_num }}/5）</view>
+            <view class="{{qiangFabu_num == 5 ?'renwu_item_item2_after':'renwu_item_item2'}}">
+                <view wx:if="{{qiangFabu_num !== 5}}" bindtap="toComplete_qiang">去完成</view>
+                <view wx:if="{{qiangFabu_num == 5}}">已完成</view>
+            </view>
+        </view>
+    </view>
+
+
+</view>

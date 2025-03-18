@@ -1,0 +1,17 @@
+<!--components/xuanxiangka/xuanxiangka.wxml-->
+<view class="xxk" wx:if="{{typeNum == 1}}">
+    <view class="xxk_items" wx:for="{{nameList}}" wx:key="index" data-index="{{index}}" bindtap="itemChange">
+        <view class="xxk_item">
+            <view class="{{item.checked?'xxk_item_checked':''}}">{{item.text}}</view>
+            <view class="red_dot" wx:if="{{ index==3&&red_dot_num !== 0 }}">
+                <view>{{red_dot_num}}</view>
+            </view>
+        </view>
+    </view>
+</view>
+
+<view class="toubu" wx:if="{{typeNum == 2}}">
+    <view class="toubu_items {{item.checked ? 'class_toTap' : 'class_unTap'}}"
+        style="border-left: {{index>0?'2rpx solid black':'none'}};" hover-class="hover" wx:for="{{nameList}}"
+        wx:key="index" data-index="{{index}}" bindtap="itemChange">{{item.text}}</view>
+</view>

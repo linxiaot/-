@@ -1,0 +1,94 @@
+<view style="display: flex;margin-top: 30rpx;" wx:if="{{isAdmin}}">
+    <button type="primary" size="mini" catchtap="onEdit_start" wx:if="{{!isEdit}}">编辑</button>
+    <button type="warn" plain="true" size="mini" catchtap="onEdit_end" wx:if="{{isEdit}}">取消</button>
+</view>
+<view class="qita" wx:if="{{!isEdit}}">
+    <!-- <view class="qita_items" catchtap="toDetail_qita" wx:if="{{isOpen_qita}}">
+        <view class="qita_item1">大巴车预订</view>
+    </view> -->
+    <view class="qita_items" catchtap="{{item.isOpen_qita?'toDetail_qita':'toDetail_qita_close'}}" wx:for="{{qitaResdata}}" wx:key="index" data-id="{{item._id}}" wx:if="{{qitaResdata.length !== 0}}">
+        <view class="qita_item1">{{item.text_qita.text_title}}</view>
+    </view>
+    <!-- <view class="qita_items" catchtap="toJinshuju" wx:for="{{input_list}}" wx:key="index" data-index="{{index}}" wx:if="{{input_list.length !== 0}}">
+        <view class="qita_item1">{{item.title}}</view>
+    </view> -->
+    <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot" wx:if="{{isGengDuo}}" style="font-size: small;color: gray;">到底了
+        </view>
+</view>
+<!-- 编辑时显示 -->
+<view class="qita" wx:if="{{ isAdmin&&isEdit }}">
+    <form action="" catchsubmit="onEdit_end">
+        <!-- <view style="display: flex;">
+            <button type="warn" size="mini" plain="true" catchtap="" form-type="submit" wx:if="{{isEdit}}">完成编辑</button>
+        </view> -->
+        <view class="title">
+            <view class="title_item">
+                <view class="bold">版块</view>
+            </view>
+            <view class="flex" style="width: 100%;">
+                <view class="choose_item3" style="width: 100%;" catchtap="toAdd_qita">
+                    <view>+添加</view>
+                </view>
+            </view>
+        </view>
+        <view class="qita_items" wx:for="{{qitaResdata}}" wx:key="index">
+            <!-- <view class="choose_item3" style="width: 150rpx;">
+                <switch type="checkbox" checked="{{item.isOpen_qita}}" catchtap="toCheck_zhifu" name="edit_isOpen_qita" data-isopenqita="{{item.isOpen_qita}}" data-index="{{index}}" />
+                <view wx:if="{{!item.isOpen_qita}}" style="color: red;">已关闭</view>
+                <view wx:if="{{item.isOpen_qita}}">已开启</view>
+            </view> -->
+            <view class="title" style="justify-content: space-between;">
+                <view class="title_item">
+                    <view class="tishici">版块{{index+1}}</view>
+                    <view class="choose_item3" style="width: 150rpx;">
+                        <switch type="checkbox" checked="{{item.isOpen_qita}}" catchtap="toCheck_zhifu" name="edit_isOpen_qita" data-isopenqita="{{item.isOpen_qita}}" data-index="{{index}}" />
+                        <view wx:if="{{!item.isOpen_qita}}" style="color: red;">已关闭</view>
+                        <view wx:if="{{item.isOpen_qita}}">已开启</view>
+                    </view>
+                </view>
+                <view class="choose_item3" style="width: 80rpx;color: red;" catchtap="todel_qita" data-index="{{index}}">
+                    <view>-删除</view>
+                </view>
+            </view>
+            <view class="qita_item1" catchtap="toDetail_qita" data-id="{{item._id}}">
+                <view style="width: 100%;">
+                    <!-- <input class="weui-input textinput" type="text" value="{{item.text_qita.text_title}}" name="edit_input_shouye0" /> -->
+                    {{item.text_qita.text_title}}
+                </view>
+            </view>
+            <!-- <view class="choose_item3" style="width: 150rpx;">
+                <switch type="checkbox" checked="{{item.isOpen_qita}}" catchtap="toCheck_zhifu" name="edit_isOpen_qita" data-isopenqita="{{item.isOpen_qita}}" data-index="{{index}}" />
+                <view wx:if="{{!item.isOpen_qita}}" style="color: red;">已关闭</view>
+                <view wx:if="{{item.isOpen_qita}}">已开启</view>
+            </view> -->
+        </view>
+        <!-- 金数据信息收集 -->
+        <!-- <view class="title">
+            <view class="title_item">
+                <view>金数据表单</view>
+            </view>
+            <view class="choose_item3" style="margin-left: 0rpx;width: 100%;" catchtap="toAdd_input" hover-class="hover">
+                <view>+添加</view>
+            </view>
+        </view>
+        <view class="qita_items" style="padding: 20rpx;height: 450rpx;" wx:for="{{input_list}}" wx:key="index">
+            <view class="tishici">标题</view>
+            <view>
+                <input class="weui-input textinput" type="text" value="{{item.title}}" name="{{'edit_input_jsj_title'+index}}" bindinput="onInput_title" data-index="{{index}}" />
+            </view>
+            <view class="tishici">金数据表单网址</view>
+            <view>
+                <input class="weui-input textinput" style="font-size: small;" type="text" value="{{item.url}}" name="{{'edit_input_jsj_url'+index}}" bindinput="onInput_url" data-index="{{index}}" />
+            </view>
+            <view class="tishici">token</view>
+            <view>
+                <input class="weui-input textinput" style="font-size: small;" type="text" value="{{item.token}}" name="{{'edit_input_jsj_token'+index}}" />
+                <text style="font-size:20rpx;">表单token为表单链接中，最后六位数字英文组合。例如，表单链接为：https://jinshuju.net/f/A1B2C3 ，则表单token为 A1B2C3。</text>
+            </view>
+            <view class="choose_item3" style="color: red;" hover-class="hover" catchtap="todel_input" data-index="{{index}}">
+                <view>-删除</view>
+            </view>
+        </view> -->
+
+    </form>
+</view>

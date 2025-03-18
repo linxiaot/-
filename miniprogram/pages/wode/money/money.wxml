@@ -1,0 +1,88 @@
+<view class="page__bd">
+    <view class="weui-cell weui-cell_active ">
+        <view class="dingdan">
+            <view class="weui-cell weui-cell_active ">
+
+                <view class="dingdan_items">
+                    <view class="dingdan_item2" bindtap="tapYue" hover-class="hover">
+                        <view class="weui-grid__icon">
+                            <image mode="widthFix" style="width:50rpx;" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/kechengbiao.png">
+                            </image>
+                        </view>
+                        <view>蜂蜜<text style="margin-left: 20rpx;color: #F5835E;">{{balance}}</text></view>
+                    </view>
+                    <view class="dingdan_item2" bindtap="tapChongzhi" hover-class="hover">
+                        <view class="weui-grid__icon">
+                            <image mode="widthFix" style="width:50rpx;" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/kechengbiao.png">
+                            </image>
+                        </view>
+                        <view>充值</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <!-- 充值 -->
+    <view class="chongzhi" wx:if="{{isChongzhi}}">
+
+        <view class="weui-panel__hd">充值说明</view>
+        <view class="weui-panel__bd">
+            <view class="weui-media-box weui-media-box_text">
+                <!-- <view class="weui-media-box__desc">{{chongzhi_shuoming}}</view>  -->
+                <view class="weui-media-box__desc" wx:for="{{chongzhi_shuoming_list}}">{{item}}</view>
+            </view>
+        </view>
+
+        <view class="chongzhi_items1">
+            <view class="chongzhi_item {{item.checked?'chongzhi_check':''}}" wx:for="{{moneylist}}" wx:key="index" bindtap="tapMoney" data-item="{{item}}" data-index="{{index}}">
+                <view>{{item.money_fengmi}}<text style="font-size: small;margin-left: 10rpx;">蜂蜜</text></view>
+                <view style="font-size: small;">售价:{{item.money}}元</view>
+                <!-- <view style="font-size: small;">{{item.zhekou}}</view> -->
+            </view>
+        </view>
+        <view class="chongzhi_items2" wx:if="{{phoNum==''}}">
+            <button open-type="getPhoneNumber" bindgetphonenumber="toChongzhigetPho">去充值</button>
+        </view>
+        <view class="chongzhi_items2" bindtap="toChongzhi" wx:if="{{phoNum !== ''}}">
+            <view>去充值</view>
+        </view>
+    </view>
+
+    <!-- 余额记录 列表 -->
+    <view class="jilu" wx:if="{{isYue}}">
+        <view class="weui-panel">
+            <view class="weui-panel__hd">蜂蜜记录</view>
+        </view>
+        <view class="weui-form-preview padding-xs text-sm flex justify-between" wx:for="{{balance_jilu}}" wx:key="index">
+            <view class="margin-xs">
+                <view class="">
+                    {{item.jilu_name}}
+                </view>
+                <view>{{item.jilu_time}}</view>
+            </view>
+            <view class="margin-xs">
+                <view class="">
+                    <text wx:if="{{item.jilu_num >= 0}}">+</text>{{item.jilu_num}}
+                </view>
+            </view>
+        </view>
+    </view>
+    <!-- <view class="jilu" wx:if="{{isYue}}">
+        <view class="weui-panel">
+            <view class="weui-panel__hd">蜂蜜记录</view>
+        </view>
+        <view class="weui-form-preview" wx:for="{{balance_jilu}}" wx:key="index">
+            <view class="weui-form-preview__bd">
+                <view class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">{{item.jilu_name}}</label>
+                    <text class="weui-form-preview__value">
+                        <text wx:if="{{item.jilu_num >= 0}}">+</text>{{item.jilu_num}}
+                    </text>
+                </view>
+                <view class="weui-form-preview__item">
+                    <label class="weui-form-preview__label " style="font-size:25rpx;">{{item.jilu_time}}</label>
+                </view>
+            </view>
+        </view>
+    </view> -->
+</view>

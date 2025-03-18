@@ -1,0 +1,4 @@
+<!--pages/xtu/xtu.wxml-->
+<view class="webaniu">按钮</view>
+<web-view src="{{src}}" bindmessage="bindmessage" bindload="bindload" binderror="binderror"></web-view>
+

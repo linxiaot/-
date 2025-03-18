@@ -1,0 +1,50 @@
+
+.page_rewu{
+margin: 30rpx;
+}
+
+.renwu_title{
+    height: 80rpx;
+    font-size:large;
+    font-weight: bold;
+    padding: 40rpx;
+}
+
+.renwu_item{
+    display: flex;
+    justify-content: space-between;
+}
+.renwu_item_item2{
+width: 160rpx;
+height: 50rpx;
+border-radius: 50rpx;
+background-color: gold;
+color: white;
+font-weight: bold;
+font-size: small;
+justify-content: center;
+align-items: center;
+display: flex;
+}
+.renwu_item_item2_after{
+width: 160rpx;
+height: 50rpx;
+border-radius: 50rpx;
+background-color: gainsboro;
+color: gray;
+font-weight: bold;
+font-size: small;
+justify-content: center;
+align-items: center;
+display: flex;
+}
+
+.ziliao{
+    font-size: small;
+    color: gray;
+    padding: 32rpx;
+    padding-top: 0rpx;
+    display: flex;
+    justify-content: space-between;
+}
+

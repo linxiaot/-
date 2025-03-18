@@ -1,0 +1,87 @@
+.detail {
+    margin: 30rpx;
+    background-color: white;
+    padding: 20rpx;
+    border-radius: 20rpx;
+}
+
+.textinput {
+    border: 1rpx solid rgba(0, 0, 255, 0.466);
+}
+
+.choose {
+    /* display: flex; */
+    padding: 20rpx;
+    border-bottom: 2rpx solid #E5E7E6;
+}
+
+.choose_item1 {
+    /* width: 200rpx; */
+    font-size: small;
+}
+
+.choose_item2 {
+    font-size: small;
+    /* width: 100%; */
+}
+.choose_item2_item {
+display: flex;
+}
+.choose_input {
+display: flex;
+align-items: center;
+width: 100%;
+}
+
+.choose_item3 {
+    margin: auto;
+    background-color: #dcdcdc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5rpx;
+    font-size: small;
+    margin: 10rpx 0rpx;
+    color: green;
+}
+
+.input {
+    color: chocolate;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.small {
+    font-size: small;
+}
+
+.zhifu {
+    display: flex;
+}
+
+.zhifu_items {
+    display: flex;
+}
+
+.flex {
+    display: flex;
+}
+
+.title {
+    display: flex;
+}
+
+.title_item {
+    font-weight: bold;
+    display: flex;
+    width: 300rpx;
+    justify-content: center;
+    align-items: center;
+}
+.felx_center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "openapi": [
+    ]
+  },
+  "triggers": [
+    {
+      "name": "chufaqi_dingqichuli_daiqu",
+      "type": "timer",
+      "config": "*/60 0-1 0,12 * * * *"
+    }
+  ]
+}

@@ -1,0 +1,141 @@
+<!--pages/shouye/dianpu/dianpu.wxml-->
+
+<!-- 广告 -->
+<view>
+    <swiper indicator-dots autoplay interval="3000">
+        <view wx:for="{{guangGaoList}}" wx:key="index" data-id="{{item.dianpu_id}}" catchtap="{{item.isYingye == true?'toDianpu':'toxiuxi_tongzhi'}}">
+            <swiper-item >
+                <!-- <image wx:if="{{bannerOpen_shouye}}" mode="widthFix" style="width:750rpx;" src="{{item.src}}"
+                    bindtap="toYulanImage" data-src="{{item.src}}"></image>
+                <ad wx:if="{{bannerOpen_shouye_ad}}" unit-id="adunit-2d3d434d2c91cd64"></ad> -->
+                <image mode="widthFix" style="width:750rpx;" src="{{item.imagefileID}}" ></image>
+            </swiper-item>
+        </view>
+    </swiper>
+</view>
+
+<!-- 搜索框 -->
+<view class="weui-search-bar" id="searchBar" bindtap="toSearch">
+    <form class="weui-search-bar__form">
+        <view class="weui-search-bar__box">
+            <input type="text" class="weui-search-bar__input" />
+        </view>
+        <label class="weui-search-bar__label">
+            <i class="weui-icon-search"></i>
+            <span class="weui-search-bar__text">搜索</span>
+        </label>
+    </form>
+</view>
+<!-- 排序 发布 -->
+<view style="margin-bottom: 30rpx;border-bottom: 5rpx solid #E5E7E6;">
+    <view class="paixuhetianjia flex">
+        <view bindtap="showPaixu" hover-class="hover" class="paixu">
+            {{zonghePaixu}}<image mode="widthFix" style="margin-top:10rpx;margin-left:10rpx;width:25rpx;"
+                src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/xiala.png">
+            </image>
+        </view>
+        <view wx:for="{{sortList}}" wx:key="index" class="paixu">
+            <view class="{{item.checked?'zujin-selected':''}}" data-index="{{index}}" bindtap="toPaixu"
+                wx:if="{{index<2}}">{{item.sort}}</view>
+        </view>
+
+        <!-- <view bindtap="showShaixuan" hover-class="hover" class="">
+            筛选<image mode="widthFix" style="margin-top:10rpx;margin-left:10rpx;width:25rpx;"
+                src="../../../images/shaixuan.png">
+            </image>
+        </view> -->
+
+        <!-- <view bindtap="toFabu" class="fabu">
+            发布<image mode="widthFix" style="margin-top:10rpx;margin-left:10rpx;width:25rpx;"
+                src="../../../images/jia.png">
+            </image>
+        </view> -->
+    </view>
+    <!-- 筛选 -->
+    <view class="mask" hidden="{{mask1Hidden}}" bindtap="close">
+        <!-- <template is="sort_list" data="{{selected,sortSelected}}" /> -->
+        <view class="overall-sort-list">
+            <block wx:for="{{sortList}}" wx:key="index">
+                <view class="overall-sort {{item.checked?'zujin-selected':''}}" data-index="{{index}}"
+                    bindtap="toPaixu">{{item.sort}}</view>
+            </block>
+        </view>
+    </view>
+    <view class="mask" hidden="{{mask2Hidden}}" bindtap="close">
+        <scroll-view class="filterList" scroll-y="true">
+            <view class="filterList-quyu-title">区域（多选）</view>
+            <view class="filterList-quyu-items">
+                <block wx:for="{{quyuList}}" wx:key="index">
+                    <view class="filterList-quyu-item {{quyuList[index].checked==true?'quyu-selected':''}}"
+                        catchtap="quyuSelected" data-index="{{index}}">{{item.text}}</view>
+                </block>
+            </view>
+            <view class="filterList-zujin-title">租金</view>
+            <view class="filterList-zujin-items">
+                <block wx:for="{{zujinList}}" wx:key="index">
+                    <view class="filterList-zujin-item {{zujinSelected==index?'zujin-selected':''}}"
+                        catchtap="zujinSelected" data-index="{{index}}">
+                        <text class="filterList-zujin-item-icon"
+                            style="background:{{item.iconColor}}">{{item.icon}}</text>
+                        {{item.text}}
+                    </view>
+                </block>
+            </view>
+            <view class="filterList-zujin-title">户型</view>
+            <view class="filterList-zujin-items" style="display:flex;">
+                <block wx:for="{{huxingList}}" wx:key="index">
+                    <view class="filterList-zujin-item {{huxingSelected==index?'zujin-selected':''}}"
+                        catchtap="huxingSelected" data-index="{{index}}" style="flex:1;">
+                        <text class="filterList-zujin-item-icon"
+                            style="background:{{item.iconColor}}">{{item.icon}}</text>
+                        {{item.text}}
+                    </view>
+                </block>
+            </view>
+        </scroll-view>
+        <view class="filterList-footer">
+            <view class="filterList-footer-delect" catchtap="clearSelectedNumb">清除筛选</view>
+            <view class="filterList-footer-finish" bindtap="finish">完成
+                <view class="filterList-footer-finish-number" hidden="{{selectedNumb==0}}">{{selectedNumb}}
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<!-- 店铺列表 -->
+
+<view class="dianpu" wx:for="{{shangjiaList}}" wx:key="index" data-id="{{shangjia_item._id}}" catchtap="{{shangjia_item.isYingye?'toDianpu':'toxiuxi_tongzhi'}}"
+    wx:for-item="shangjia_item">
+    <view class="dianpu_zuo">
+        <image style="width: 200rpx;height: 150rpx;" src="{{shangjia_item.zhaopaiUrl.imagefileID}}"></image>
+    </view>
+    <view class="dianpu_you">
+        <view class="dianpu_you_1">{{shangjia_item.name}}</view>
+        <view class="dianpu_you_2">
+            <view wx:for="{{shangjia_item.xingji_list}}" wx:key="index" style="margin-right: 10rpx;">
+                <image class="" style="width: 20rpx;height: 20rpx;" src="{{item}}">
+                </image>
+            </view>
+            <view>{{shangjia_item.peisongShijian}}分钟</view>
+            <!-- <view style="color: green;" wx:if="{{shangjia_item.isYingye}}">正在营业</view> -->
+            <view style="color: rgba(255, 0, 0, 0.5);margin-left: 10rpx;" wx:if="{{!shangjia_item.isYingye}}">{{shangjia_item.peisongTime.time1 + '~' +shangjia_item.peisongTime.time2}}休息中</view>
+            <!-- 按照30分钟0.3km换算 -->
+        </view>
+        <view class="dianpu_you_3">起送价￥{{shangjia_item.qisong}}</view>
+        <!-- 店铺推荐 -->
+        <view class="dianpu_you_4">
+            <view class="dianpu_you_4_items" wx:for="{{shangjia_item.foodList_zhiding}}" wx:key="index_2"
+                wx:for-index="index_2" data-id="{{shangjia_item._id}}" data-index_a="{{item.category_id}}"
+                data-index_b="{{ item.id }}" catchtap="{{shangjia_item.isYingye?'toDetail_meishi':'toxiuxi_tongzhi'}}" wx:if="{{index_2<3}}">
+                <image class="dianpu_you_4_1" style="width: 150rpx;height: 113rpx;" src="{{item.imageUrl.imagefileID}}">
+                </image>
+                <view class="dianpu_you_4_2">{{item.name}}</view>
+                <view class="dianpu_you_4_3">￥{{item.price}}</view>
+            </view>
+
+        </view>
+    </view>
+</view>
+<dixian isNoMore="{{isNoMore}}"></dixian>
+<!-- <view style="margin:auto;height:100rpx;" bindtap="toDianpu" wx:for="{{shangjiaList}}" wx:key="index"
+    data-id="{{item._id}}">{{item.name}}</view> -->

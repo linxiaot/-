@@ -1,0 +1,9 @@
+.duiba-back-btn {
+    position: fixed;
+    z-index: 999999;
+    bottom:20rpx;
+    left:0;
+    width:750rpx;
+    height:700rpx;
+  }
+  

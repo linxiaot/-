@@ -1,0 +1,15 @@
+<!--pages/wode/xiaoqu/xiaoqu.wxml-->
+<view class="page__bd">
+  <view class="weui-cells__title">选择校区</view>
+  <view class="weui-cells" wx:if="{{tenantList.length > 0}}">
+    <view class="weui-cell weui-cell_access" wx:for="{{tenantList}}" wx:key="_id" bindtap="selectXiaoqu" data-id="{{item._id}}">
+      <view class="weui-cell__bd">{{item.name}}</view>
+      <view class="weui-cell__ft weui-cell__ft_in-access" wx:if="{{item._id === currentTenantId}}">
+        <text style="color: #07c160;">已选择</text>
+      </view>
+    </view>
+  </view>
+  <view class="weui-loadmore" wx:else>
+    <view class="weui-loadmore__tips">暂无校区数据</view>
+  </view>
+</view> 

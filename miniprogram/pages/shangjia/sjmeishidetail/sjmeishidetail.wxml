@@ -1,0 +1,111 @@
+<!--pages/shangjia/sjmeishidetail/sjmeishidetail.wxml-->
+<!-- 查看美食详情 -->
+<view wx:if="{{isDetail_meishi}}" class="meishixiangq" style="height:{{screenHeight}}px;">
+    <view style="padding: 20rpx;">
+        <view class="meishixiangq_toubu">
+            <image style="width: 100%;" src="{{resMeishi.imageUrl.imagefileID}}"></image>
+            <view class="meishixiangq_toubu_items">
+                <view class="meishixiangq_toubu_name">{{resMeishi.name}}</view>
+                <view style="display: flex;">
+                    <view class="meishi_biaoqian" wx:if="{{resMeishi.foodDetail.foodWeight}}">约{{resMeishi.foodDetail.foodWeight}}克</view>
+                    <view class="meishi_biaoqian" wx:if="{{resMeishi.foodDetail.kouwei}}">{{resMeishi.foodDetail.kouwei}}</view>
+                </view>
+                <view class="meishixiangq_toubu_items1">
+                    <view class="meishixiangq_toubu_jiage">￥{{resMeishi.price}}</view>
+                    <view class="meishixiangq_toubu_xuanguige">
+                        <!-- <view>选规格</view> -->
+                        <view bindtap="addToCart">加进购物车</view>
+                        <!-- <view class="food-item-opt">
+                            <image src="../../../images/jia.png" mode="widthFix" bindtap="addToCart"
+                                data-category_id="{{categoryindex}}" data-id="{{food.id}}"></image>
+                        </view> -->
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="meishixiangq_xiangq">
+            <view class="xqtoubu">
+                <view class="xqtoubu_item1">详情</view>
+            </view>
+            <view class="xqcontent">
+                <view class="xqcontent_items">
+                    <view class="xqcontent_items1">掌柜描述</view>
+                    <view>{{resMeishi.foodDetail.miaoshu}}</view>
+                </view>
+                <view class="xqcontent_items">
+                    <view class="xqcontent_items1">主料：</view>
+                    <view>{{resMeishi.foodDetail.zhuliao}}</view>
+                </view>
+                <view class="xqcontent_items">
+                    <view class="xqcontent_items1">辅料：</view>
+                    <view>{{resMeishi.foodDetail.fuliao}}</view>
+                </view>
+
+            </view>
+        </view>
+    </view>
+    <!-- 底部操作菜单 -->
+    <view class="dibucaozuo" style="top: {{screenHeight-65}}px;">
+        <view class="operate">
+            <view class="operate-shopcart-ball" hidden="{{!cartBall.show}}"
+                style="left: {{cartBall.x}}px; top: {{cartBall.y}}px;"></view>
+            <view class="operate-shopcart" bindtap="showCartList">
+                <view class="operate-shopcart-icon">
+                    <image src="{{cartNumber !== 0 ? '../../../images/gouwuche.png' : '../../../images/gouwuche_0.png' }}"
+                        style="width:80rpx;color:#ff9c35;" mode="widthFix"></image>
+                    <span class="gouwucheNum" wx:if="{{cartNumber !== 0}}">{{cartNumber}}</span>
+                </view>
+                <view class="operate-shopcart-empty" wx:if="{{cartNumber === 0}}">购物车是空的</view>
+                <view class="operate-shopcart-price" wx:else>
+                    <block wx:if="{{cartPrice >= promotion.k}}">
+                        <view>{{priceFormat(cartPrice - promotion.v)}}</view>
+                        <text>{{priceFormat(cartPrice)}}</text>
+                    </block>
+                    <view wx:else>{{priceFormat(cartPrice)}}</view>
+                </view>
+            </view>
+            <view wx:if="{{ cartPrice >= dianpuData.qisong }}" class="operate-submit operate-submit-activity" bindtap="toOrder">选好了</view>
+            <view wx:else class="operate-submit" style="font-size: 24rpx;">起送金额￥{{dianpuData.qisong}}</view>
+            <!-- <view class="operate-submit {{cartNumber !==0 ? 'operate-submit-activity' : ''}}" bindtap="toOrder">选好了</view> -->
+        </view>
+        <!-- 购物车列表 -->
+        <view class="shopcart" wx:if="{{showCart}}">
+            <view class="shopcart-mask" bindtap="showCartList" wx:if="{{showCart}}"></view>
+            <view class="shopcart-wrap">
+                <view class="shopcart-head">
+                    <view class="shopcart-head-title">已选商品</view>
+                    <view class="shopcart-head-clean" bindtap="cartClear">
+                        <image src="../../../images/shanchu.png" style="width:25rpx;" mode="widthFix"></image>
+                        <!-- <i class="iconfont"></i> -->
+                        清空购物车
+                    </view>
+                </view>
+                <view class="shopcart-list">
+                    <view class="shopcart-item" wx:for="{{cartList}}" wx:key="id">
+                        <view class="shopcart-item-name">{{item.name}}</view>
+                        <view class="shopcart-item-price">
+                            <view>{{priceFormat(item.price * item.number)}}</view>
+                        </view>
+                        <view class="shopcart-item-number">
+                            <image src="../../../images/jian.png" style="width:40rpx;" mode="widthFix" data-id="{{index}}"
+                                bindtap="cartNumberDec"></image>
+                            <!-- <i class="iconfont shopcart-icon-dec" data-id="{{index}}" bindtap="cartNumberDec"></i> -->
+                            <view>{{item.number}}</view>
+                            <!-- <i class="iconfont shopcart-icon-add" data-id="{{index}}" bindtap="cartNumberAdd"></i> -->
+                            <image src="../../../images/jia.png" style="width:40rpx;" mode="widthFix" data-id="{{index}}"
+                                bindtap="cartNumberAdd"></image>
+
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+
+</view>
+
+<wxs module="priceFormat">
+    module.exports = function (price) {
+        return '¥ ' + parseFloat(price)
+    }
+</wxs>

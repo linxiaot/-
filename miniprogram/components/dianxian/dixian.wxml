@@ -1,0 +1,15 @@
+<!--components/dianxian/dixian.wxml-->
+    <!-- 我是底线 -->
+    <view class="dixian" wx:if="{{isNoMore}}">
+      <view class="dixian_item1">
+        <view class="dixian_item1_item1"></view>
+        <view></view>
+      </view>
+      <view class="dixian_item2">
+        <view>我是有底线的</view>
+      </view>
+      <view class="dixian_item1">
+        <view class="dixian_item1_item1"></view>
+        <view></view>
+      </view>
+    </view>

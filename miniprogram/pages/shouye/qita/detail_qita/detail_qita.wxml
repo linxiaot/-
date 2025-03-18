@@ -1,0 +1,220 @@
+<view style="display: flex;margin-top: 30rpx;" wx:if="{{isAdmin}}">
+    <button type="primary" size="mini" catchtap="onEdit_start" wx:if="{{!isEdit}}">编辑</button>
+</view>
+<view class="detail" wx:if="{{ !isEdit }}">
+    <view>
+        <view class="bold felx_center">
+            <view>{{text_qita.text_title}}</view>
+        </view>
+        <view wx:for="{{text_qita.text_list}}" wx:key="index">
+            <text user-select>{{item}}</text>
+            <!-- {{item}} -->
+        </view>
+    </view>
+    <form action="" catchsubmit="toTijiao">
+        <view wx:for="{{input_list}}" wx:key="index">
+            <view class="weui-cells__title"><text style="color: red;">*</text>{{item.input_title}}</view>
+            <view class="weui-cells weui-cells_after-title">
+                <view class="weui-cell weui-cell_active">
+                    <view class="weui-cell__bd">
+                        <input class="weui-input" placeholder-class="weui-input__placeholder" style="font-size: small;" placeholder="{{item.input_text}}" value="{{val_input}}" bindinput="" name="{{'input_'+index}}" />
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view wx:for="{{choose_list}}" wx:key="index">
+            <view class="weui-cell weui-cell_active weui-cell_select weui-cell_select-after">
+                <view class="weui-cell__hd">
+                    <view class="weui-label" style="font-size: small;"><text style="color: red;">*</text>{{item.choose_title}}</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <picker bindchange="toChoose" data-index="{{index}}" value="{{choose_list[index].choose_text}}" name="{{'picker_'+index}}" range="{{item.choose_items_list}}">
+                        <view class="weui-select" style="font-size: small;">{{choose_list[index].choose_text}}</view>
+                    </picker>
+                </view>
+            </view>
+        </view>
+        <view class="weui-cell weui-cell_active weui-cell_select weui-cell_select-after" wx:if="{{zhifu.isOpen_zhifu}}">
+            <view class="weui-cell__hd">
+                <view class="weui-label" style="font-size: small;"><text style="color: red;">*</text>{{zhifu.zhifu_title}}</view>
+            </view>
+            <view class="weui-cell__bd">
+                <picker bindchange="toChoose_zhifu" data-index="{{index}}" value="{{zhifu.choose_text}}" name="picker_zhifu" range="{{zhifu.text_list}}">
+                    <view class="weui-select" style="font-size: small;">{{ zhifu.choose_text}}</view>
+                </picker>
+            </view>
+        </view>
+        <view class="fadeIn" wx:if="{{isShow_tijiao}}">
+            <view class="weui-mask" bindtap="closeConfirm"></view>
+            <view class="weui-dialog">
+                <view class="weui-dialog__hd"><strong class="weui-dialog__title">提示</strong></view>
+                <view class="weui-dialog__bd">确定提交吗？</view>
+                <view class="weui-dialog__ft">
+                    <a class="weui-dialog__btn weui-dialog__btn_default" bindtap="closeConfirm">取消</a>
+                    <button style="padding-left:0rpx;padding-right:0rpx;padding:0rpx;width:100%;flex:1;font-size:12pt;margin: auto;color: rgb(21, 158, 44);" form-type="submit" size="mini" disabled="{{disabledXiadan}}">确定
+                    </button>
+                </view>
+            </view>
+        </view>
+        <view class="weui-form__opr-area" style="margin: 56rpx 0rpx" wx:if="{{zhifu.isOpen_zhifu}}">
+            <button class="weui-btn weui-btn_primary" form-type="" bindtap="openConfirm">
+                {{zhifu.choose_text?'¥'+zhifu.choose_price+',':''}}提交并支付
+            </button>
+        </view>
+        <view class="weui-form__opr-area" style="margin: 56rpx 0rpx" wx:if="{{!zhifu.isOpen_zhifu}}">
+            <button class="weui-btn weui-btn_primary" form-type="" bindtap="openConfirm">
+                提交
+            </button>
+        </view>
+    </form>
+</view>
+<!-- 编辑时显示 -->
+<view class="detail" wx:if="{{ isAdmin&&isEdit }}">
+
+    <form action="" catchsubmit="onEdit_end">
+        <view style="display: flex;margin-top: 30rpx;" wx:if="{{isAdmin}}">
+            <button type="warn" size="mini" plain="true" catchtap="onEdit_close" wx:if="{{isEdit}}">取消</button>
+            <button type="primary" size="mini" plain="true" catchtap="" form-type="submit" wx:if="{{isEdit}}">完成</button>
+        </view>
+        <!-- 描述 -->
+
+        <view class="bold">标题</view>
+        <view>
+            <input class="weui-input textinput" type="text" value="{{text_qita.text_title}}" name="edit_title" bindinput="onInput_text_title"/>
+        </view>
+        <!-- <view class="bold">描述</view> -->
+        <view class="title">
+            <view class="title_item">
+                <view class="bold">描述</view>
+            </view>
+            <view class="flex" style="width: 100%;">
+                <view class="choose_item3" style="width: 100%;" catchtap="toAdd_text" data-index="{{index}}">
+                    <view>+添加</view>
+                </view>
+            </view>
+        </view>
+        <view class="choose_item2_item" wx:for="{{text_qita.text_list}}" wx:key="index">
+            <view class="choose_input" style="margin-right: 20rpx;font-size: small;">
+                <input class="weui-input textinput" placeholder="{{'输入描述文字'+index}}" type="text" value="{{item}}" name="{{'edit_text_'+index}}" bindinput="onInput_text_items" data-index="{{index}}"/>
+            </view>
+            <view class="choose_item3" style="width: 80rpx;color: red;" catchtap="todel_text" data-index="{{index}}">
+                <view>-删除</view>
+            </view>
+        </view>
+
+        <!-- 输入框 -->
+        <view class="title">
+            <view class="title_item">
+                <view>输入框</view>
+            </view>
+            <view class="choose_item3" style="margin-left: 0rpx;width: 100%;" catchtap="toAdd_input" wx:if="{{input_list.length < 5}}">
+                <view>+添加</view>
+            </view>
+        </view>
+        <view wx:for="{{input_list}}" wx:key="index" class="choose" style="font-size: small;">
+            <view>
+                <view class="bold">{{'标题'+index}}</view>
+                <input class="weui-input textinput" placeholder-class="weui-input__placeholder" style="font-size: small;" placeholder="{{'输入标题'+index}}" value="{{item.input_title}}" bindinput="" name="{{'edit_input_title_'+index}}" bindinput="onInput_input_title" data-index="{{index}}"/>
+            </view>
+            <view style="margin-left: 20rpx;">
+                <view class="bold small">{{'提示'+index}}</view>
+                <input class="weui-input textinput" placeholder-class="weui-input__placeholder" style="font-size: small;" placeholder="{{'输入提示文字'+index}}" value="{{item.input_text}}" type="text" name="{{'edit_input_palceholder_'+index}}" bindinput="onInput_input_text" data-index="{{index}}" />
+            </view>
+            <view class="choose_item3" style="color: red;" catchtap="todel_input" data-index="{{index}}">
+                <view>-删除</view>
+            </view>
+        </view>
+        <!-- 选择框 -->
+        <view class="title">
+            <view class="title_item">
+                <view>单项选择</view>
+            </view>
+            <view class="choose_item3" style="margin-left: 0rpx;width: 100%;" catchtap="toAdd_choose" wx:if="{{choose_list.length < 3}}">
+                <view>+添加</view>
+            </view>
+        </view>
+        <view class="choose" wx:for="{{choose_list}}" wx:key="index">
+            <view class="choose_item1">
+                <view class="bold">{{'标题'+index}}</view>
+                <input class="weui-input textinput" placeholder-class="weui-input__placeholder" placeholder="{{'输入标题'+index}}" value="{{item.choose_title}}" type="text" name="{{'edit_choose_title_'+index}}" bindinput="onInput_choose_title" data-index="{{index}}"/>
+            </view>
+            <view class="choose_item2">
+                <view class="title">
+                    <view class="title_item">
+                        <view class="bold">{{'选项'+index}}</view>
+                    </view>
+                    <view class="flex" style="width: 100%;">
+                        <view class="choose_item3" style="width: 200rpx;margin-left: 20rpx;" catchtap="toAdd_choose_items" data-index="{{index}}">
+                            <view>+添加</view>
+                        </view>
+                    </view>
+                </view>
+                <view wx:for="{{item.choose_items_list}}" wx:key="index" wx:for-index="item_index" class="choose_item2_item">
+                    <view class="choose_input">
+                        <input class="weui-input textinput" placeholder-class="weui-input__placeholder" placeholder="{{'输入选项名称'+item_index}}" value="{{item}}" type="text" name="{{'edit_choose_title_'+index+'_item_'+item_index}}" bindinput="onInput_choose_items" data-index="{{index}}" data-item_index="{{item_index}}"/>
+                    </view>
+                    <view class="choose_item3" style="width: 80rpx;color: red;" catchtap="todel_choose_items" data-item_index="{{item_index}}" data-index="{{index}}">
+                        <view>-删除</view>
+                    </view>
+                </view>
+            </view>
+            <view class="choose_item3" style="color: red;" catchtap="todel_choose" data-index="{{index}}">
+                <view>-删除</view>
+            </view>
+        </view>
+        <!-- 支付选项框 -->
+        <view class="title" style="justify-content: space-between;">
+            <view class="title_item">
+                <view>支付选项</view>
+                <text style="margin-left: 20rpx;font-size: small;">（单位元）</text>
+            </view>
+            <view class="choose_item3" style="width: 150rpx;">
+                <switch type="checkbox" checked="{{zhifu.isOpen_zhifu}}" bindchange="toCheck_zhifu" name="edit_zhifu_isOpen" />
+                <view wx:if="{{!zhifu.isOpen_zhifu}}" style="color: red;">已关闭</view>
+                <view wx:if="{{zhifu.isOpen_zhifu}}">已开启</view>
+            </view>
+        </view>
+
+        <view class="choose" wx:if="{{zhifu.isOpen_zhifu}}">
+            <view class="choose_item1">
+                <view class="bold">标题</view>
+                <input class="weui-input textinput" placeholder-class="weui-input__placeholder" placeholder="输入标题" value="{{zhifu.zhifu_title}}" name="edit_zhifu_title" type="text" bindinput="onInput_zhifu_title"/>
+            </view>
+            <view class="choose_item2">
+                <view class="zhifu">
+                    <view style="flex: 1;">
+                        <view class="bold">名称</view>
+                        <view class="felx_center" wx:for="{{zhifu.text_list}}" wx:key="index">
+                            <input class="weui-input textinput" style="" placeholder-class="weui-input__placeholder" placeholder="{{'输入名称'+index}}" value="{{item}}" name="{{'edit_zhifu_text_'+index}}" type="text" bindinput="onInput_zhifu_text" data-index="{{index}}" />
+                            <!-- 占位 -->
+                            <view class="choose_item3" style="color: rgba(0, 0, 0, 0);background-color: rgba(0, 0, 0, 0);" catchtap="">
+                                <view>-</view>
+                            </view>
+                        </view>
+                    </view>
+                    <view style="flex: 0.6;">
+                        <view class="bold">价格</view>
+                        <view class="felx_center" style="" wx:for="{{zhifu.price_list}}" wx:key="index">
+                            <input class="weui-input textinput" placeholder-class="weui-input__placeholder" placeholder="{{'输入价格_'+index}}" value="{{item}}" name="{{'edit_zhifu_price_'+index}}" type="digit" bindinput="onInput_zhifu_price" data-index="{{index}}" />
+                            <view class="choose_item3" style="width: 100rpx;color: red;" catchtap="todel_zhifu_items" data-index="{{index}}">
+                                <view>-删除</view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="flex" style="width: 100%;">
+                <view class="choose_item3" style="width: 100%;margin-left: 20rpx;" catchtap="toAdd_zhifu_items">
+                    <view>+添加选项</view>
+                </view>
+            </view>
+        </view>
+        <!-- <view class="weui-form__opr-area" style="margin: 56rpx 0rpx">
+            <button class="weui-btn weui-btn_primary" form-type="submit" bindtap="" size="" disabled="{{disabledXiadan}}">下单
+            </button>
+        </view> -->
+        <!-- <view style="display: flex;margin-top: 30rpx;" wx:if="{{isAdmin}}">
+            <button type="warn" size="mini" plain="true" catchtap="" form-type="submit" wx:if="{{isEdit}}">完成</button>
+        </view> -->
+    </form>
+</view>

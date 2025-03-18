@@ -1,0 +1,81 @@
+.hover{
+  background-color: #FCDB8A;
+  opacity:0.8,
+}
+
+.dingdan {
+    border-radius: 10rpx;
+    background-color: white;
+    height: 200rpx;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .dingdan_items {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+  }
+  
+  .dingdan_item1 {
+    flex: 0.5;
+    padding: 15rpx 30rpx;
+  }
+  
+  .dingdan_item2 {
+    font-size: small;
+    flex: 1;
+    text-align: center;
+
+  }
+  
+  .dingdan_image {
+    width: 30rpx;
+  }
+
+  .jilu{
+    padding: 0rpx 30rpx;
+  }
+
+
+.chongzhi{
+  /* display: flex; */
+  border-radius: 10rpx;
+  background-color: white;
+  /* height: 150rpx; */
+  margin: 0rpx 30rpx;
+  padding: 20rpx;
+}
+.chongzhi_item{
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+flex-direction: column;
+  margin: 20rpx;
+  border: 2rpx solid #E5E7E6;
+
+  border-radius: 10rpx;
+
+}
+.chongzhi_items1{
+  height: 160rpx;
+  display: flex;
+}
+.chongzhi_items2{
+  display: flex;
+  height: 70rpx;
+  background-color: #FCDB8A;
+  font-weight: bold;
+  justify-content: center;
+  align-items: center;
+  margin: 20rpx 20rpx;
+}
+.chongzhi_check{
+  color: #F5835E;
+  border: 2rpx solid #F5835E;
+
+}

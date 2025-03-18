@@ -1,0 +1,5 @@
+/* pages/xtu/xtu.wxss */
+.webaniu{
+    position: absolute;
+    z-index: 5000;
+}

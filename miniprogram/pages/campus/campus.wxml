@@ -1,0 +1,13 @@
+<!--pages/campus/campus.wxml-->
+<view class="container">
+  <view class="title">请选择校区</view>
+  <view class="campus-list">
+    <view class="campus-item {{selectedCampus.id === item.id ? 'selected' : ''}}" 
+          wx:for="{{campusList}}" 
+          wx:key="id"
+          bindtap="selectCampus"
+          data-campus="{{item}}">
+      {{item.name}}
+    </view>
+  </view>
+</view> 

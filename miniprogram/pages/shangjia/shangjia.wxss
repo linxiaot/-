@@ -1,0 +1,361 @@
+page {
+    font-size: small;
+}
+
+
+.color_darkblue {
+    color: darkblue;
+}
+.picker{
+  color: darkblue;
+}
+
+.weui-input {
+    color: darkblue;
+}
+
+.zhuce {
+    display: flex;
+    flex-direction: column;
+    height: 300rpx;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.zhuce view {
+    margin: 30rpx;
+    /* justify-content: space-between; */
+}
+
+.food_item {
+    flex: 1;
+    align-items: center;
+}
+.food_item_anniu {
+    flex: 0.6;
+    margin-left: 5rpx;
+}
+
+.food_item_image {
+    /* flex: 0.3; */
+    flex: 1;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    padding-top: 10rpx;
+}
+
+.dianpu_zhaopai {
+    width: 120rpx;
+    height: 120rpx;
+    /* border:2rpx solid gold ; */
+}
+
+.zhuce_item {
+    text-align: center;
+    height: 70rpx;
+    width: 200rpx;
+    margin: 0 20rpx;
+    border-radius: 70rpx;
+    border: 2rpx solid #ECECEC;
+    line-height: 70rpx;
+    background-color: white;
+}
+
+.zhuce_item_selected {
+    background: #FFFBF1;
+    border-color: #FFE9B7;
+    /* color: #FFE6B4; */
+    color: goldenrod;
+}
+
+.food_zhiding{
+    border: 2rpx solid #8AD4AF;
+    color: #8AD4AF;
+    border-radius: 10rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20rpx;
+  }
+  .food_zhiding_checked{
+    border: 2rpx solid #8AD4AF;
+    border-radius: 10rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #8AD4AF;
+    color: white;
+    font-size: 20rpx;
+
+  }
+.xuanfu{
+    position: fixed;
+    bottom: 20rpx;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    width: 100%;
+    z-index: 1000;
+}
+.xuanfu_item{
+    width: 184px;
+    height: 40px;
+    border-radius: 10rpx;
+    color: black;
+    font-size: medium;
+    font-weight: bolder;
+    background-color: #f5845e;
+}
+
+.tuikuan{
+    margin:20rpx 20rpx;
+  }
+  .tuikuan_biaoti{
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+    padding: 0rpx 10rpx;
+  }
+
+  .tuikuan_item1{ 
+    font-size: small;
+    display: flex;
+    margin-left: 20rpx;
+    width: 180rpx;
+  }
+  .tuikuan_search{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 300rpx;
+    height: 50rpx;
+    font-size: small;
+    border-radius: 20rpx;
+    border: 2rpx solid gray;
+    margin-right: 10rpx;
+  }
+  .tuikuan_search image{
+    margin: 0rpx 10rpx;
+  }
+  .tuikuan_search view{
+    color: gray;
+  }
+  .anniu {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    /* margin-right: 30rpx; */
+  }
+  
+  .anniu_item {
+    margin: 0rpx 5rpx;
+    height: 50rpx;
+    width: 80rpx;
+    font-size: small;
+    border: 2rpx solid #8AD4AF;
+    border-radius: 50rpx;
+    /* color: rgb(245, 131, 94); */
+    color: white;
+    background-color: #8AD4AF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .hover{
+    background: rgb(252,219,138);
+    opacity: 0.8;
+  }
+
+
+  .dingdan{
+    /* background-color: white; */
+    padding: 20rpx;
+    border-radius: 20rpx;
+    margin: 20rpx 0rpx ;
+    display: flex;
+  }
+
+  .dingdan_bianhao{
+      display: flex;
+      font-weight: bold;
+  }
+  
+  .dingdan_items{
+    font-size: small;
+    display: flex;
+    justify-content: space-between;
+    margin: 10rpx 0rpx;
+  }
+  
+  .dingdan_item1_pt{
+    color: gray;
+    width: 70rpx;
+    margin-right: 20rpx;
+  }
+  .dingdan_item1{
+    color: gray;
+  }
+  .dingdan_item2{
+    color: black;
+  }
+  .danxuan{
+    width: 60rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20rpx;
+  }
+  .dingdan_tuikuan{
+    width: 586rpx;
+  }
+  .jiacu{
+    font-weight: bold;
+  }
+
+  .res_search{
+    height: 400rpx;
+    text-align: center;
+    color: gray;
+    padding-top: 200rpx;
+  }
+
+  .pingjia_tou{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .pingjia_tou_item{
+    /* font-size: 50rpx; */
+    font-weight: bold;
+    /* width: 100rpx;
+    height: 100rpx; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10rpx;
+  }
+  
+.xingji2 {
+  height: 100rpx;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  /* flex-direction: column; */
+}
+
+.xingji {
+  display: flex;
+  justify-content: flex-start;
+  /* margin: 80rpx; */
+}
+
+.xingji_items1 {
+  /* flex: 1; */
+  display: flex;
+  /* justify-content: space-between; */
+  margin-right: 10rpx;
+}
+
+.xingji_items2 {
+  /* flex: 1; */
+  text-align: center;
+  font-size: small;
+  color: gray;
+  margin-left: 10rpx;
+
+}
+
+.pingjia_items {
+  background-color: white;
+  border-top: 2rpx solid #f0f0f0;
+  margin-bottom: 0rpx;
+  padding: 20rpx;
+}
+
+.pingjia_item1 {
+  margin-bottom: 20rpx;
+}
+
+.pingjia_item2 {
+  font-size: 26rpx;
+}
+
+.xiangqing{
+  margin-top: 15rpx;
+  font-size: small;
+}
+
+.xiangqing_items{
+  display: flex;
+  /* justify-content: space-between; */
+}
+.xiangqing_item1{
+  width: 200rpx;
+}
+.kouwei_items{
+  width: 80rpx;
+  height: 40rpx;
+  border-radius: 20rpx;
+  border: 2rpx solid #E5E7E6;
+  margin-left: 10rpx;
+  text-align: center;
+}
+.jiesuan_title{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin: 20rpx;
+}
+.jiesuan_title_item1{
+color: gray;
+}
+.jiesuan_tap{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30rpx;
+  background-color: white;
+  border-radius: 10rpx;
+  height: 100rpx;
+}
+.jiesuan_tap1{
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.jiesuan_tixian_content{
+  background-color: white;
+  margin: 30rpx;
+  border-radius: 10rpx;
+  padding: 20rpx;
+}
+.jiesuan_tixian{
+  /* height: 50rpx; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  
+}
+.jiesuan_tixian_btn{
+  background-color: #FCDB8A;
+  height: 80rpx;
+  width: 400rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.jiesuan_tixian_btn_0{
+  background-color: #cdcdcd;
+  height: 80rpx;
+  width: 400rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}

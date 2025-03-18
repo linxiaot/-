@@ -1,0 +1,334 @@
+/* pages/shangjia/sjmeishidetail/sjmeishidetail.wxss */
+/* 美食详情 */
+.meishixiangq {
+    
+    /* background-color: #E5E7E6; */
+    font-size: 24rpx;
+    height: 100%;
+}
+
+.meishixiangq_toubu {
+    background-color: white;
+}
+
+.meishixiangq_toubu_items {
+    padding: 20rpx;
+    /* background-color: white; */
+}
+
+.meishi_biaoqian {
+    background-color: #E5E7E6;
+    margin-right: 10rpx;
+    padding: 0rpx 10rpx;
+    border-radius: 5rpx;
+}
+
+.meishixiangq_toubu_items1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 50rpx;
+}
+
+.meishixiangq_toubu_name {
+    font-weight: bold;
+    font-size: medium;
+    margin-bottom: 20rpx;
+}
+
+.meishixiangq_toubu_jiage {
+    color: red;
+    font-weight: bold;
+    font-size: medium;
+}
+
+
+.meishixiangq_toubu_xuanguige {
+    width: 150rpx;
+    height: 50rpx;
+    background-color: #FCDB8A;
+    font-weight: bolder;
+    border-radius: 10rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.meishixiangq_xiangq {
+    margin: 30rpx 0rpx;
+    font-size: 26rpx;
+    background-color: white;
+}
+
+.xqtoubu {
+    padding: 20rpx;
+    border-bottom: 5rpx solid #e5e7e600;
+
+}
+
+.xqtoubu_item1 {
+    font-weight: bold;
+    font-size: 30rpx;
+    border-left: 5rpx solid #FCDB8A;
+    width: 100rpx;
+    text-align: center;
+}
+
+.xqcontent {
+    padding: 20rpx;
+}
+
+.xqcontent_items {
+    display: flex;
+}
+
+.xqcontent_items1 {
+    width: 120rpx;
+    color: gray;
+}
+/* 底部菜单操作 */
+.dibucaozuo{
+    position: absolute;
+    width: 750rpx;
+  }
+
+.operate {
+
+    height: 70px;
+    display: flex;
+    
+  }
+  
+  .operate-shopcart {
+    width: 74%;
+    padding: 10rpx;
+    background: #353535;
+  }
+  
+  .operate-submit {
+    width: 26%;
+    font-size: 30rpx;
+    background: #eee;
+    color: #aaa;
+    text-align: center;
+    line-height: 110rpx;
+  }
+  
+  .operate-submit-activity {
+    background: #ff9c35;
+    color: #fff;
+  }
+  
+  .operate-shopcart {
+    display: flex;
+  }
+  
+  .operate-shopcart-icon {
+    font-size: 80rpx;
+    color: #ffffff00;
+    margin-left: 20rpx;
+    position: relative;
+  }
+  
+  .operate-shopcart-icon:before {
+    content: "\e73c";
+  }
+  
+  .operate-shopcart-icon-activity {
+    color: #ff9c35;
+  }
+  
+  .operate-shopcart-icon>span {
+    padding: 2rpx 14rpx;
+    border-radius: 50%;
+    background: red;
+    color: white;
+    font-size: 28rpx;
+    position: absolute;
+    text-align: center;
+    top: 0px;
+    right: -10rpx;
+  }
+  
+  .gouwucheNum {
+    padding: 2rpx 14rpx;
+    border-radius: 50%;
+    background: red;
+    color: white;
+    font-size: 28rpx;
+    position: absolute;
+    text-align: center;
+    top: 0px;
+    right: -10rpx;
+  }
+  
+  .operate-shopcart-ball {
+    width: 36rpx;
+    height: 36rpx;
+    position: fixed;
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    background: #ff9c35;
+  }
+  
+  .operate-shopcart-empty {
+    color: #a9a9a9;
+    line-height: 88rpx;
+    font-size: 30rpx;
+    margin-left: 20rpx;
+  }
+  
+  .operate-shopcart-price {
+    display: flex;
+  }
+  
+  .operate-shopcart-price>view {
+    font-size: 40rpx;
+    line-height: 88rpx;
+    margin-left: 25rpx;
+    color: #fff;
+  }
+  
+  .operate-shopcart-price>text {
+    font-size: 24rpx;
+    line-height: 92rpx;
+    margin-left: 15rpx;
+    color: #aaa;
+    text-decoration: line-through;
+  }
+  
+  .shopcart {
+    position: fixed;
+    top: 0;
+    left: 0;
+    /* bottom: 149rpx; */
+    bottom: 70px;
+    right: 0;
+    font-size: 28rpx;
+  }
+  
+  .shopcart-mask {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: #000;
+    opacity: 0.5;
+  }
+  
+  .shopcart-wrap {
+    position: absolute;
+    width: 100%;
+    max-height: 90%;
+    bottom: 0;
+    background: #fff;
+    overflow: scroll;
+  }
+  
+  .shopcart-head {
+    position: fixed;
+    width: 100%;
+    background: #f0f0f0;
+    color: #878787;
+    line-height: 100rpx;
+    font-size: 26rpx;
+    overflow: hidden;
+  }
+  
+  .shopcart-head-title {
+    float: left;
+    margin-left: 40rpx;
+  }
+  
+  .shopcart-head-title:before {
+    background: #ff9c35;
+    width: 8rpx;
+    height: 32rpx;
+    content: "";
+    display: inline-block;
+    margin-right: 10rpx;
+    position: relative;
+    top: 6rpx;
+  }
+  
+  .shopcart-head-clean {
+    float: right;
+    margin-right: 20rpx;
+  }
+  
+  .shopcart-head-clean>i:before {
+    content: "\e61b";
+    position: relative;
+    top: 2rpx;
+  }
+  
+  .shopcart-list {
+    margin-top: 101rpx;
+  }
+  
+  .shopcart-item {
+    display: flex;
+    padding: 30rpx 20rpx;
+    line-height: 40rpx;
+  }
+  
+  .shopcart-item>view {
+    margin-left: 30rpx;
+  }
+  
+  .shopcart-item:not(:last-child) {
+    border-bottom: 1rpx solid #e3e3e3;
+  }
+  
+  .shopcart-item-name {
+    flex: 1;
+  }
+  
+  .shopcart-item-price {
+    color: #ff9c35;
+  }
+  
+  .shopcart-item-number {
+    display: flex;
+  }
+  
+  .shopcart-item-number>view {
+    margin: 0 15rpx;
+  }
+  
+  .shopcart-icon-dec:before {
+    content: "\e61a";
+    font-size: 44rpx;
+    color: #888;
+  }
+  
+  .shopcart-icon-add:before {
+    content: "\e728";
+    font-size: 44rpx;
+    color: #ff9c35;
+  }
+  
+  .iconfont {
+    font-family: "iconfont" !important;
+    font-size: 32rpx;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* 其他 */
+  .food-item-opt {
+    margin-top: 40rpx;
+  }
+  
+  .food-item-opt>image {
+    width: 40rpx;
+    height: 40rpx;
+  }
+  
+  .food-item-opt>i:before {
+    font-size: 44rpx;
+    color: #ff9c35;
+    content: "\e728";
+  }

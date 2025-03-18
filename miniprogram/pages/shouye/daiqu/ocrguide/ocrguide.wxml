@@ -1,0 +1,44 @@
+<!-- pages/shouye/daiqu/ocrguide/ocrguide.wxml
+<text>pages/shouye/daiqu/ocrguide/ocrguide.wxml</text> -->
+<view class="nav">
+<view class="cu-item {{index==TabCur?'text-green cur':''}}" wx:for="{{tabList}}" wx:key="index" bindtap="tabSelect" data-id="{{index}}">
+    {{item}}
+  </view>
+</view>
+
+<view class="margin" wx:if="{{TabCur==1}}">
+	<view class="">
+		<view>
+			<text class="text-bold">1、进入“多多买菜代收点”公众号</text>
+		</view>
+		<view class="margin-top flex justify-center " >
+			<!-- <image class="radius-20" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/图片识别指引/指引.png" mode="widthFix" /> -->
+		</view>
+	</view>
+	<view>
+		<view class="margin-top-xs">
+			<text class="text-bold">2、获取以下图片，上传进行图片识别</text>
+		</view>
+		<view class="margin-top flex justify-center " >
+			<image class="radius-20" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/图片识别指引/指引2.png" mode="widthFix" />
+		</view>
+	</view>
+</view>
+<view class="margin" wx:if="{{TabCur==0}}">
+	<view class="">
+		<view>
+			<text class="text-bold">1、进入菜鸟App</text>
+		</view>
+		<view class="margin-top flex justify-center " >
+			<image class="radius-20" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/图片识别指引/指引1菜鸟app.png" mode="widthFix" />
+		</view>
+	</view>
+	<view>
+		<view class="margin-top-xs">
+			<text class="text-bold">2、获取以下图片，上传进行图片识别</text>
+		</view>
+		<view class="margin-top flex justify-center " >
+			<image class="radius-20" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/图片识别指引/指引2菜鸟app.png" mode="widthFix" />
+		</view>
+	</view>
+</view>

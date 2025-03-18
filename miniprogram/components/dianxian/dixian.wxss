@@ -1,0 +1,24 @@
+/* components/dianxian/dixian.wxss */
+.dixian {
+    display: flex;
+    height: 100rpx;
+    margin: 0rpx 150rpx;
+  }
+  
+  .dixian_item1 {
+    flex: 0.5;
+  }
+  
+  .dixian_item1_item1 {
+    height: 50rpx;
+    border-bottom: 2rpx solid #aaaaaa;
+  }
+  
+  .dixian_item2 {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #aaaaaa;
+    font-size: 22rpx;
+  }

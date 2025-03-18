@@ -1,0 +1,70 @@
+/* components/xuanxiangka/xuanxiangka.wxss */
+.xxk {
+    display: flex;
+    height: 100rpx;
+    font-size: 30rpx;
+}
+
+.xxk_items {
+    flex: 1;
+}
+
+.xxk_item {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.xxk_item_checked {
+    border-bottom: 5rpx solid orange;
+    color: orange;
+}
+
+/* 2 */
+.class_toTap {
+    font-weight: bold;
+    font-size: 40rpx;
+}
+
+
+.class_unTap {
+    font-weight: lighter;
+}
+
+.chaxun {
+    display: flex;
+}
+
+.toubu {
+    display: flex;
+    margin: 20rpx;
+    padding: 20rpx;
+    margin-top: 30rpx;
+    border: 2rpx solid gold;
+    border-radius: 20rpx;
+
+
+}
+
+.toubu_items {
+    flex: 1;
+    text-align: center;
+}
+
+.hover {
+    background: rgb(252, 219, 138);
+    opacity: 0.8;
+}
+
+.red_dot{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: red;
+    font-size: 20rpx;
+    width: 30rpx;height: 30rpx;
+    border-radius: 50%;
+    font-weight: bold;
+}

@@ -1,0 +1,16 @@
+<!--pages/pingjia/pingjia.wxml-->
+<view class="xingji">
+    <view class="xingji_items1" >
+        <view class="" wx:for="{{xingji_list}}" wx:key="index" data-index="{{index}}" catchtap="showXingji">
+
+            <image class="" style="width: 50rpx;height: 50rpx;" src="{{item}}"></image>
+        </view>
+    </view>
+    <view class="xingji_items2" >"{{pingjia_list[fenshu-1]}}"</view>
+</view>
+<view class="pingjia_text">
+    <textarea name="" id="" cols="30" rows="10" placeholder="口味如何？" bindinput="oninput_pingjia"></textarea>
+</view>
+<view class="anniu2" >
+    <view class="anniu_item2" hover-class="hover2" bindtap="goPingjia">发布</view>
+</view>

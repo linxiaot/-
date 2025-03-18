@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "openapi": [
+    ]
+  },
+  "triggers": [
+    {
+      "name": "chufaqi_caozuo_user",
+      "type": "timer",
+      "config": "* */60 * * * * *"
+    }
+  ]
+}

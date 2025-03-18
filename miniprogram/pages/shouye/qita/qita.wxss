@@ -1,0 +1,48 @@
+/* pages/shouye/qita/qita.wxss */
+.qita{
+    margin:30rpx;
+}
+.qita_items{
+    display: flex;
+    flex-direction: column;
+    height: 300rpx;
+    background-color: white;
+    margin-bottom: 20rpx;
+    border-radius: 5%;
+}
+.qita_item1{
+    margin: auto;
+}
+.choose_item3 {
+    margin: auto;
+    background-color: #dcdcdc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5rpx;
+    font-size: small;
+    margin: 10rpx 0rpx;
+    color: green;
+}
+.textinput {
+    border: 1rpx solid rgba(0, 0, 255, 0.466);
+}
+.tishici {
+    font-size: small;
+    color: gray;
+}
+.title {
+    display: flex;
+}
+
+.title_item {
+    font-weight: bold;
+    display: flex;
+    width: 300rpx;
+    justify-content: center;
+    align-items: center;
+}
+.hover {
+    background: rgb(252, 219, 138);
+    opacity: 0.8;
+}

@@ -1,0 +1,781 @@
+<!--pages/shangjia/shangjia.wxml-->
+<!-- 标题导航 -->
+<!-- 正文 -->
+<view class="zhuce" style="" wx:if="{{showZhuce}}">
+    <!-- <view class="zhuce_item" hover-class="zhuce_item_selected" bindtap="toShenqing">成为商家</view> -->
+    <button open-type="contact" class="zhuce_item" hover-class="zhuce_item_selected"
+        style="font-size:small;padding: 0px 24px;width: 350rpx;">联系客服成为商家</button>
+    <view class="zhuce_item" style="width: 350rpx;" hover-class="zhuce_item_selected" bindtap="toDenglu">登陆</view>
+</view>
+<view wx:if="{{isShenqing}}">去申请</view>
+<!-- 登陆后 -->
+<view wx:if="{{isDenglu}}">
+    <xuanxiangka typeNum="2" nameList='{{nameList}}' binditemChange='tochangeItem'></xuanxiangka>
+    <!-- 商家订单 -->
+    <view class="tuikuan" wx:if="{{nameList[0].checked}}">
+
+        <xuanxiangka typeNum="1" red_dot_num="{{tuikuan_List.length}}" nameList='{{nameList_dingdan}}'
+            binditemChange='tochangeItem_dingdan'></xuanxiangka>
+
+        <view class="tuikuan_biaoti">
+            <view class="tuikuan_item1" bindtap="checkbox_Quanxuan_neworder">
+                <image style="width: 45rpx;height: 45rpx;"
+                    src="{{isQuanxuan?'../../images/danxuanxuanzhong.png':'../../images/danxuanweixuan.png'}}"></image>
+                <view style="margin-left: 15rpx;">
+                    <text>全选</text>
+                    <text style="margin-left: 5rpx;">({{xuanze_num}})</text>
+                </view>
+            </view>
+            <view class="tuikuan_search" bindtap="quxiaoQuanxuan_neworder">
+                <image style="width: 30rpx;height: 30rpx;" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/yonghuchaxun.png"></image>
+                <view>
+                    <input type="text" placeholder="姓名，手机号" placeholder-style="font-size:20rpx"
+                        value="{{inputVal_search}}" bindinput="input_search" />
+                </view>
+            </view>
+            <view class="anniu" wx:if="{{nameList_dingdan[0].checked}}">
+                <view class="anniu_item" bindtap="goChucan" hover-class="hover">出餐</view>
+                <view class="anniu_item" style="font-size: 20rpx;width: 130rpx;" bindtap="goDingyue"
+                    hover-class="hover">订阅提醒<text
+                        style="color: red;font-weight: bold;margin-left: 5rpx;">{{dingyue_total}}</text></view>
+            </view>
+            <view class="anniu" wx:if="{{nameList_dingdan[1].checked}}">
+                <view class="anniu_item" bindtap="goSongda" hover-class="hover">送达</view>
+            </view>
+            <view class="anniu" wx:if="{{nameList_dingdan[3].checked}}">
+                <view class="anniu_item" bindtap="goJutuikuan" hover-class="hover">拒退</view>
+                <view class="anniu_item" bindtap="goTuikuan" hover-class="hover">退款</view>
+            </view>
+            <view class="anniu" wx:if="{{nameList_dingdan[4].checked}}">
+                <view class="anniu_item" bindtap="goDel" hover-class="hover">删除</view>
+            </view>
+        </view>
+
+        <!-- 订单列表 -->
+        <view class="res_search" wx:if="{{showlist.length == 0 && !isSearch}}">暂无订单</view>
+        <view class="tuikuan_items" wx:if="{{searchlist.length == 0 && !isSearch}}">
+            <checkbox-group bindchange="checkboxChange_danxuan_neworder">
+
+                <view class="dingdan" style="background-color: {{item.dd_Status=='4'?'#8ad4af81':'white'}};"
+                    wx:for="{{showlist}}" wx:key="index">
+                    <view class="danxuan">
+                        <checkbox class="" value="{{index}}" checked="{{item.checked}}" />
+                    </view>
+                    <view class="dingdan_tuikuan">
+                        <!-- <view class="dingdan_bianhao">
+                            <view style="font-size: large;">29</view>
+                            <view>#</view>
+                        </view> -->
+
+                        <view class="dingdan_items">
+                            <view class="dingdan_item1">姓名</view>
+                            <view class="dingdan_item2 jiacu">{{item.address_meishi.value_name}}</view>
+                        </view>
+                        <view class="dingdan_items">
+                            <view class="dingdan_item1">手机号码</view>
+                            <view class="dingdan_item2 jiacu" data-value="{{item.address_meishi.value_phone}}"
+                                bindtap="toCopy">
+                                {{item.address_meishi.value_phone}}
+                            </view>
+                        </view>
+                        <view class="dingdan_items">
+                            <view class="dingdan_item1">送达地点</view>
+                            <view class="dingdan_item2 jiacu">{{item.address_meishi.value_address_jian}}</view>
+                        </view>
+
+                        <view class="dingdan_items" style="margin-top: 20rpx;">
+                            <view class="" style="font-weight: bold;">{{item.cartNumber}} 件商品</view>
+                            <view class="dingdan_item2" style="color: #F5835E;" wx:if="{{item.dd_Status=='0'}}">待出餐
+                            </view>
+                            <view class="dingdan_item2" style="color: green;" wx:if="{{item.dd_Status=='3'}}">已送达
+                            </view>
+                            <view class="dingdan_item2" style="color: #F5835E;" wx:if="{{item.dd_Status=='2'}}">已出餐
+                            </view>
+                            <view class="dingdan_item2" style="color: #F5835E;" wx:if="{{item.dd_Status=='4'}}">申请退款
+                            </view>
+                            <view class="dingdan_item2" style="color: #F5835E;" wx:if="{{item.dd_Status=='5'}}">已退款
+                            </view>
+                            <view class="dingdan_item2" style="color: #F5835E;" wx:if="{{item.dd_Status=='6'}}">拒绝退款
+                            </view>
+                            <view class="dingdan_item2" style="color: goldenrod;" wx:if="{{item.dd_Status=='7'}}">已评价
+                            </view>
+                        </view>
+                        <view class="dingdan_items" wx:for="{{item.cartList}}" wx:key="index" wx:for-item="item_food">
+                            <view class="dingdan_item1" style="flex: 1;">{{item_food.name}}</view>
+                            <view style="display: flex;flex: 0.3;justify-content: space-between;">
+                                <view class="dingdan_item2"
+                                    style="color: {{item_food.number>1?'#F5835E':'none'}};font-size: smaller;">
+                                    x{{item_food.number}}</view>
+                                <view class="dingdan_item2 ">￥{{item_food.price}}</view>
+                            </view>
+                        </view>
+                        <view class="dingdan_items">
+                            <view class="dingdan_item1">订单金额</view>
+                            <view class="dingdan_item2">￥{{item.shijiMoney}}</view>
+                        </view>
+                        <view class="dingdan_items">
+                            <view class="dingdan_item1">备注</view>
+                            <view class="dingdan_item2">{{item.beizhu}}</view>
+                        </view>
+                        <view class="dingdan_items" wx:if="{{item.fenzhang_amount}}">
+                            <view class="dingdan_item1">到账金额</view>
+                            <view class="dingdan_item2" style="color: #F5835E;">￥{{item.fenzhang_amount}}</view>
+                        </view>
+
+                        <view class="dingdan_items" style="margin-top: 20rpx;">
+                            <view class="dingdan_item2" style="font-weight: bold;">订单信息</view>
+                            <view class="dingdan_item1" bindtap="toshowGengduo" data-index="{{index}}"
+                                data-isshowgengduo="{{item.isshowGengduo}}" style="font-size: 24rpx;">
+                                {{!item.isshowGengduo?'查看更多':'收起'}} ></view>
+                        </view>
+                        <view wx:if="{{item.isshowGengduo}}">
+                            <view class="dingdan_items">
+                                <view class="dingdan_item1">订单编号</view>
+                                <view class="dingdan_item2" data-value="{{item.dingdanhao}}" bindtap="toCopy">
+                                    {{item.dingdanhao}}</view>
+                            </view>
+                            <view class="dingdan_items">
+                                <view class="dingdan_item1">退款单号</view>
+                                <view class="dingdan_item2">{{item.tuikuandanhao}}</view>
+                            </view>
+                            <view class="dingdan_items" wx:if="{{item.chucan_time}}">
+                                <view class="dingdan_item1">出餐时间</view>
+                                <view class="dingdan_item2">{{item.chucan_time}}</view>
+                            </view>
+                            <view class="dingdan_items" wx:if="{{item.songda_time}}">
+                                <view class="dingdan_item1">送达时间</view>
+                                <view class="dingdan_item2">{{item.songda_time}}</view>
+                            </view>
+                            <view class="dingdan_items" wx:if="{{item.jjtuikuan_time}}">
+                                <view class="dingdan_item1">拒退时间</view>
+                                <view class="dingdan_item2">{{item.jjtuikuan_time}}</view>
+                            </view>
+                            <view class="dingdan_items" wx:if="{{item.tytuikuan_time}}">
+                                <view class="dingdan_item1">退款时间</view>
+                                <view class="dingdan_item2">{{item.tytuikuan_time}}</view>
+                            </view>
+                        </view>
+                        <!-- 评价区 -->
+                        <view wx:if="{{item.isshowGengduo}}">
+                            <view class="dingdan_items" style="margin-top: 20rpx;">
+                                <view class="dingdan_item2" style="font-weight: bold;">订单评价</view>
+                            </view>
+                            <view class="pingjia_items" wx:if="{{item.dd_Status == '7'}}">
+                                <view class="pingjia_item1" style="display: flex;align-items: center;">
+                                    <image class="" style="width: 60rpx;height: 60rpx;border-radius: 50%;"
+                                        src="{{item.pingjia.pingjia_avatarUrl}}"></image>
+                                    <view style="height: 60rpx;">
+                                        <view style="margin-left: 10rpx;font-size: 22rpx;">{{item.pingjia.pingjia_name}}
+                                        </view>
+                                        <view style="font-size: 22rpx;">{{item.pingjia.pingjia_time}}</view>
+                                    </view>
+                                </view>
+                                <view class="pingjia_item2">
+                                    <view class="xingji">
+                                        <view class="xingji_items1">
+                                            <view class="" wx:for="{{item.xingji_list}}" wx:key="index"
+                                                wx:for-item="item2">
+                                                <image class="" style="width: 25rpx;height: 25rpx;" src="{{item2}}">
+                                                </image>
+                                            </view>
+                                        </view>
+                                        <view class="xingji_items2">"{{pingjia_list[item.pingjia.pingjia_fenshu-1]}}"
+                                        </view>
+                                    </view>
+                                    <view>{{item.pingjia.pingjia_text}}</view>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="dingdan_items">
+                            <view class="dingdan_item1">下单时间</view>
+                            <view class="dingdan_item2">{{item.xd_time}}</view>
+                        </view>
+                        <view class="dingdan_items" style="color: #F5835E;" wx:if="{{item.isTixian}}">
+                            <!-- <view class="dingdan_items" style="border:2rpx solid #F5835E;padding: 0rpx 10rpx;color: #F5835E;"> -->
+                            <view class="">已结算</view>
+                            <view class="">{{item.tx_time}}</view>
+                        </view>
+                        <view class="tkcuowu" wx:if="{{item.tk_errCodeDes}}" style="color: #F5835E;">
+                            <view>退款失败：{{item.tk_errCodeDes}}</view>
+                        </view>
+
+                    </view>
+                </view>
+            </checkbox-group>
+        </view>
+        <!-- 搜索结果 列表-->
+        <view class="res_search" wx:if="{{searchlist.length == 0 && isSearch}}">搜索结果为空</view>
+        <view class="tuikuan_items" wx:if="{{searchlist.length !== 0}}">
+            <checkbox-group bindchange="checkboxChange_danxuan_neworder">
+
+                <view class="dingdan" wx:for="{{searchlist}}" wx:key="index">
+                    <view class="danxuan">
+                        <checkbox class="" value="{{index}}" checked="{{item.checked}}" />
+                    </view>
+                    <view class="dingdan_tuikuan">
+                        <!-- <view class="dingdan_bianhao">
+                            <view style="font-size: large;">29</view>
+                            <view>#</view>
+                        </view> -->
+
+                        <view class="dingdan_items">
+                            <view class="dingdan_item1">姓名</view>
+                            <view class="dingdan_item2 jiacu">{{item.address_meishi.value_name}}</view>
+                        </view>
+                        <view class="dingdan_items">
+                            <view class="dingdan_item1">手机号码</view>
+                            <view class="dingdan_item2 jiacu" data-value="{{item.address_meishi.value_phone}}"
+                                bindtap="toCopy">
+                                {{item.address_meishi.value_phone}}
+                            </view>
+                        </view>
+                        <view class="dingdan_items">
+                            <view class="dingdan_item1">送达地点</view>
+                            <view class="dingdan_item2 jiacu">{{item.address_meishi.value_address_jian}}</view>
+                        </view>
+
+                        <view class="dingdan_items" style="margin-top: 20rpx;">
+                            <view class="" style="font-weight: bold;">{{item.cartNumber}} 件商品</view>
+                            <view class="dingdan_item2" style="color: #F5835E;" wx:if="{{item.dd_Status=='0'}}">待出餐
+                            </view>
+                            <view class="dingdan_item2" style="color: #F5835E;" wx:if="{{item.dd_Status=='3'}}">已送达
+                            </view>
+                            <view class="dingdan_item2" style="color: #F5835E;" wx:if="{{item.dd_Status=='2'}}">已出餐
+                            </view>
+                            <view class="dingdan_item2" style="color: #F5835E;" wx:if="{{item.dd_Status=='4'}}">申请退款
+                            </view>
+                            <view class="dingdan_item2" style="color: #F5835E;" wx:if="{{item.dd_Status=='5'}}">已退款
+                            </view>
+                            <view class="dingdan_item2" style="color: #F5835E;" wx:if="{{item.dd_Status=='6'}}">拒绝退款
+                            </view>
+                        </view>
+                        <view class="dingdan_items" wx:for="{{item.cartList}}" wx:key="index" wx:for-item="item_food">
+                            <view class="dingdan_item1" style="flex: 1;">{{item_food.name}}</view>
+                            <view style="display: flex;flex: 0.3;justify-content: space-between;">
+                                <view class="dingdan_item2"
+                                    style="color: {{item_food.number>1?'#F5835E':'none'}};font-size: smaller;">
+                                    x{{item_food.number}}</view>
+                                <view class="dingdan_item2 ">￥{{item_food.price}}</view>
+                            </view>
+                        </view>
+                        <view class="dingdan_items">
+                            <view class="dingdan_item1">订单金额</view>
+                            <view class="dingdan_item2">￥{{item.shijiMoney}}</view>
+                        </view>
+
+                        <view class="dingdan_items" style="margin-top: 20rpx;">
+                            <view class="dingdan_item2" style="font-weight: bold;">订单信息</view>
+                            <view class="dingdan_item1" bindtap="toshowGengduo" data-index="{{index}}"
+                                data-isshowgengduo="{{item.isshowGengduo}}" style="font-size: 24rpx;">
+                                {{!item.isshowGengduo?'查看更多':'收起'}} ></view>
+                        </view>
+                        <view wx:if="{{item.isshowGengduo}}">
+                            <view class="dingdan_items">
+                                <view class="dingdan_item1">订单编号</view>
+                                <view class="dingdan_item2" data-value="{{item.dingdanhao}}" bindtap="toCopy">
+                                    {{item.dingdanhao}}</view>
+                            </view>
+                            <view class="dingdan_items">
+                                <view class="dingdan_item1">退款单号</view>
+                                <view class="dingdan_item2">{{item.tuikuandanhao}}</view>
+                            </view>
+                            <view class="dingdan_items" wx:if="{{item.chucan_time}}">
+                                <view class="dingdan_item1">出餐时间</view>
+                                <view class="dingdan_item2">{{item.chucan_time}}</view>
+                            </view>
+                            <view class="dingdan_items" wx:if="{{item.songda_time}}">
+                                <view class="dingdan_item1">送达时间</view>
+                                <view class="dingdan_item2">{{item.songda_time}}</view>
+                            </view>
+                            <view class="dingdan_items" wx:if="{{item.jjtuikuan_time}}">
+                                <view class="dingdan_item1">拒退时间</view>
+                                <view class="dingdan_item2">{{item.jjtuikuan_time}}</view>
+                            </view>
+                            <view class="dingdan_items" wx:if="{{item.tytuikuan_time}}">
+                                <view class="dingdan_item1">退款时间</view>
+                                <view class="dingdan_item2">{{item.tytuikuan_time}}</view>
+                            </view>
+                        </view>
+                        <view class="dingdan_items">
+                            <view class="dingdan_item1"></view>
+                            <view class="dingdan_item2">{{item.xd_time}}</view>
+                        </view>
+
+                    </view>
+                </view>
+            </checkbox-group>
+        </view>
+    </view>
+    <!-- 店铺详情 -->
+
+    <view class="dianpu" wx:if="{{nameList[1].checked}}">
+        <view class="weui-panel">
+            <view class="weui-media-box weui-media-box_text weui-flex">
+                <view class="weui-cell__hd">
+                    <label class="weui-label ziti_s">店铺头像</label>
+                </view>
+                <view bindtap="chooseImage" wx:if="{{zhaopaiUrl.imagetempFileURL}}"
+                    data-imagefileid="{{item.imageUrl.imagefileID}}">
+                    <image mode="widthFix" src="{{zhaopaiUrl.imagetempFileURL}}" style="width:120rpx;height:120rpx;">
+                    </image>
+                </view>
+                <view bindtap="chooseImage" wx:if="{{!zhaopaiUrl.imagetempFileURL}}">
+                    <image mode="widthFix" src="../../images/shangchuantupian.png" style="width:120rpx;height:120rpx;">
+                    </image>
+                </view>
+            </view>
+            <view class="weui-media-box weui-media-box_text weui-flex">
+                <view class="weui-cell__hd">
+                    <label class="weui-label ziti_s">店铺名称</label>
+                </view>
+                <input class="weui-input" type="text" placeholder="请输入" name=""
+                    placeholder-class="weui-input__placeholder" value="{{value_name}}" bindinput="onInput_name" />
+                <view wx:if="{{showClearBtn_name}}" class="weui-btn_reset weui-btn_icon weui-btn_input-clear"
+                    bindtap="onClear_name">
+                    <i class="weui-icon-clear"></i>
+                </view>
+            </view>
+            <view class="weui-media-box weui-media-box_text weui-flex">
+                <view class="weui-cell__hd">
+                    <label class="weui-label ziti_s">地址</label>
+                </view>
+                <input class="weui-input" type="text" placeholder="请输入" name=""
+                    placeholder-class="weui-input__placeholder" value="{{value_dizhi}}" bindinput="onInput_dizhi" />
+                <view wx:if="{{showClearBtn_dizhi}}" class="weui-btn_reset weui-btn_icon weui-btn_input-clear"
+                    bindtap="onClear_dizhi">
+                    <i class="weui-icon-clear"></i>
+                </view>
+            </view>
+            <view class="weui-media-box weui-media-box_text weui-flex">
+                <view class="weui-cell__hd">
+                    <label class="weui-label ziti_s">电话</label>
+                </view>
+                <input class="weui-input" type="number" placeholder="请输入" maxlength="11" name=""
+                    placeholder-class="weui-input__placeholder" value="{{value_phone}}" bindinput="onInput_phone" />
+                <view wx:if="{{showClearBtn_phone}}" class="weui-btn_reset weui-btn_icon weui-btn_input-clear"
+                    bindtap="onClear_phone">
+                    <i class="weui-icon-clear"></i>
+                </view>
+            </view>
+            <view class="weui-media-box weui-media-box_text weui-flex">
+                <view class="weui-cell__hd">
+                    <label class="weui-label ziti_s">店铺状态</label>
+                </view>
+                <view style="display: flex;justify-content: space-between;width: 100%;">
+                    <view style="color: green;" wx:if="{{isDianpuOpen}}">正在营业..</view>
+                    <view style="color: red;" wx:if="{{!isDianpuOpen}}">休息中</view>
+                    <view class="anniu">
+                        <view class="anniu_item" bindtap="changeDianpuOpen" hover-class="hover"
+                            wx:if="{{!isDianpuOpen}}" style="border-radius: 10rpx;font-size: 20rpx;">开启</view>
+                        <view class="anniu_item" bindtap="changeDianpuOpen" hover-class="hover" wx:if="{{isDianpuOpen}}"
+                            style="background-color: white;color: #8AD4AF;border-radius: 10rpx;font-size: 20rpx;">关闭
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <!-- 店铺评价星级 -->
+            <view class="weui-media-box weui-media-box_text weui-flex">
+                <view class="weui-cell__hd">
+                    <label class="weui-label ziti_s"></label>
+                </view>
+                <view class="pingjia_tou">
+
+                    <view class="xingji2" style="">
+                        <view class="xingji_items1">
+                            <view class="" wx:for="{{xingji_list}}" wx:key="index" wx:for-item="item">
+                                <image class="" style="width: 25rpx;height: 25rpx;" src="{{item}}"></image>
+                            </view>
+                        </view>
+                        <view class="pingjia_tou_item">
+                            <view>{{xingji}}</view>
+                        </view>
+                        <view class="xingji_items2">"{{pingjia_list[xingjiFormat(xingji)-1]}}"</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+
+        <view class="weui-panel">
+
+            <view class="weui-media-box weui-media-box_text weui-flex">
+                <view class="weui-cell__hd">
+                    <label class="weui-label ziti_s">配送服务：</label>
+                </view>
+                <!-- <input class="weui-input" type="text" placeholder="请输入" name=""
+                    placeholder-class="weui-input__placeholder" value="{{value_peisongFuwu}}"
+                    bindinput="onInput_peisongFuwu" />
+                <view wx:if="{{showClearBtn_peisongFuwu}}" class="weui-btn_reset weui-btn_icon weui-btn_input-clear"
+                    bindtap="onClear_peisongFuwu">
+                    <i class="weui-icon-clear"></i>
+                </view> -->
+                <view>由商家自己提供配送</view>
+            </view>
+            <view class="weui-media-box weui-media-box_text weui-flex">
+                <view class="weui-cell__hd">
+                    <label class="weui-label ziti_s">配送时间：</label>
+                </view>
+                <input class="weui-input" style="width: 150rpx;" type="number" placeholder="请输入数字" name=""
+                    placeholder-class="weui-input__placeholder" value="{{value_peisongShijian}}"
+                    bindinput="onInput_peisongShijian" />
+                <view wx:if="{{showClearBtn_peisongShijian}}" class="weui-btn_reset weui-btn_icon weui-btn_input-clear"
+                    bindtap="onClear_peisongShijian">
+                    <i class="weui-icon-clear"></i>
+                </view>
+                <view>分钟</view>
+                <text style="color: gray;">(平均配送时间)</text>
+            </view>
+            <view class="weui-media-box weui-media-box_text weui-flex">
+                <view class="weui-cell__hd">
+                    <label class="weui-label ziti_s">营业时间：</label>
+                </view>
+
+                <picker mode="time" value="{{value_peisongTime.time1}}" bindchange="tochangePeisongTime1">
+                    <view class="picker ziti_s">
+                        {{value_peisongTime.time1}}
+                    </view>
+                </picker>
+                <view> ~ </view>
+                <picker mode="time" value="{{value_peisongTime.time2}}" bindchange="tochangePeisongTime2">
+                    <view class="picker ziti_s">
+                        {{value_peisongTime.time2}}
+                    </view>
+                </picker>
+            </view>
+
+        </view>
+        <view class="weui-panel">
+
+            <view class="weui-media-box weui-media-box_text weui-flex">
+                <view class="weui-cell__hd">
+                    <label class="weui-label ziti_s">起送金额：</label>
+                </view>
+                <view>￥</view>
+                <input class="weui-input" type="number" placeholder="输入金额，如：10" name=""
+                    placeholder-class="weui-input__placeholder" value="{{value_qisong}}" bindinput="onInput_qisong" />
+            </view>
+
+        </view>
+        <view class="weui-cell weui-cell_active weui-panel">
+            <view class="weui-cell__hd">
+                <label class="weui-label ziti_s">商家公告：</label>
+            </view>
+            <view class="weui-cell__bd ziti_s" style="height:250rpx;">
+                <view class="weui-input" placeholder-class="weui-input__placeholder">
+                    <textarea class="weui-textarea" placeholder="请输入" style="height:250rpx;" maxlength="65" name=""
+                        bindinput="onInput_gonggao" value="{{value_gonggao}}" />
+                </view>
+            </view>
+            <view wx:if="{{showClearBtn_gonggao}}" class="weui-btn_reset weui-btn_icon weui-btn_input-clear"
+                bindtap="onClear_gonggao">
+                <i class="weui-icon-clear"></i>
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text">
+            <button style="background-color:gold;" bindtap="toXiugai_dianpu">确认修改</button>
+        </view>
+    </view>
+    <!-- 商品详情 -->
+    <!-- <view class="weui-panel weui-flex" style="justify-content: space-between;" bindtap="tofood">
+        <view class="weui-media-box weui-media-box_text">商品详情</view>
+        <view style="padding: 16px;position: relative;">{{isfood?'V':'>'}}</view>
+    </view> -->
+    <view class="dianpu" wx:if="{{nameList[2].checked}}">
+        <view class="weui-panel" style="padding-bottom: 80rpx;"> 
+            <view class="weui-media-box weui-media-box_text" wx:for="{{foodList}}" wx:key="index"
+                wx:for-item="category_item" wx:for-index="category_id">
+                <!--分类-->
+                <view class="weui-media-box weui-media-box_text weui-flex">
+                    <view class="food_item_image weui-flex" bindtap="toDel_category" data-category_id="{{category_id}}">
+                        <!-- data-food_id="{{index}}"  -->
+                        <view>
+                            <image mode="widthFix" src="../../images/shanchu.png" style="width:40rpx;height:40rpx;">
+                            </image>
+                        </view>
+                    </view>
+                    <view style="flex:1">
+                        <input class="weui-input" type="text" placeholder="请输入" name=""
+                            placeholder-class="weui-input__placeholder" value="{{category_item.name}}"
+                            bindinput="onInput_category" data-category_id="{{category_id}}" />
+                    </view>
+                    <view style="display:flex;justify-content:center;background-color:#dcdcdc;flex:1;"
+                        bindtap="toAddcategory" data-category_id="{{category_id}}">
+                        +添加分类
+                    </view>
+                </view>
+                <!-- 商品 -->
+                <view class="weui-media-box weui-media-box_text" wx:for="{{category_item.food}}" wx:key="index">
+                    <view style="display: flex;">
+                        <view class="food_item_image weui-flex" bindtap="toDel_food" data-food_id="{{index}}"
+                            data-category_id="{{category_id}}">
+                            <!--   -->
+                            <view>
+                                <image mode="widthFix" src="../../images/shanchu.png" style="width:40rpx;height:40rpx;">
+                                </image>
+                            </view>
+                        </view>
+                        <view class="food_item weui-flex">
+                            <input class="weui-input" type="text" placeholder="请输入" name=""
+                                placeholder-class="weui-input__placeholder" value="{{item.name}}"
+                                bindinput="onInput_food_name" data-food_id="{{index}}"
+                                data-category_id="{{category_id}}" />
+                        </view>
+                        <view class="food_item weui-flex">
+                            <view>￥</view>
+                            <input style="" class="weui-input" type="number" placeholder="请输入" name=""
+                                placeholder-class="weui-input__placeholder" value="{{item.price}}"
+                                bindinput="onInput_food_price" data-food_id="{{index}}"
+                                data-category_id="{{category_id}}" />
+                        </view>
+                        <view class="food_item_image weui-flex" bindtap="chooseImage_food" data-food_id="{{index}}"
+                            data-category_id="{{category_id}}" data-imagefileid="{{item.imageUrl.imagefileID}}">
+                            <view wx:if="{{item.imageUrl.imagetempFileURL}}">
+                                <image mode="widthFix" src="{{item.imageUrl.imagetempFileURL}}"
+                                    style="width:40rpx;height:40rpx;"></image>
+                            </view>
+                            <view wx:if="{{!item.imageUrl.imagetempFileURL}}">
+                                <image mode="widthFix" src="../../images/shangchuantupian.png"
+                                    style="width:40rpx;height:40rpx;"></image>
+                            </view>
+                        </view>
+                        <!-- 店铺列表页置顶美食 限3数量 -->
+                        <view class="food_item_anniu {{item.isZhiding_food?'food_zhiding_checked':'food_zhiding'}}"
+                            style="" bindtap="tochangeZhiding" data-food_id="{{index}}"
+                            data-category_id="{{category_id}}" data-iszhiding_food="{{item.isZhiding_food}}"
+                            wx:if="{{!item.isZhiding_food && foodList_zhiding.length<3 && !item.isXiajia_food}}">
+                            <view>置顶</view>
+                        </view>
+                        <view class="food_item_anniu {{item.isZhiding_food?'food_zhiding_checked':'food_zhiding'}}"
+                            style="" bindtap="tochangeZhiding" data-food_id="{{index}}"
+                            data-category_id="{{category_id}}" data-iszhiding_food="{{item.isZhiding_food}}"
+                            wx:if="{{item.isZhiding_food}}">
+                            <view>取消</view>
+                        </view>
+                        <!-- 下架 -->
+                        <view class="food_item_anniu {{item.isXiajia_food?'food_zhiding_checked':'food_zhiding'}}"
+                            bindtap="tochangeXiajia" data-food_id="{{index}}" data-category_id="{{category_id}}"
+                            data-isxiajia_food="{{item.isXiajia_food}}" wx:if="{{!item.isXiajia_food}}">
+                            <view>下架</view>
+                        </view>
+                        <view class="food_item_anniu {{item.isXiajia_food?'food_zhiding_checked':'food_zhiding'}}"
+                            bindtap="tochangeXiajia" data-food_id="{{index}}" data-category_id="{{category_id}}"
+                            data-isxiajia_food="{{item.isXiajia_food}}" wx:if="{{item.isXiajia_food}}">
+                            <view>上架</view>
+                        </view>
+                        <!-- 商品详情添加 -->
+                        <view class="food_item_anniu {{item.isxiangqing?'food_zhiding_checked':'food_zhiding'}}"
+                            bindtap="showXiangqing" data-food_id="{{index}}" data-category_id="{{category_id}}"
+                            data-isxiangqing="{{item.isxiangqing}}">
+                            <view>详情</view>
+                        </view>
+                    </view>
+                    <view class="xiangqing" wx:if="{{item.isxiangqing}}">
+                        <view class="xiangqing_items">
+                            <view class="xiangqing_item1">掌柜描述</view>
+                            <input class="weui-input" type="text" placeholder="请输入"
+                                placeholder-class="weui-input__placeholder" value="{{item.foodDetail.miaoshu}}"
+                                bindinput="onInput_foodDetail" data-food_id="{{index}}"
+                                data-category_id="{{category_id}}" data-val_name="{{'miaoshu'}}" />
+                        </view>
+                        <view class="xiangqing_items">
+                            <view class="xiangqing_item1">主料</view>
+                            <input class="weui-input" type="text" placeholder="请输入"
+                                placeholder-class="weui-input__placeholder" value="{{item.foodDetail.zhuliao}}"
+                                bindinput="onInput_foodDetail" data-food_id="{{index}}"
+                                data-category_id="{{category_id}}" data-val_name="{{'zhuliao'}}" />
+                        </view>
+                        <view class="xiangqing_items">
+                            <view class="xiangqing_item1">辅料</view>
+                            <input class="weui-input" type="text" placeholder="请输入"
+                                placeholder-class="weui-input__placeholder" value="{{item.foodDetail.fuliao}}"
+                                bindinput="onInput_foodDetail" data-food_id="{{index}}"
+                                data-category_id="{{category_id}}" data-val_name="{{'fuliao'}}" />
+                        </view>
+                        <view class="xiangqing_items">
+                            <view class="xiangqing_item1">重量(克)</view>
+                            <input class="weui-input" type="number" placeholder="请输入"
+                                placeholder-class="weui-input__placeholder" value="{{item.foodDetail.foodWeight}}"
+                                bindinput="onInput_foodDetail" data-food_id="{{index}}"
+                                data-category_id="{{category_id}}" data-val_name="{{'foodWeight'}}" />
+                        </view>
+                        <view class="xiangqing_items">
+                            <view class="xiangqing_item1" style="width: 150rpx;">口味</view>
+                            <view style="display: flex;">
+                                <input class="" type="text" placeholder="请输入" style=""
+                                    placeholder-class="weui-input__placeholder" value="{{item.foodDetail.kouwei}}"
+                                    bindinput="onInput_foodDetail" data-food_id="{{index}}"
+                                    data-category_id="{{category_id}}" data-val_name="{{'kouwei'}}" />
+                                <view catchtap="tochooseText" wx:for="{{kouweiList}}" wx:key="index"
+                                    wx:for-index="kouwei_index" wx:for-item="kouwei_item" hover-class="hover"
+                                    class="kouwei_items" data-food_id="{{index}}" data-category_id="{{category_id}}"
+                                    data-index="{{kouwei_index}}">{{kouwei_item}}</view>
+                            </view>
+
+                        </view>
+                    </view>
+                </view>
+
+                <view class="weui-media-box weui-media-box_text"
+                    style="display:flex;justify-content:center;background-color:#dcdcdc" bindtap="toAddfood"
+                    data-category_id="{{category_id}}">
+                    +添加商品
+                </view>
+            </view>
+        </view>
+
+        <view class="xuanfu">
+            <button style="background-color:gold;" catchtap="toXiugai_food">确认修改</button>
+        </view>
+    </view>
+    <!-- 结算 -->
+    <view class="dianpu" wx:if="{{nameList[3].checked}}">
+
+        <view class="jiesuan_tap">
+            <view class="jiesuan_tap1" catchtap="showMingxi">
+                <view>结算明细</view>
+            </view>
+            <view class="jiesuan_tap1" style="border-left:2rpx solid #dcdcdc;" catchtap="showTixian">
+                <view>去提现</view>
+            </view>
+        </view>
+        <!-- 结算明细 -->
+        <view wx:if="{{isjieusuan_mingxi}}">
+            <!-- <view style="display: flex;">
+                <view>日期</view>
+                <view>金额（元）</view>
+            </view> -->
+            <view class="weui-form-preview" wx:for="{{jiesuan_list}}" wx:key="index">
+                <view class="weui-form-preview__bd">
+                    <view class="weui-form-preview__item">
+                        <label class="weui-form-preview__label">提现</label>
+                        <text class="weui-form-preview__value">
+                            <text>¥{{item.val_tixian}}</text>
+                        </text>
+                    </view>
+                    <view class="weui-form-preview__item">
+                        <label class="weui-form-preview__label " style="font-size:25rpx;">{{item.xd_time}}</label>
+                        <text class="weui-form-preview__value">
+                            <text wx:if="{{item.isJiesuan==false}}">申请中</text>
+                            <text wx:if="{{item.isJiesuan==true}}">提现成功</text>
+                        </text>
+                    </view>
+                </view>
+            </view>
+            <view class="weui-loadmore weui-loadmore_line" wx:if="{{isnomore}}">
+                <text class="weui-loadmore__tips weui-loadmore__tips_in-line" style="font-size: small;">无更多数据</text>
+            </view>
+        </view>
+        <!-- 去提现 -->
+        <view class="jiesuan_tixian_content" wx:if="{{isjieusuan_tixian}}">
+            <view class="jiesuan_title">
+                <view class="jiesuan_title_item1">可提现金额（元）</view>
+                <view style="display: flex;justify-content: center;align-items: center;color: #F5835E;">
+                    <view style="margin-right: 20rpx;">¥</view>
+                    <view style="font-size: 32rpx;">{{val_tixian}}</view>
+                </view>
+            </view>
+            <view style="display: flex;justify-content: space-between;">
+                <view class="jiesuan_title" style="font-size: small;">
+                    <view class="jiesuan_title_item1">订单金额（元）</view>
+                    <view style="display: flex;justify-content: center;align-items: center;">
+                        <view style="margin-right: 20rpx;">¥</view>
+                        <view>{{dingdan_tixian}}</view>
+                    </view>
+                </view>
+                <view class="jiesuan_title" style="font-size: small;">
+                    <view class="jiesuan_title_item1">平台服务费率</view>
+                    <view style="display: flex;justify-content: center;align-items: center;">
+                        <view>{{fuwu_percent*100}}</view>
+                        <view style="margin-left: 10rpx;">%</view>
+                    </view>
+                </view>
+            </view>
+            <view class="jiesuan_tixian" style="margin-top: 20rpx;">
+                <view class="jiesuan_tixian_btn" wx:if="{{val_tixian !== 0}}" catchtap="toTixian">
+                    <view>申请提现</view>
+                </view>
+                <view class="jiesuan_tixian_btn_0" wx:if="{{val_tixian == 0}}">
+                    <view>暂无可提现金额</view>
+                </view>
+            </view>
+            <view  style="margin: 20rpx;">
+                <view class="jiesuan_title_item1">订单金额：7日前未结算订单的总金额</view>
+                <view class="jiesuan_title_item1">可提现金额：订单金额 - 平台服务费</view>
+            </view>
+        </view>
+
+    </view>
+
+</view>
+<!-- 顾客查看店铺详情 -->
+<view wx:if="{{isDetail_dianpu}}">
+    <view class="dianpu">
+        <view class="weui-panel">
+            <view class="weui-media-box weui-media-box_text weui-flex">
+                <view class="weui-cell__bd">
+                    <view class="weui-media-box weui-media-box_small-appmsg">
+                        <view class="weui-cells">
+                            <a class="weui-cell weui-cell_active weui-cell_access weui-cell_example">
+                                <view class="weui-cell__hd">
+                                    <image src="{{dianpuData.zhaopaiUrl.imagefileID}}" alt
+                                        style="width:120rpx;height:120rpx;">
+                                    </image>
+                                </view>
+                                <view class="weui-cell__bd weui-cell_primary" style="padding-left:30rpx;">
+                                    <view>{{dianpuData.name}}</view>
+                                </view>
+                                <!-- <text class="weui-cell__ft"></text> -->
+                            </a>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="weui-media-box weui-media-box_text weui-flex">
+                <view class="weui-cell__hd">
+                    <label class="weui-label ziti_s">地址</label>
+                </view>
+                <view>{{dianpuData.dizhi}}</view>
+            </view>
+            <view class="weui-media-box weui-media-box_text weui-flex">
+                <view class="weui-cell__hd">
+                    <label class="weui-label ziti_s">电话</label>
+                </view>
+                <view bindtap="toPhoneCall" style="color:darkblue;">{{dianpuData.phone}}</view>
+            </view>
+
+        </view>
+        <view class="weui-panel">
+            <view class="weui-media-box weui-media-box_text weui-flex">
+                <view class="weui-cell__hd">
+                    <label class="weui-label ziti_s">配送服务：</label>
+                </view>
+                <view>{{dianpuData.peisongFuwu}}</view>
+            </view>
+            <view class="weui-media-box weui-media-box_text weui-flex">
+                <view class="weui-cell__hd">
+                    <label class="weui-label ziti_s">配送时间：</label>
+                </view>
+                <view>{{dianpuData.peisongTime.time1}} ~ {{dianpuData.peisongTime.time2}}</view>
+            </view>
+        </view>
+        <view class="weui-cell weui-cell_active weui-panel">
+            <view class="weui-cell__hd">
+                <label class="weui-label ziti_s">商家公告：</label>
+            </view>
+            <view class="weui-cell__bd ziti_s" style="height:250rpx;">
+                <view class="weui-input" placeholder-class="weui-input__placeholder">
+                    <view>{{dianpuData.gonggao}}</view>
+                </view>
+            </view>
+        </view>
+
+    </view>
+</view>
+
+<!-- <image style="width: 200rpx;height: 150rpx;" src="{{resMeishi.imageUrl.imagefileID}}"></image>
+    <view>{{resMeishi.name}}</view>
+    <view>{{resMeishi.price}}</view> -->
+<wxs module="xingjiFormat">
+    module.exports = function (xingji) {
+        return Math.ceil(xingji)
+    }
+</wxs>

@@ -1,0 +1,47 @@
+/* pages/pingjia/pingjia.wxss */
+
+.xingji{
+    display: flex;
+    justify-content: center;
+    margin: 80rpx;
+}
+.xingji_items1{
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+}
+.xingji_items2{
+    flex: 0.5;
+    text-align: center;
+}
+.pingjia_text{
+    margin: 30rpx;
+    display: flex;
+    justify-content: center;
+}
+.anniu2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* margin-right: 30rpx; */
+  }
+  
+  .anniu_item2 {
+    margin: 0rpx 5rpx;
+    height: 50rpx;
+    width: 85%;
+    font-size: small;
+    border: 2rpx solid #8AD4AF;
+    border-radius: 10rpx;
+    /* color: rgb(245, 131, 94); */
+    color: white;
+    background-color: #8AD4AF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .hover2{
+    background: rgb(252,219,138);
+    opacity: 0.8;
+  }

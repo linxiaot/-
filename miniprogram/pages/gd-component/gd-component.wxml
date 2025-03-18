@@ -1,0 +1,12 @@
+<!--pages/gd-component/gd-component.wxml-->
+<!-- <view bindtap="onReachBottom">刷新</view>
+<web-view src="{{url_jsj}}" bindmessage="bindmessage" bindload="bindload" binred>
+
+    </web-view> -->
+    
+<view style="height: 100rpx;margin: 20rpx;display: flex;justify-content: center;align-items: center;font-size: medium;font-weight: bold;">
+<view>{{title_jsj}}</view>
+</view>
+<view style="margin: 30rpx;">
+    <gd-form token="{{token}}" bindsubmit="submit"></gd-form>
+</view>
