@@ -1,0 +1,196 @@
+<!--pages/talklist/talklist.wxml-->
+<view class="search">
+  <image style="width: 30rpx;height: 30rpx;" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/yonghuchaxun.png"></image>
+
+  <input style="width: 100%;" type="text" placeholder="搜索" bindinput="input_search" />
+
+</view>
+<!-- 已置顶 -->
+<view class="list-container" wx:if="{{!isSeachlist}}">
+  <view wx:if="{{item.isZhiding && !item.isDel}}" wx:for="{{ friendsList }}" wx:key="index"
+    class="list-row-wrapper {{item.isZhiding?'zhiding':''}}" hover-class="list-row-hover" hover-stay-time="50"
+    data-user="{{ item }}" bindtap="toLiaotian">
+    <mp-slideview buttons="{{slideButtons_more}}" bindbuttontap="toSlideButton" bindshow='toShowSlideButtons'
+      data-id="{{item._id}}" data-index="{{index}}" data-imagesUrlList="{{item.imagesUrlList}}"
+      data-lahei="{{item.isLahei}}" data-zhiding="{{item.isZhiding}}">
+      <view class="list-row">
+        <view class="list-icon">
+          <view class="list-photo">
+            <image src="{{ item._openid == openid? item.duifAvatarUrl : item.avatarUrl }}"
+              style="width: 50px; height: 50px;"></image>
+          </view>
+          <view wx:if="{{item.isNewmessage}}" class="message-dot"></view>
+        </view>
+        <view class="list-content">
+          <view class="list-content-layout">
+            <view class="list-content-name">
+              <text class="list-content-title">{{ item._openid == openid? item.duifNickName : item.nickName }}</text>
+              <text class="list-content-time">{{ item.liaotianList[item.liaotianList.length -1].createTime }}</text>
+            </view>
+            <view class="list-content-brief">
+              <text>{{ item.liaotianList[item.liaotianList.length -1].textLiaot }}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </mp-slideview>
+  </view>
+</view>
+<!-- 未置顶 -->
+<view class="list-container" wx:if="{{!isSeachlist}}">
+  <view wx:if="{{!item.isZhiding && !item.isDel}}" wx:for="{{ friendsList }}" wx:key="index"
+    class="list-row-wrapper {{item.isZhiding?'zhiding':''}}" hover-class="list-row-hover" hover-stay-time="50"
+    data-user="{{ item }}" bindtap="toLiaotian">
+    <mp-slideview buttons="{{slideButtons_more}}" bindbuttontap="toSlideButton" bindshow='toShowSlideButtons'
+      data-id="{{item._id}}" data-index="{{index}}" data-imagesUrlList="{{item.imagesUrlList}}"
+      data-lahei="{{item.isLahei}}" data-zhiding="{{item.isZhiding}}">
+      <view class="list-row">
+        <view class="list-icon">
+          <view class="list-photo">
+            <image src="{{ item._openid == openid? item.duifAvatarUrl : item.avatarUrl }}"
+              style="width: 50px; height: 50px;"></image>
+          </view>
+          <!-- <view wx:if="{{ item.nums > 0 }}" class="message-dot"></view> -->
+          <view wx:if="{{item.isNewmessage}}" class="message-dot"></view>
+        </view>
+        <view class="list-content">
+          <view class="list-content-layout">
+            <view class="list-content-name">
+              <text class="list-content-title">{{ item._openid == openid? item.duifNickName : item.nickName }}</text>
+              <text class="list-content-time">{{ item.liaotianList[item.liaotianList.length -1].createTime }}</text>
+            </view>
+            <view class="list-content-brief">
+              <text>{{ item.liaotianList[item.liaotianList.length -1].textLiaot }}</text>
+              <!-- <text>{{ item.preMes}}</text> -->
+            </view>
+          </view>
+        </view>
+      </view>
+    </mp-slideview>
+  </view>
+</view>
+
+<!-- 弹窗 -->
+<view class="fadeIn" wx:if="{{isShowSlideButton}}">
+  <view class="weui-mask" bindtap="tocloseSlideButton"></view>
+  <view class="weui-dialog" wx:if="{{ showLahei }}">
+    <view class="weui-dialog__hd"><strong class="weui-dialog__title">提示</strong></view>
+
+    <view class="weui-dialog__bd" wx:if="{{showLahei}}">{{ isLahei ? '取消屏蔽？' :'无法再收到此用户的消息？'}}</view>
+    <view class="weui-dialog__ft">
+      <a class="weui-dialog__btn weui-dialog__btn_default" bindtap="tocloseSlideButton">取消</a>
+      <a class="weui-dialog__btn weui-dialog__btn_primary" bindtap="toLaheiConfirm" wx:if="{{showLahei}}">确定</a>
+    </view>
+
+  </view>
+  <view class="weui-dialog" wx:if="{{ showZhiding }}">
+    <view class="weui-dialog__hd"><strong class="weui-dialog__title">提示</strong></view>
+
+    <view class="weui-dialog__bd" wx:if="{{showZhiding}}">{{ !isZhiding ? '置顶？' :'取消置顶？'}}</view>
+    <view class="weui-dialog__ft">
+      <a class="weui-dialog__btn weui-dialog__btn_default" bindtap="tocloseSlideButton">取消</a>
+      <a class="weui-dialog__btn weui-dialog__btn_primary" bindtap="toZhidingConfirm" wx:if="{{showZhiding}}">确定</a>
+    </view>
+
+  </view>
+  <view class="weui-dialog" wx:if="{{ showDel }}">
+    <view class="weui-dialog__hd"><strong class="weui-dialog__title">提示</strong></view>
+    <view class="weui-dialog__bd" wx:if="{{showDel}}">确定删除？</view>
+    <view class="weui-dialog__ft">
+      <a class="weui-dialog__btn weui-dialog__btn_default" bindtap="tocloseSlideButton">取消</a>
+      <a class="weui-dialog__btn weui-dialog__btn_primary" bindtap="toDelConfirm" wx:if="{{showDel}}">确定</a>
+    </view>
+  </view>
+</view>
+<!-- 搜索结果 -->
+<view class="list-container" wx:if="{{isSeachlist}}">
+
+  <view class="list-row">
+    <view class="list-content">
+      <view class="list-content-brief">
+        <text>联系人（{{num_lianxiren}}）</text>
+      </view>
+    </view>
+  </view>
+  <view wx:for="{{ friendsList }}" wx:key="index" class="list-row-wrapper" hover-class="list-row-hover"
+    hover-stay-time="50" data-user="{{ item }}" catchtap="toLiaotian" wx:if="{{item.isShow_search_lianxiren}}">
+
+    <view class="list-row">
+      <view class="list-icon">
+        <view class="list-photo">
+          <image src="{{ item._openid == openid? item.duifAvatarUrl : item.avatarUrl }}"
+            style="width: 50px; height: 50px;"></image>
+        </view>
+        <view wx:if="{{item.isNewmessage}}" class="message-dot"></view>
+      </view>
+      <view class="list-content">
+        <view class="list-content-layout">
+          <view class="list-content-name">
+            <text class="list-content-title">{{ item._openid == openid? item.duifNickName : item.nickName }}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="list-row">
+    <view class="list-content">
+      <view class="list-content-brief">
+        <text>聊天记录（{{num_liaotianjilu}}）</text>
+      </view>
+    </view>
+  </view>
+  <view wx:for="{{ friendsList }}" wx:key="index" class="list-row-wrapper"
+    hover-class="{{item.searchlist_textLiaot.length>1?'':'list-row-hover'}}" hover-stay-time="50" data-user="{{ item }}"
+    data-index="{{item.searchlist_textLiaot.length>1 ? index:0}}"
+    catchtap="{{ item.searchlist_textLiaot.length>1 ? 'toShow_search':'toLiaotian'}}"
+    wx:if="{{item.searchlist_textLiaot.length>0}}">
+
+    <view class="list-row {{ item.isShow_search?'zhiding':'' }}">
+      <view class="list-icon">
+        <view class="list-photo">
+          <image src="{{ item._openid == openid? item.duifAvatarUrl : item.avatarUrl }}"
+            style="width: 50px; height: 50px;"></image>
+        </view>
+        <!-- <view wx:if="{{ item.nums > 0 }}" class="message-dot"></view> -->
+        <view wx:if="{{item.isNewmessage}}" class="message-dot"></view>
+      </view>
+      <view class="list-content">
+        <view class="list-content-layout">
+          <view class="list-content-name">
+            <text class="list-content-title">{{ item._openid == openid? item.duifNickName : item.nickName }}</text>
+            <!-- <text class="list-content-time">{{ item.liaotianList[item.liaotianList.length -1].createTime }}</text> -->
+          </view>
+          <view class="list-content-brief">
+            <!-- <text>{{ item.liaotianList[item.liaotianList.length -1].textLiaot }}</text> -->
+            <text>搜索到{{ item.searchlist_textLiaot.length }}条聊天记录</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <!-- 点击后展开记录 -->
+    <view class="list-row" hover-class="list-row-hover" hover-stay-time="50" wx:if="{{item.isShow_search}}"
+      wx:for="{{item.searchlist_textLiaot}}" wx:for-item="item_liaotian" wx:key="index" catchtap="toLiaotian"
+      data-user="{{ item }}" data-index="{{index}}">
+      <view class="list-icon">
+        <view class="list-photo">
+          <image src="{{ item._openid == openid? item.duifAvatarUrl : item.avatarUrl }}"
+            style="width: 50px; height: 50px;"></image>
+        </view>
+        <!-- <view wx:if="{{ item.nums > 0 }}" class="message-dot"></view> -->
+        <view wx:if="{{item.isNewmessage}}" class="message-dot"></view>
+      </view>
+      <view class="list-content">
+        <view class="list-content-layout">
+          <view class="list-content-name">
+            <text class="list-content-title">{{ item._openid == openid? item.duifNickName : item.nickName }}</text>
+            <text class="list-content-time">{{ item_liaotian.createTime }}</text>
+          </view>
+          <view class="list-content-brief">
+            <text>{{ item_liaotian.textLiaot }}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

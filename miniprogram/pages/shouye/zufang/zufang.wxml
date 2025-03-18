@@ -1,0 +1,138 @@
+<!-- <view>
+    <view class="weui-search-bar" id="searchBar" bindtap="toSearch">
+        <form class="weui-search-bar__form">
+            <view class="weui-search-bar__box">
+                <input type="text" class="weui-search-bar__input" />
+            </view>
+            <label class="weui-search-bar__label">
+                <i class="weui-icon-search"></i>
+                <span class="weui-search-bar__text">搜索</span>
+            </label>
+        </form>
+    </view>
+
+    <view class="paixuhetianjia flex">
+        <view bindtap="showPaixu" hover-class="hover" class="paixu">
+            {{zonghePaixu}}<image mode="widthFix" style="margin-top:10rpx;margin-left:10rpx;width:25rpx;"
+                src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/xiala.png">
+            </image>
+        </view>
+        <view bindtap="showShaixuan" hover-class="hover" class="shaixuan">
+            筛选<image mode="widthFix" style="margin-top:10rpx;margin-left:10rpx;width:25rpx;"
+                src="../../../images/shaixuan.png">
+            </image>
+        </view>
+
+        <view bindtap="toFabu" class="fabu">
+            发布<image mode="widthFix" style="margin-top:10rpx;margin-left:10rpx;width:25rpx;"
+                src="../../../images/jia.png">
+            </image>
+        </view>
+    </view>
+    <view class="mask" hidden="{{mask1Hidden}}" bindtap="close">
+        <view class="overall-sort-list">
+            <block wx:for="{{sortList}}" wx:key="index">
+                <view class="overall-sort" data-index="{{index}}" bindtap="toPaixu">{{item.sort}}</view>
+            </block>
+        </view>
+    </view> 
+    <view class="mask" hidden="{{mask2Hidden}}" bindtap="close">
+        <scroll-view class="filterList" scroll-y="true">
+            <view class="filterList-quyu-title">区域（多选）</view>
+            <view class="filterList-quyu-items">
+                <block wx:for="{{quyuList}}" wx:key="index">
+                    <view class="filterList-quyu-item {{quyuList[index].checked==true?'quyu-selected':''}}"
+                        catchtap="quyuSelected" data-index="{{index}}">{{item.text}}</view>
+                </block>
+            </view>
+            <view class="filterList-zujin-title">租金</view>
+            <view class="filterList-zujin-items">
+                <block wx:for="{{zujinList}}" wx:key="index">
+                    <view class="filterList-zujin-item {{zujinSelected==index?'zujin-selected':''}}"
+                        catchtap="zujinSelected" data-index="{{index}}">
+                        <text class="filterList-zujin-item-icon"
+                            style="background:{{item.iconColor}}">{{item.icon}}</text>
+                        {{item.text}}
+                    </view>
+                </block>
+            </view>
+            <view class="filterList-zujin-title">户型</view>
+            <view class="filterList-zujin-items" style="display:flex;">
+                <block wx:for="{{huxingList}}" wx:key="index">
+                    <view class="filterList-zujin-item {{huxingSelected==index?'zujin-selected':''}}"
+                        catchtap="huxingSelected" data-index="{{index}}" style="flex:1;">
+                        <text class="filterList-zujin-item-icon"
+                            style="background:{{item.iconColor}}">{{item.icon}}</text>
+                        {{item.text}}
+                    </view>
+                </block>
+            </view>
+        </scroll-view>
+        <view class="filterList-footer">
+            <view class="filterList-footer-delect" catchtap="clearSelectedNumb">清除筛选</view>
+            <view class="filterList-footer-finish" bindtap="finish">完成
+                <view class="filterList-footer-finish-number" hidden="{{selectedNumb==0}}">{{selectedNumb}}
+                </view>
+            </view>
+        </view>
+    </view>
+
+
+    <view class="weui-panel weui-panel_access">
+        <view class="weui-panel__bd">
+        
+            <view class="weui-media-box weui-media-box_appmsg" wx:if="{{!isShaixuan}}" wx:for="{{!listHidden?zufangList:''}}"
+                wx:key="index" bindtap="toDetail" data-id="{{item._id}}" data-openid="{{item._openid}}">
+                <view style="display:flex;flex-direction:column;">
+                    <view style="display:flex;">
+                        <view class="weui-media-box__hd" style="height:250rpx;width:250rpx;">
+                            <image class="weui-media-box__thumb" style="height:300rpx;"
+                                src="{{item.imagesUrlList[0].imagetempFileURL}}" alt></image>
+                        </view>
+                        <view class="weui-media-box__bd" style="{{item.isXiajia?'color:gray;':''}}">
+                            <h4 class="weui-media-box__title zufang_title" style="{{item.isXiajia?'color:gray;':''}}">{{item.name}}</h4>
+                            <view class="weui-media-box__desc" style="{{item.isXiajia?'color:gray;':'color:red;'}}">{{item.zujin}}元/月</view>
+                            <view class="weui-media-box__desc">户型：{{item.huxing}}</view>
+                            <view class="weui-media-box__desc">楼层：{{item.louceng}}</view>
+                            <view class="weui-media-box__desc">发布：{{item.createTime}}</view>
+                        </view>
+                    </view>
+                    <view style="display:flex;justify-content:flex-end;">
+                        <view class="tuijian" style="" wx:if="{{item.isZhiding&&!item.isXiajia}}">推荐</view>
+                        <view class="yixiajia" style="" wx:if="{{item.isXiajia}}">已下架</view>
+                    </view>
+                </view>
+            </view>
+            <view class="weui-media-box weui-media-box_appmsg" wx:if="{{isShaixuan}}" wx:for="{{shaixuanList}}"
+                wx:key="index" bindtap="toDetail" data-id="{{item._id}}" data-openid="{{item._openid}}">
+                <view style="display:flex;flex-direction:column;">
+                    <view style="display:flex;">
+                        <view class="weui-media-box__hd" style="height:250rpx;width:250rpx;">
+                            <image class="weui-media-box__thumb" style="height:300rpx;"
+                                src="{{item.imagesUrlList[0].imagetempFileURL}}" alt></image>
+                        </view>
+                        <view class="weui-media-box__bd" style="{{item.isXiajia?'color:gray;':''}}">
+                            <h4 class="weui-media-box__title zufang_title" style="{{item.isXiajia?'color:gray;':''}}">{{item.name}}</h4>
+                            <view class="weui-media-box__desc" style="{{item.isXiajia?'color:gray;':'color:red;'}}">{{item.zujin}}元/月</view>
+                            <view class="weui-media-box__desc">户型：{{item.huxing}}</view>
+                            <view class="weui-media-box__desc">楼层：{{item.louceng}}</view>
+                            <view class="weui-media-box__desc">发布：{{item.createTime}}</view>
+                        </view>
+                    </view>
+                    <view style="display:flex;justify-content:flex-end;">
+                        <view class="tuijian" style="" wx:if="{{item.isZhiding&&!item.isXiajia}}">推荐</view>
+                        <view class="yixiajia" style="" wx:if="{{item.isXiajia}}">已下架</view>
+                    </view>
+                </view>
+            </view>
+
+        </view>
+    </view>
+    <view class="weui-loadmore" wx:if="{{isShowLoading}}">
+        <i class="weui-loading"></i>
+        <text class="weui-loadmore__tips">正在加载</text>
+    </view>
+    <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot" wx:if="{{isGengDuo}}">
+        <text class="weui-loadmore__tips"></text>
+    </view>
+</view> -->

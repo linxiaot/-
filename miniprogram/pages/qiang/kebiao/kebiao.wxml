@@ -1,0 +1,409 @@
+<wxs module="module1">
+    var isShowKuang = function (item_zhou, item_jie, zhouJi, diJiJie) {
+        if (item_zhou == zhouJi && item_jie == diJiJie) {
+            var checked = true
+        }else{
+            var checked = false
+        }
+        return checked
+    }
+    module.exports = {
+        isShowKuang: isShowKuang
+    }
+</wxs>
+
+<!-- 表头 -->
+<view>
+    <view wx:if="{{login_ok}}" class="toBenZhou" hover-class="hover" bindtap="toBenZhou">显示本周</view>
+    <!-- <view class="bianJi" hover-class="hover" bindtap="toChangeImage" style="margin-left:500rpx;">背景</view>
+    <view class="bianJi" hover-class="hover" bindtap="toAdd">添加</view> -->
+    <view class="gengduo" bindtap="toGengduo">
+        <image mode="widthFix" style="width:40rpx;" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/gengduo.png"></image>
+    </view>
+    <view class="biaoTou">
+        <!-- <view style="margin-right:10rpx;">{{month}}月</view> -->
+        <view>
+            <!-- <picker bindchange="toDiJiZhou" value="{{index}}" range="{{diJiZhouListPicker}}"> -->
+            <view class="picker cutizi" bindtap="showDijizhou">
+                {{value_diJiZhou}}{{value_diJiZhou == benzhou ? '':'(非本周)'}}
+                <image mode="widthFix" style="margin-top:10rpx;width:25rpx;" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/xiala.png">
+                </image>
+            </view>
+            <!-- </picker> -->
+        </view>
+    </view>
+    <view wx:if="{{showDijizhou}}">
+        <scroll-view style="height:84rpx;width:100%;background-color: #f0f0f0;" scroll-x="true"
+            scroll-with-animation="true">
+            <view class="flex">
+                <view wx:for="{{diJiZhouListNew}}" wx:key="index">
+                    <view class="{{diJiZhou-1 == index?'nowDate2':''}}" bindtap="toDiJiZhou" data-index="{{index}}">
+                        <view style="">
+                            <view class="zhouChoose_item ">
+                                {{item.value}}
+                            </view>
+                        </view>
+                        <view class="benzhou" style="height:42rpx;" wx:if="{{item.showBenzhou}}">（本周）</view>
+                        <view class="benzhou" style="height:42rpx;" wx:if="{{!item.showBenzhou}}">（非本周）</view>
+                    </view>
+                </view>
+            </view>
+        </scroll-view>
+    </view>
+
+</view>
+<!-- <view style="height:1600rpx;"> -->
+<view style="height:1340rpx;">
+    <!-- 背景图片自定义 -->
+    <!-- <image class="image" mode="scaleToFill"  src="{{image_url}}"></image> -->
+    <image class="image" mode="{{imageMode}}" src="{{image_url}}"></image>
+    <view style="z-index: 101;position:absolute;top:{{showDijizhou?90+84:90}}rpx;">
+        <!-- 周 和 星期 -->
+        <view class="flex toumingColor">
+            <view class="riqi_yue"
+                style="width:50rpx;padding-left: 10rpx;padding-right: 10rpx;background-color:gold;font-size:10pt;">
+                <view style="">
+                    <view>{{month}}</view>
+                    <view>月</view>
+                </view>
+            </view>
+            <view class="riqi {{dayArr[0]==utils_day&& month == utils_month ? 'ziti_blue nowDate' : ''}}">
+                <view>周一</view>
+                <view>{{daymoreArr[0]}}</view>
+            </view>
+            <view class="riqi {{dayArr[1]==utils_day&& month == utils_month ? 'ziti_blue nowDate' : ''}}">
+                <view>周二</view>
+                <view>{{daymoreArr[1]}}</view>
+            </view>
+            <view class="riqi {{dayArr[2]==utils_day&& month == utils_month ? 'ziti_blue nowDate' : ''}}">
+                <view>周三</view>
+                <view>{{daymoreArr[2]}}</view>
+            </view>
+            <view class="riqi {{dayArr[3]==utils_day&& month == utils_month ? 'ziti_blue nowDate' : ''}}">
+                <view>周四</view>
+                <view>{{daymoreArr[3]}}</view>
+            </view>
+            <view class="riqi {{dayArr[4]==utils_day&& month == utils_month ? 'ziti_blue nowDate' : ''}}">
+                <view>周五</view>
+                <view>{{daymoreArr[4]}}</view>
+            </view>
+            <view class="riqi {{dayArr[5]==utils_day&& month == utils_month ? 'ziti_blue nowDate' : ''}}">
+                <view>周六</view>
+                <view>{{daymoreArr[5]}}</view>
+            </view>
+            <view class="riqi {{dayArr[6]==utils_day&& month == utils_month ? 'ziti_blue nowDate' : ''}}">
+                <view>周日</view>
+                <view>{{daymoreArr[6]}}</view>
+            </view>
+        </view>
+        <!-- 课表部分 -->
+        <scroll-view style="height:{{1300-42}}rpx;" scroll-y="true" scroll-with-animation="true" bindtouchstart="chumo">
+            <movable-area style="width:20rpx;height:100%;">
+                <movable-view direction="horizontal" out-of-bounds bindchange="bindchangeDijizh">
+                    <view style="display:flex;">
+                        <view class="flex center">
+                            <view class="huaDongQu"></view>
+                        </view>
+                        <!-- 1——12节课 -->
+                        <view class="diJiJieKe toumingColor"
+                            style="width:50rpx;padding-left: 10rpx;padding-right: 10rpx;position:absolute;">
+                            <view style="flex-direction:column;" wx:for="{{biaoti_dijijie_list}}" wx:key="index">
+                                <view style="font-weight:bold">{{item.name}}</view>
+                                <view style="font-size:6pt">{{item.time1}}</view>
+                                <view style="font-size:6pt">{{item.time2}}</view>
+                            </view>
+                        </view>
+
+                        <!-- 课表内容 -->
+                        <view wx:for="{{kebiaoArr}}" wx:key="index" style="position:absolute;padding:0rpx 5rpx;">
+
+                            <!-- 选择框 添加课表 -->
+                            <view wx:for="{{keshiObj.zhou}}" wx:key="index1" wx:for-item="item_zhou">
+                                <view wx:for="{{keshiObj.jie}}" wx:key="index2" wx:for-item="item_jie">
+                                    <view class="tianjiakuang"
+                                        style="margin-left:{{(item_zhou - 1)*97+70}}rpx;margin-top:{{(item_jie - 1)*120+5}}rpx;height:{{1*120-5}}rpx;"
+                                        bindtap="toshow_tianjiakuang" 
+                                        data-item_zhou="{{item_zhou}}"
+                                        data-item_jie="{{item_jie}}"
+                                        >
+                                        <view class="tianjiakuang_item" wx:if="{{module1.isShowKuang(item_zhou,item_jie,tianjiakuang_zhou,tianjiakuang_jie)}}">
+                                            <view 
+                                            catchtap="toAdd_tianjiakuang"
+                                            class="tianjiakuang_item_item"   
+                                            style="background-color:{{module1.isShowKuang(item_zhou,item_jie,tianjiakuang_zhou,tianjiakuang_jie) ? 'rgba(196, 196, 196, 0.2)':none}}"
+                                            data-item_zhou="{{item_zhou}}"
+                                            data-item_jie="{{item_jie}}"
+                                            >+</view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                            <!-- 展示课表 -->
+                            <view
+                                class="meiJieKe_flex meiJieKe_view {{item.gongJiJie == 1 ? 'chaoChuYinCang2' : '' || item.gongJiJie == 2 ? 'chaoChuYinCang5' : ''}}"
+                                bindtap="toKeBiaoDetail" id="{{index}}"
+                                style="margin-left:{{(item.zhouJi-1)*97+70}}rpx;margin-top:{{(item.diJiJie-1)*120+5 }}rpx;height:{{item.gongJiJie*120-5}}rpx;background-color:{{colorArrays[index%12]}}">
+                                <view class="meiJieKe_text">{{item.keChName}}@{{item.diDian}}</view>
+                            </view>
+                        </view>
+                    </view>
+                </movable-view>
+            </movable-area>
+        </scroll-view>
+        <view style="height:50rpx;text-align:center;margin-bottom:20rpx;"></view>
+        <!-- 蒙层 课表详情 -->
+        <view class="mask" wx:if="{{isShow}}" bindtap="toMask">
+            <view class="keBiaoDetail">
+                <view style="font-size:18pt;border-bottom:2rpx solid gold;">课程详情</view>
+                <view class="detail" style="margin-top:50rpx;">
+                    <view class="flex">
+                        <view style="width:150rpx;">课名</view>
+                        <view class="detail_blue">{{kebiaoArr[id].keChName}}</view>
+                    </view>
+                    <view class="flex">
+                        <view style="width:150rpx;">地点</view>
+                        <view class="detail_blue">{{kebiaoArr[id].diDian}}</view>
+                    </view>
+                    <view class="flex">
+                        <view style="width:150rpx;">时间</view>
+                        <view class="detail_blue">
+                            {{zhouJiList[kebiaoArr[id].zhouJi-1].name}}（{{kebiaoArr[id].diJiJie}}~{{kebiaoArr[id].diJiJie+kebiaoArr[id].gongJiJie-1}}节）
+                        </view>
+                    </view>
+                    <view class="flex">
+                        <view style="width:150rpx;">老师</view>
+                        <view class="detail_blue">{{kebiaoArr[id].teacher}}</view>
+                    </view>
+                </view>
+                <view class="flex" style="margin-top:110rpx; border-top: 2rpx solid gold;padding-top:10rpx; ">
+                    <view class="flex center"
+                        style="flex:1;font-size:12pt;border-right: 2rpx solid gold; font-weight: bold;color:red;"
+                        hover-class="hover" bindtap="toDele">删除</view>
+                    <view class="flex center ziti_blue" style="flex:1;font-size:12pt;font-weight: bold;"
+                        bindtap="toEdit" hover-class="hover">编辑
+                    </view>
+                </view>
+            </view>
+        </view>
+        <!-- 蒙层 添加新课表 -->
+        <view class="mask" wx:if="{{isShowAdd}}">
+            <view class="keBiaoDetail" style=" height: 730rpx;">
+                <view wx:if="{{isAdd}}" style="font-size:18pt;border-bottom:2rpx solid gold;">添加课程</view>
+                <view wx:if="{{isEdit}}" style="font-size:18pt;border-bottom:2rpx solid gold;">编辑课程</view>
+                <view class="detail_add">
+                    <view class="flex">
+                        <view style="width:150rpx;padding-top:40rpx;">课名</view>
+                        <view class="ziti_blue flex">
+                            <input class="" type="text" placeholder="什么课" placeholder-class="weui-input__placeholder"
+                                value="{{value_keChName}}" bindinput="onInput_keChName" />
+                            <view wx:if="{{showClearBtn_keChName}}"
+                                class="weui-btn_reset weui-btn_icon weui-btn_input-clear" bindtap="onClear_keChName">
+                                <i class="weui-icon-clear"></i>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="flex">
+                        <view style="width:150rpx;padding-top:40rpx;">地点</view>
+                        <view class="ziti_blue flex">
+                            <input class="" type="text" placeholder="什么教室" placeholder-class="weui-input__placeholder"
+                                value="{{value_diDian}}" bindinput="onInput_diDian" />
+                            <view wx:if="{{showClearBtn_diDian}}"
+                                class="weui-btn_reset weui-btn_icon weui-btn_input-clear" bindtap="onClear_diDian">
+                                <i class="weui-icon-clear"></i>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="flex">
+                        <view style="width:150rpx;padding-top:40rpx;">老师</view>
+                        <view class="ziti_blue flex">
+                            <input class="" type="text" placeholder="什么老师" placeholder-class="weui-input__placeholder"
+                                value="{{value_teacher}}" bindinput="onInput_teacher" />
+                            <view wx:if="{{showClearBtn_teacher}}"
+                                class="weui-btn_reset weui-btn_icon weui-btn_input-clear" bindtap="onClear_teacher">
+                                <i class="weui-icon-clear"></i>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="flex paddingtop" style="padding-top:25rpx;">
+                        <view style="width:150rpx;">星期</view>
+                        <view class=" ziti_blue">
+                            <view class="weui-input " placeholder-class="weui-input__placeholder" bindtap="openAndroid">
+                                {{value_zhouJi}}
+                            </view>
+                        </view>
+                    </view>
+                    <!-- <view class="flex">
+                        <view style="width:150rpx;">第几节</view>
+                        <view class=" ziti_blue">
+                            <view class="weui-input " placeholder-class="weui-input__placeholder" bindtap="openAndroid1">
+                                {{value_diJiJie}}
+                            </view>
+                        </view>
+                    </view>
+                    <view class="flex">
+                        <view style="width:150rpx;">上几节</view>
+                        <view class=" ziti_blue">
+                            <view class="weui-input " placeholder-class="weui-input__placeholder" bindtap="openAndroid2">
+                                {{value_gongJiJie}}
+                            </view>
+                        </view>
+                    </view> -->
+
+                    <!-- 新款式 -->
+                    <view class="flex">
+                        <view style="width:150rpx;">哪几节</view>
+                        <view class="weui-cell__bd ziti_blue">
+                            <picker mode="multiSelector" bindchange="bindMultiPickerChange"
+                                bindcolumnchange="bindMultiPickerColumnChange" range="{{multiArray}}">
+                                <view class="picker">
+                                    <a class="xuanZeqi">{{value_congJiJie}}{{value_daoJiJie}}</a>
+                                </view>
+                            </picker>
+                        </view>
+                    </view>
+
+                    <view class="flex">
+                        <view style="width:150rpx;">第几周</view>
+                        <view class=" ziti_blue">
+                            <view placeholder-class="weui-input__placeholder" bindtap="todjzhAddEdit"
+                                style="word-break: break-all;">
+                                {{value_addDiJiZhou}}
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view wx:if="{{isAdd}}" class="flex"
+                    style="margin-top:70rpx; border-top: 2rpx solid gold;padding-top:10rpx; ">
+                    <view class="flex center"
+                        style="flex:1;font-size:12pt;border-right: 2rpx solid gold; font-weight: bold;"
+                        hover-class="hover" bindtap="toCancel">取消</view>
+                    <view class="flex center ziti_blue" style="flex:1;font-size:12pt;font-weight: bold;"
+                        bindtap="toAddConfirm" hover-class="hover">确定
+                    </view>
+                </view>
+                <view wx:if="{{isEdit}}" class="flex"
+                    style="margin-top:70rpx; border-top: 2rpx solid gold;padding-top:10rpx; ">
+                    <view class="flex center"
+                        style="flex:1;font-size:12pt;border-right: 2rpx solid gold; font-weight: bold;"
+                        hover-class="hover" bindtap="toCancel">取消</view>
+                    <view class="flex center ziti_blue" style="flex:1;font-size:12pt;font-weight: bold;"
+                        bindtap="toEdit_comfirm" hover-class="hover">完成
+                    </view>
+                </view>
+            </view>
+        </view>
+        <!-- 加入新的选择器 弹出式菜单-->
+        <!-- 星期 -->
+        <view wx:if="{{showAndroidDialog}}" class="weui-skin_android fadeIn">
+            <view class="weui-mask"></view>
+            <view class="weui-actionsheet">
+                <view class="weui-actionsheet__menu">
+                    <view class="weui-actionsheet__cell" wx:for="{{zhouJiList}}" wx:key='index' bindtap="tanChuSheet"
+                        data-name="{{item.name}}" data-id="{{item.id}}">{{item.name}}
+                    </view>
+                </view>
+            </view>
+        </view>
+        <!-- 第几节 -->
+        <view wx:if="{{showAndroidDialog1}}" class="weui-skin_android fadeIn">
+            <view class="weui-mask"></view>
+            <view class="weui-actionsheet" style="width: 340px;">
+                <view class="weui-actionsheet__menu flex">
+                    <view class="weui-actionsheet__cell"
+                        style="padding: 12rpx 5rpx;margin-left:6rpx;text-align: center;justify-content: center;border-left: 1rpx solid #dcdcdc;"
+                        wx:for="{{diJiJieList}}" wx:key='index' bindtap="tanChuSheet1" data-name="{{item.name}}"
+                        data-id="{{item.id}}">
+                        {{item.name}}
+                    </view>
+                </view>
+            </view>
+        </view>
+        <!-- 上几节 -->
+        <view wx:if="{{showAndroidDialog2}}" class="weui-skin_android fadeIn">
+            <view class="weui-mask"></view>
+            <view class="weui-actionsheet">
+                <view class="weui-actionsheet__menu">
+                    <view class="weui-actionsheet__cell" wx:for="{{gongJiJieList}}" wx:key='index'
+                        bindtap="tanChuSheet2" data-name="{{item.name}}" data-id="{{item.id}}">{{item.name}}
+                    </view>
+                </view>
+            </view>
+        </view>
+        <!-- 第几周选择 -->
+        <view class="fadeIn" wx:if="{{dialog3}}">
+            <view class="weui-mask" bindtap="close"></view>
+            <view class="weui-half-screen-dialog">
+                <view class="weui-half-screen-dialog__hd">
+                    <view class="weui-half-screen-dialog__hd__side" bindtap="close">
+                        <a class="weui-icon-btn"><i class="weui-icon-close-thin"></i></a>
+                    </view>
+                    <view class="weui-half-screen-dialog__hd__main">
+                        <strong class="weui-half-screen-dialog__title">第几周</strong>
+                    </view>
+                </view>
+                <view class="flex">
+                    <view class="chooseDanshq" bindtap="toDanZhou">
+                        <image mode="widthFix" style="width:40rpx;margin:10rpx;"
+                            src="{{isDanzhou ? iamgeUrl_choosed : iamgeUrl_unchoose}}"></image>
+                        <view>单周</view>
+                    </view>
+                    <view class="chooseDanshq" bindtap="toShuangzh">
+                        <image mode="widthFix" style="width:40rpx;margin:10rpx;"
+                            src="{{isShuangzhou ? iamgeUrl_choosed : iamgeUrl_unchoose}}"></image>
+                        <view>双周</view>
+                    </view>
+                    <view class="chooseDanshq" bindtap="toQuanxuan">
+                        <image mode="widthFix" style="width:40rpx;margin:10rpx;"
+                            src="{{isQuanxuan ? iamgeUrl_choosed : iamgeUrl_unchoose}}"></image>
+                        <view>全选</view>
+                    </view>
+                    <view class="chooseDanshq" bindtap="toClear">
+                        <image mode="widthFix" style="width:40rpx;margin:10rpx;"
+                            src="{{isClear ? iamgeUrl_choosed : iamgeUrl_unchoose}}"></image>
+                        <view>清空</view>
+                    </view>
+
+                </view>
+                <view class="weui-half-screen-dialog__bd" style="padding-top:10px;height:100px;">
+                    <checkbox-group bindchange="checkboxChange">
+                        <label class="weui-cells_checkbox weui-cell_active weui-check__label"
+                            wx:for="{{diJiZhouListNew}}" wx:key="name" style="position: absolute;">
+                            <!-- <label class="weui-cell  weui-cell_active weui-check__label" wx:for="{{items}}" wx:key="name"> -->
+                            <view class="meiJieKe_flex meiJieKe_view" id="{{index}}"
+                                style="margin-left:{{index <= 4 ? (index)*130 : (index <= 9 ? (index-5)*130 :(index <= 14 ? (index-10)*130 : (index-15)*130 ))}}rpx; margin-top:{{index <= 4 ? 5 : (index <= 9 ? 60+5 :(index <= 14 ? 120+5 : 180+5 ))}}rpx;height:55rpx; width:120rpx;background-color:gold;">
+                                <checkbox class="weui-check" value="{{index+1}}" checked="{{item.checked}}" />
+                                <i class="weui-icon-checked"
+                                    style="margin-left:5rpx;margin-right:5rpx; width: 12px;height: 12px;"></i>
+                                <view class="weui-cell__bd">
+                                    <view style="color:black;font-size:9pt;">{{item.value}}</view>
+                                </view>
+                            </view>
+                        </label>
+                    </checkbox-group>
+                </view>
+                <view class="weui-half-screen-dialog__ft">
+                    <view class="weui-half-screen-dialog__btn-area">
+                        <a class="weui-btn weui-btn_primary" style="background-color:gold;" bindtap="ok3">确定</a>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <!-- 更多选择 -->
+        <view class="maskGengduo" wx:if="{{isGengduo}}" bindtap="toMaskgengduo"></view>
+        <view class="flex gengduo2" wx:if="{{isGengduo}}">
+            <view style="flex:1" bindtap="toAdd">添加</view>
+            <view style="flex:1;border-top:1rpx solid #dcdcdc;" bindtap="toChangeImage">背景</view>
+            <view style="flex:1;border-top:1rpx solid #dcdcdc;" bindtap="openDaoru">导入</view>
+        </view>
+    </view>
+</view>
+<view wx:if="{{isShow_jiban}}" class="weui-skin_android fadeIn">
+    <view class="weui-mask" bindtap="closeJiban"></view>
+    <view class="weui-actionsheet">
+        <view class="weui-actionsheet__menu">
+            <view class="weui-actionsheet__cell" wx:for="{{jibanList}}" wx:key='index' bindtap="toJiban_daoru"
+                data-item="{{item}}">{{item}}
+            </view>
+        </view>
+    </view>
+</view>

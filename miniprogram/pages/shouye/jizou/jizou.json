@@ -3,5 +3,5 @@
     "mp-dialog": "weui-miniprogram/dialog/dialog",
     "mp-icon": "weui-miniprogram/icon/icon"
   },
-  "navigationBarTitleText": "寄件预约"
+  "navigationBarTitleText": ""
 }

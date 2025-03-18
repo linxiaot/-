@@ -1,11 +1,15 @@
-// pages/wode/jifen/jifen.js
+var utils_banner_zhushuju = require('../../../utils/banner_zhushuju.js')
+
 Page({
 
   data: {
     jifen: [],
-    jifen_total: 0
+    jifen_total: 0,
+    jifen_shuoming: '请设置积分说明的内容',
+    jifen_shuoming_list: [''],
+    jifen_howget: '请设置如何获取积分的内容',
+    jifen_howget_list: [''],
   },
-
 
   onLoad: function (options) {
     // console.log('个人主页传参，积分总数：',options.jifen_total);
@@ -13,20 +17,31 @@ Page({
     //   jifen_total: options.jifen_total
     // })
 
+    wx.cloud.database().collection('banner').doc('toptipsdaiqu')
+    .get()
+    .then(res => {
+        console.log('后台主参数 toptipsdaiqu：：', res.data);
+        var bannerData = res.data
+      this.setData({
+        jifen_shuoming: bannerData.jifen_shuoming,
+        jifen_shuoming_list: bannerData.jifen_shuoming_list,
+        jifen_howget: bannerData.jifen_howget,
+        jifen_howget_list: bannerData.jifen_howget_list,
+      })
+    })
+    .catch(err => {
+      console.log('后台主参数 toptipsdaiqu：： 失败', err);
+    })
+
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
+
   onReady: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
   onShow: function () {
-    // 查询积分
+
     // 查询积分
     var openid = wx.getStorageSync('openid')
     let that = this
@@ -41,7 +56,7 @@ Page({
           jifen_total += element.jifen_num
         });
         that.setData({
-          jifen: jifen.reverse(),//降序
+          jifen: jifen.reverse(), //降序
           jifen_total: jifen_total
         })
         console.log('查询用户数据 [积分]:', jifen);

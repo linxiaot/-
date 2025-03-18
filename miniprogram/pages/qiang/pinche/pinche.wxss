@@ -1,59 +1,87 @@
-/* pages/qiang/pinche/pinche.wxss */
 
-.biaoti {
-  height: 150rpx;
-  background: snow;
-  font-size: large;
-  text-align: center;
-  padding-top: 75rpx;
+.flex{
+    display: flex;
 }
+.center{
+    align-items: center;
+    justify-content: center;
+}
+.flex_1 {
+    flex: 1;
+  }
+.fontsize_s {
+    font-size: small;
+  }
+.hover{
+    opacity: 0.8;
+    background: #dcdcdc;
+  }
+.class_toTap{
+font-weight: bold;
+font-size: 40rpx;
+}
+.class_unTap{
+font-weight: lighter;
+} 
 
-.fabu {
-  display: flex;
+.jianjie textarea{
+border-radius: 10rpx;
+/* background-color: #f0f0f0; */
 }
+.paixuhetianjia{
+  font-size: small;
+margin: 20rpx;
+    justify-content: space-between;
+}
+.paixuhetianjia_items{
+    margin: 0rpx 10rpx;
+}
+/* .paixuhetianjia>view:first-child{
+    margin-left: 30rpx;
+}
+.paixuhetianjia>view:last-child{
+    margin-left: 550rpx;
+    width: 50rpx;
+} */
 
-.fabu>view:first-child {
-  display: flex;
-  flex-basis: 75%;
-}
 
-.fabu>view:first-child>view {
-  margin-left: 15rpx;
-}
+.tuijian {
+    justify-content: end;
+    font-size: small;
+    color: gold
+  }
+  .yixiajia {
+    margin-left: 15rpx;
+    border-radius: 15rpx;
+    background-color: #f0f0f07c;
+    padding: 0rpx 8rpx;
+    color: gray;
+    font-size: small;
+  }
 
-.fabu>view:last-child {
-  flex-basis: 25%;
-}
+  .title{
+    padding-bottom: 20rpx;
+    border-bottom: 2rpx solid #cdcdcd;
+  }
 
-.one_info {
-  display: flex;
-  margin-top: 40rpx;
-  margin-bottom: 40rpx;
-}
+  .weui-media-box__bd{
+    padding:30rpx 40rpx;
+    background-color: white;
+    border-radius: 10rpx;
+  }
+  .item{
+    font-size: small;
+  }
+  .item_item{
+    font-weight: bold;
+  }
 
-.touxiang {
-  flex: 1;
-  padding-left: 10rpx;
-  padding-right: 10rpx;
-}
-
-.info {
-  flex: 4;
-}
-
-.neirong_1 {
-  display: flex;
-  margin-top: 15rpx;
-}
-
-.neirong_1 view {
-  flex-basis: 20%;
-}
-.neirong_1>view:last-child{
-  flex-basis: 20%;
-}
-.neirong_1 image {
-  width: 100rpx;
-  height: 100rpx;
-  /* background-color: tomato; */
-}
+  .riqi {
+    display: flex;
+    font-size: small;
+  }
+  
+  .riqi_items {
+    display: flex;
+    flex-direction: row;
+  }

@@ -1,63 +1,85 @@
 <!--pages/qiang/pinche/pinche.wxml-->
-<!-- 页面标题 -->
-<view class="biaoti">
-  <text>拼车信息</text>
-</view>
-<view class="fabu">
-  <view>
-    <view>全部</view>
-    <view>已发布</view>
-    <view>已拼车</view>
-  </view>
-  <view>+去发布</view>
-</view>
-<view class="one_info" wx:for="{{pincheList}}" wx:for-item="pinche" wx:key="_id">
-  <!-- 头像 -->
-  <view class="touxiang">
-    <button class="userinfo-avatar"
-      style="background-image: url({{pinche.avatarUrl}}); width: 84rpx; height: 84rpx; display: block; box-sizing: border-box"
-      size="default"></button>
-  </view>
-  <!-- 拼车信息 -->
-  <view class="info">
-    <view>{{pinche.nickName}}</view>
-    <!-- 内容 -->
-    <view class="neirong">
-      <!-- 满员展示 三个人 选中不选中 数字展示举例：3/4 -->
-      <view class="neirong_1">
-        <view wx:for="{{pinche.pincheRen}}" wx:for-item="pincheRen" wx:key="index">
-          <image src="{{pincheRen.avatarUrl}}" style="width:50rpx" mode="widthFix" ></image>
-        </view>
-        <!-- <view>
-          <image src="{{imageUrl_2}}" style="width:50rpx" mode="widthFix"></image>
-        </view>
-        <view>
-          <image src="{{imageUrl_3}}" style="width:50rpx" mode="widthFix"></image>
-        </view> -->
-        <!-- 拼车 人数 -->
-        <view>
-          <text style="color:red;">{{pinche.pincheNum.nowNum}}</text>
-          <text>/</text>
-          <text>{{pinche.pincheNum.needNum}}</text>
-        </view>
-      </view>
-      <!-- 出发点 - 目的地 -->
-      <view class="neirong_1">
-        <view>{{pinche.start}}</view>
-        <view>——></view>
-        <view>{{pinche.end}}</view>
-      </view>
-      <!-- 按钮 联系  加入拼车-->
-      <view class="neirong_1">
-        <view> </view>
-        <view> </view>
-        <view>
-          <button>联系</button>
-        </view>
-        <view>
-          <button bindtap="toPinChe" disabled="{{disabled}}" id="{{pinche._id}}" data-pinche="{{pinche}}">拼车</button>
-        </view>
-      </view>
+<view>
+    <!-- 搜索框 -->
+    <view class="weui-search-bar" id="searchBar" bindtap="toSearch">
+        <form class="weui-search-bar__form">
+            <view class="weui-search-bar__box">
+                <input type="text" class="weui-search-bar__input" />
+            </view>
+            <label class="weui-search-bar__label">
+                <i class="weui-icon-search"></i>
+                <span class="weui-search-bar__text">搜索</span>
+            </label>
+        </form>
     </view>
-  </view>
+
+    <view wx:if="{{isPinche}}">
+        <!-- 排序 发布 -->
+        <view class="paixuhetianjia flex">
+            <view class="paixuhetianjia_items" bindtap="toPaixu" hover-class="hover">
+                排序<image mode="widthFix" style="margin-top:10rpx;margin-left:10rpx;width:25rpx;"
+                    src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/xiala.png">
+                </image>
+            </view>
+            <!-- 日期选择 -->
+            <!-- <view bindtap="toRiqi" hover-class="hover">{{isRiqi?'关闭':'日期'}}</view>
+                <image mode="widthFix" style="margin-top:10rpx;margin-left:10rpx;width:25rpx;"
+                    src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/xiala.png">
+                </image> -->
+            <!-- <view class="riqi_items" wx:if="{{isRiqi}}"> -->
+            <view style="display: flex;">
+                <picker mode="date" value="{{shaixuan_riqi}}" bindchange="bindDateChange">
+                    <view class="riqi">
+                        <view>{{shaixuan_riqi == ''? '日期': shaixuan_riqi}}</view>
+                        <view>
+                            <image mode="widthFix" style="margin-top:10rpx;margin-left:10rpx;width:25rpx;"
+                                src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/xiala.png">
+                            </image>
+                        </view>
+                    </view>
+                </picker>
+                <view wx:if="{{isShaixuan}}" bindtap="toRiqi" hover-class="hover" style="margin-left: 10rpx;">关闭</view>
+            </view>
+            <view class="paixuhetianjia_items" bindtap="toFabu">
+                <mp-icon type="field" icon="add" color="black" size="{{20}}"></mp-icon>
+            </view> 
+        </view>
+        <!-- 列表 -->
+        <view class="weui-panel weui-panel_access" style="background-color:#cdcdcd;">
+            <!-- <view class="weui-panel__hd">图文组合列表</view> -->
+            <view class="weui-panel__bd" style="margin-top: 16rpx;margin-bottom: 16rpx;">
+                <view class="weui-media-box weui-media-box_appmsg" style="padding: 16rpx 32rpx;"
+                    wx:for="{{ isShaixuan ? shaixuan_list : pincheList }}" wx:key="index" bindtap="toDetail"
+                    data-id="{{item._id}}" data-openid="{{item._openid}}">
+
+                    <view class="weui-media-box__bd" style="color:{{item.isXiajia||item.isGuoqi?'gray':''}};">
+                        <view class="title"><text
+                                class="item_item">行程：</text>{{item.xingch_start}} >> {{item.xingch_end}}</view>
+
+                        <view class="item" style="margin-top: 10rpx;"><text class="item_item">时间：</text>{{item.shijian}}
+                        </view>
+                        <view class="item"><text class="item_item">人数：</text>{{item.personNum}}</view>
+                        <view class="item"><text class="item_item">联系：</text>{{item.lianxi}}</view>
+                        <view class="item" style="color: gray;">发布：{{item.createTime}}</view>
+                        <view style="display:flex;justify-content:flex-end;">
+                            <view class="tuijian" wx:if="{{item.isZhiding&&!item.isXiajia}}">推荐</view>
+                            <view class="yixiajia" wx:if="{{item.isXiajia}}">已解决</view>
+                            <view class="yixiajia" wx:if="{{item.isGuoqi}}">已过期</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+
+    </view>
+    <!-- 底部 -->
+    <!-- <view style="height:200rpx;"></view> -->
+    <!-- 底部加载 无更多 显示 -->
+    <view class="weui-loadmore" wx:if="{{isShowLoading}}">
+        <i class="weui-loading"></i>
+        <text class="weui-loadmore__tips">正在加载</text>
+    </view>
+    <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot" wx:if="{{isGengDuo}}">
+        <text class="weui-loadmore__tips"></text>
+    </view>
 </view>

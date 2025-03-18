@@ -1,0 +1,144 @@
+<!--pages/qiang/huangye/huangye.wxml-->
+<!-- <text style="text-align:center;margin-top:200rpx;">开发中，敬请期待</text> -->
+<view hidden="{{isHuangyehidden}}">
+    <!-- 搜索框 -->
+    <view class="weui-search-bar" id="searchBar" bindtap="toSearch">
+        <form class="weui-search-bar__form">
+            <view class="weui-search-bar__box">
+                <input type="text" class="weui-search-bar__input" />
+            </view>
+            <label class="weui-search-bar__label">
+                <i class="weui-icon-search"></i>
+                <span class="weui-search-bar__text">搜索</span>
+            </label>
+        </form>
+    </view>
+    <!-- 广告 -->
+    <view>
+        <swiper indicator-dots autoplay interval="3000">
+            <view wx:for="{{guangGaoList}}" wx:key="index">
+                <swiper-item>
+                    <image wx:if="{{bannerOpen_shouye}}" mode="widthFix" style="width:750rpx;" src="{{item.src}}"></image>
+                    <ad wx:if="{{bannerOpen_shouye_ad}}" unit-id="adunit-2d3d434d2c91cd64"></ad>
+                </swiper-item>
+            </view>
+        </swiper>
+    </view>
+    <!-- 排序 -->
+    <view class="paixuhetianjia flex">
+        <!-- <view bindtap="showPaixu" hover-class="hover" class="paixu">
+            {{zonghePaixu}}<image mode="widthFix" style="margin-top:10rpx;margin-left:10rpx;width:25rpx;"
+                src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/xiala.png">
+            </image>
+        </view> -->
+        <view bindtap="showShaixuan" hover-class="hover" class="shaixuan">
+            筛选<image mode="widthFix" style="margin-top:10rpx;margin-left:10rpx;width:25rpx;"
+                src="../../../images/shaixuan.png">
+            </image>
+        </view>
+
+        <!-- <view bindtap="toFabu" class="fabu">
+            发布<image mode="widthFix" style="margin-top:10rpx;margin-left:10rpx;width:25rpx;"
+                src="../../../images/jia.png">
+            </image>
+        </view> -->
+    </view>
+    <!-- <view class="mask" hidden="{{mask1Hidden}}" bindtap="close">
+        <view class="overall-sort-list">
+            <block wx:for="{{sortList}}" wx:key="index">
+                <view class="overall-sort" data-index="{{index}}" bindtap="toPaixu">{{item.sort}}</view>
+            </block>
+        </view>
+    </view> -->
+    <!-- 筛选 -->
+    <view class="mask" hidden="{{mask2Hidden}}" bindtap="close">
+        <scroll-view class="filterList" scroll-y="true">
+
+            <view class="filterList-xinzi-title">类别</view>
+            <view class="filterList-xinzi-items" style="">
+                <block wx:for="{{leibieList}}" wx:key="index">
+                    <view class="filterList-xinzi-item {{leibieSelected==index?'xinzi-selected':''}}"
+                        catchtap="leibieSelected" data-index="{{index}}" style="flex:1;">
+                        <text class="filterList-xinzi-item-icon"
+                            style="background:{{item.iconColor}}">{{item.icon}}</text>
+                        {{item.text}}
+                    </view>
+                </block>
+            </view>
+        </scroll-view>
+        <view class="filterList-footer">
+            <view class="filterList-footer-delect" catchtap="clearSelectedNumb">清除筛选</view>
+            <view class="filterList-footer-finish" bindtap="finish">完成
+                <view class="filterList-footer-finish-number" hidden="{{selectedNumb==0}}">{{selectedNumb}}
+                </view>
+            </view>
+        </view>
+    </view>
+    <!-- 黄页列表 -->
+    <view wx:if="{{mask2Hidden}}">
+
+        <view class="weui-panel" bindtap="toHangyeDetail" wx:if="{{!isShaixuan}}" wx:for="{{huangYeList}}"
+            wx:key="index" data-id="{{item._id}}" data-index="{{index}}">
+            <view class="weui-panel__bd">
+                <view class="weui-media-box weui-media-box_text">
+                    <h4 class="weui-media-box__title">{{item.name}}</h4>
+                    <view class="weui-media-box__desc">{{item.jianjie}}</view>
+                    <view class="weui-media-box__info">
+                        <view class="weui-media-box__info__meta">地址：{{item.jianAddress}}</view>
+                        <!-- <view class="weui-media-box__info__meta">营业时间</view> -->
+                        <!-- <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">营业时间：10:00 ~ 23:00</view> -->
+                        <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">
+                            电话：{{item.phone}}
+                        </view>
+                    </view>
+                    <view style="display:flex;justify-content:flex-end;">
+                        <view class="tuijian" style="" wx:if="{{item.isZhiding&&!item.isXiajia}}">推荐</view>
+                        <view class="yixiajia" style="" wx:if="{{item.isXiajia}}">已下架</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="weui-panel" bindtap="toHangyeDetail" wx:if="{{isShaixuan}}" wx:for="{{shaixuanList}}"
+            wx:key="index" data-id="{{item._id}}" data-index="{{index}}">
+            <view class="weui-panel__bd">
+                <view class="weui-media-box weui-media-box_text">
+                    <h4 class="weui-media-box__title">{{item.name}}</h4>
+                    <view class="weui-media-box__desc">{{item.jianjie}}</view>
+                    <view class="weui-media-box__info">
+                        <view class="weui-media-box__info__meta">地址：{{item.jianAddress}}</view>
+                        <!-- <view class="weui-media-box__info__meta">营业时间</view> -->
+                        <!-- <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">营业时间：10:00 ~ 23:00</view> -->
+                        <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">
+                            电话：{{item.phone}}
+                        </view>
+                    </view>
+                    <view style="display:flex;justify-content:flex-end;">
+                        <view class="tuijian" style="" wx:if="{{item.isZhiding&&!item.isXiajia}}">推荐</view>
+                        <view class="yixiajia" style="" wx:if="{{item.isXiajia}}">已下架</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+
+        <!-- <view style="height:100rpx;"></view> -->
+        <!-- 底部菜单 -->
+        <view style="" class="diBu flex center">
+            <view class="flex center" style="flex:1;padding-top:0rpx;" hover-class="hover">
+                <button open-type="contact" hover-class="none"
+                    style="padding-left:0rpx;padding-right:0rpx;padding:0rpx;width:100%;flex:1;font-size:12pt;">联系我们</button>
+            </view>
+            <!-- <view hover-class="hover" style="flex:1;text-align:center;" bindtap="">我要纠错</view> -->
+            <view hover-class="hover" style="flex:1;text-align:center;" bindtap="toTijiao">我要提交</view>
+        </view>
+        <!-- 底部加载 无更多 显示 -->
+        <view wx:if="{{!isShaixuan}}">
+            <view class="weui-loadmore" wx:if="{{isShowLoading}}">
+                <i class="weui-loading"></i>
+                <text class="weui-loadmore__tips">正在加载</text>
+            </view>
+        </view>
+        <view class="weui-loadmore weui-loadmore_line" style="margin-bottom:200rpx;" wx:if="{{isGengDuo}}">
+            <text class="weui-loadmore__tips">no more..</text>
+        </view>
+    </view>
+</view>

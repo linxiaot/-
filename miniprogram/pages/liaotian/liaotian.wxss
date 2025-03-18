@@ -1,0 +1,208 @@
+/* pages/liaotian/liaotian.wxss */
+
+/* @import "../../components/bubble/bubble.wxss"; */
+
+/* components/bubble /bubble.wxss */
+.container {
+  position: relative;
+  display: flex;
+  padding: 20rpx;
+}
+.content {
+  max-width: 55%;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  padding: 6px 10px;
+  word-break: break-all;
+  font-size: 14px;
+}
+.container-left {
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+  padding: 20rpx;
+}
+.icon {
+  width: 36px;
+  height: 36px;
+  position: relative;
+  margin-right: 28rpx;
+}
+.caret-left {
+  width: 0;
+  height: 0;
+  border-width: 12rpx;
+  border-color: transparent #f0f0f0 transparent transparent;
+  border-style: solid;
+  position: absolute;
+  right: -28rpx;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.container-right {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  padding: 20rpx;
+}
+.content-right {
+  max-width: 55%;
+  background-color: #aedb44;
+  border-radius: 4px;
+  padding: 6px 10px;
+  word-break: break-all;
+  font-size: 14px;
+}
+.content > text, .content-right > text {
+  line-height: 24px;
+}
+.icon-right {
+  width: 36px;
+  height: 36px;
+  position: relative;
+  margin-left: 28rpx;
+}
+.photo {
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.caret-right {
+  width: 0;
+  height: 0;
+  border-width: 12rpx;
+  border-color: transparent transparent transparent #aedb44;
+  border-style: solid;
+  position: absolute;
+  left: -28rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+
+
+.chat-content {
+  width: 100%;
+  flex: 1;
+  overflow: scroll;
+}
+.chat-input {
+  width: 100%;
+}
+.chat-input-wrapper {
+  width: 100%;
+  height: 100rpx;
+  display: flex; 
+  padding: 16rpx 0;
+  background-color: #f4f4f6;
+  border-top: 1rpx solid #d6d7d9;
+  bottom: 0rpx;       
+  position: fixed;
+  z-index: 9999;
+}
+/* .chat-input-record {
+
+} */
+.chat-input-main {
+  flex: 1;
+  height: 100%;
+  padding: 0 16rpx;
+  padding-left: 64rpx;
+}
+.chat-input-main > input {
+  height: 46rpx;
+  line-height: 46rpx;
+  background-color: #fff;
+  border-radius: 12rpx;
+  padding: 10rpx;
+  border: 1rpx solid #d6d7d9;
+  font-size: 14px;
+}
+.chat-input-other {
+  width: 140rpx;
+}
+.chat-input-other > image {
+  margin-top: 14rpx;
+  width: 50rpx;
+  height: 50rpx;
+}
+.chat-input-other > image:first-child {
+  margin-right: 20rpx;
+}
+
+.zhanwei{
+  height: 124rpx;
+  color: #d6d7d900;
+}
+
+.riqi{
+  display: flex;
+  justify-content: center;
+}
+.riqi_item{
+  font-size: small;
+  background-color: #dcdcdc;
+  border-radius: 10rpx;
+  padding: 0 10rpx;
+}
+.goods{
+  display: flex;
+}
+.goods_image{
+  margin: 10rpx 20rpx;
+  display: flex;
+  align-items: center;
+}
+.goods_item{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.goods_item_jiage{
+  font-weight: bold;
+  padding-bottom: 20rpx;
+}
+.goods_item_time{
+  color: gray;
+  font-size: 20rpx;
+  padding-bottom: 10rpx;
+
+}
+.menu{
+  display: flex;
+  /* position: absolute;
+  z-index: 999; */
+}
+.menu_item{
+flex: 1;
+}
+.menu_item_boder{
+  border-left: 2rpx solid gray;
+  border-right: 2rpx solid gray;
+}
+.hover{
+  opacity: 0.8;
+  background-color: rgb(138,212,175);
+}
+
+.showMenu{
+  position: fixed;
+  z-index: 5000;
+  top:20rpx;
+  right: 20rpx;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.weui-toptips {
+  top: 0px;
+  left: 0px;
+  right: 0px;
+}
+
+.liaotian_text{
+  background-color: rgba(63, 132, 223, 0.4);
+}

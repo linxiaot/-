@@ -1,2 +1,82 @@
 <!--pages/qiang/ershou/ershou.wxml-->
-<text>pages/qiang/ershou/ershou.wxml</text>
+<!-- 使用函数 对row 进行分类 0 0 1 1 2 2-->
+<wxs module="m1">
+    var mei2=function(index){
+    var newIndex = Math.floor(index/2)
+    return newIndex
+    }
+    module.exports={
+    mei2:mei2
+    }
+</wxs>
+
+<view>
+    <!-- 搜索框 -->
+    <view class="weui-search-bar" id="searchBar" bindtap="toSearch">
+        <form class="weui-search-bar__form">
+            <view class="weui-search-bar__box">
+                <input type="text" class="weui-search-bar__input" />
+            </view>
+            <label class="weui-search-bar__label">
+                <i class="weui-icon-search"></i>
+                <span class="weui-search-bar__text">搜索</span>
+            </label>
+        </form>
+    </view>
+
+    <view>
+        <!--  排序 发布 -->
+        <view class="paixuhetianjia flex">
+            <view bindtap="toPaixu" hover-class="hover">
+                排序<image mode="widthFix" style="margin-top:10rpx;margin-left:10rpx;width:25rpx;"
+                    src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/xiala.png">
+                </image>
+            </view>
+            <view bindtap="toAdd">
+                <mp-icon type="field" icon="add" color="black" size="{{20}}"></mp-icon>
+            </view>
+        </view>
+        <!-- 2列图片列表 -->
+        <view class="ersh_liebiao">
+            <view class="ersh_cell" id="{{index}}"
+                style="margin-left:{{index%2==0 ? 10 : 360+(10*2)}}rpx; margin-top:{{m1.mei2(index)*(650+10)}}rpx;height:650rpx; width:360rpx;"
+                wx:for="{{erShouList}}" wx:key="name" bindtap="toDetail" data-index="{{index}}">
+                <view>
+                    <image class="jianjie_img" mode="scaleToFill" style=""
+                        src="{{item.imagesUrlList[0].imagetempFileURL}}">
+                    </image>
+                </view>
+                <view class="jianjie" style="{{item.isXiajia?'color:gray;':''}}">
+                    <view class="name">{{item.name}}</view>
+                    <view class="flex">
+                        <view class="flex" style="flex:1;align-items:center;">
+                            <view style="padding-left:10rpx;display:flex;align-items:center;">
+                                <image class="touxiang" mode="widthFix" src="{{item.avatarUrl}}"></image>
+                            </view>
+                            <view class="nickname" style="padding-left:10rpx;">{{item.nickName}}</view>
+                        </view>
+                        <view style="flex:0.6;display:flex;justify-content:flex-end;padding-right:10rpx;">
+                            <view style="color:red;font-weight:bold;">
+                                ￥{{item.jiage}}
+                            </view>
+                        </view>
+                        <view style="display:flex;justify-content:flex-end;">
+                            <view class="tuijian" style="" wx:if="{{item.isZhiding&&!item.isXiajia}}">推荐</view>
+                            <view class="yixiajia" style="" wx:if="{{item.isXiajia}}">已售出</view>
+                        </view>
+                    </view>
+                </view>
+                <!-- <view class="zhanwei">-</view> -->
+            </view>
+
+        </view>
+    </view>
+    <!-- 底部加载 无更多 显示 -->
+    <view class="weui-loadmore" wx:if="{{isShowLoading}}">
+        <i class="weui-loading"></i>
+        <text class="weui-loadmore__tips">正在加载</text>
+    </view>
+    <!-- <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot" wx:if="{{isGengDuo}}">
+        <text class="weui-loadmore__tips"></text>
+    </view> -->
+</view>

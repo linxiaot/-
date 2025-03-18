@@ -3,5 +3,5 @@
     "mp-dialog": "weui-miniprogram/dialog/dialog",
     "mp-icon": "weui-miniprogram/icon/icon"
   },
-  "navigationBarTitleText": "代取下单"
+  "navigationBarTitleText": "快递代取"
 }

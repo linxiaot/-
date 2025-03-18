@@ -1,31 +1,75 @@
 /* pages/wode/ziliao/ziliao.wxss */
 
-/* page {
-  background: #f6f6f6;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-} */
-
-
 
 .weui-form{
   /* background-color:blue; */
-  margin-top: 30rpx;
-  height: 1200rpx;
-  /* margin-left: 30rpx; */
-  /* margin-right: 30rpx; */
+  /* margin-top: 30rpx; */
+  /* height: 1200rpx; */
+  padding: 10rpx 0;
+  height: 100%;
   padding-bottom: 30rpx;
-  /* border-radius: 5rpx; */
 }
 
+.fontweight{
+  /* font-weight: bold; */
+  color: black;
+}
 
 .danCeng1 view {
   height: 80rpx;
   font-size: 13px;
-  color: #888;
 }
-.danCeng2 view {
-  height: 80rpx;
 
+.row{
+  display: flex;
+  justify-content: space-between;
+  height: 80rpx;
+  align-items: center;
+}
+.row_item{
+  flex: 0.35;
+  color: #888;
+  font-size: 28rpx;
+}
+.row_item2,.row_item_input{
+  flex: 1;
+  color: black;
+}
+.row_item_input{
+  border-bottom:2rpx solid blue;
+}
+.edit{
+  font-weight: bold;
+  border-radius: 8rpx;
+  background-color: #cdcdcd;
+  padding: 5rpx 5rpx;
+  width: 100rpx;
+}
+
+.xueyuan{
+  width: 500rpx;
+  /* height: 1270rpx; */
+  font-size: small;
+  background-color: white;
+  /* padding: 10rpx; */
+}
+.xueyuan_name{
+  /* padding: 6.5rpx 10rpx; */
+  background-color: #8AD4AF;
+  /* border-bottom: 2rpx solid gray; */
+}
+.banji_name{
+  padding: 10rpx 30rpx;
+  border-bottom: 2rpx solid gray;
+}
+.mask{
+  position: absolute;
+  z-index: 5000;
+  width: 750rpx;
+  /* height: 1270rpx; */
+  background-color: rgba(128, 128, 128, 0.1);
+}
+.wanzhengdu{
+  font-size: 24rpx;
+  color: #888;
 }

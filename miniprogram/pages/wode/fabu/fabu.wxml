@@ -1,0 +1,322 @@
+<!--pages/wode/fabu/fabu.wxml-->
+<!-- 我的发布表头 -->
+<view class="page__bd">
+    <!-- <view class="weui-cells__title">新消息提示跟摘要信息后，统一在列表右侧</view> -->
+
+    <view class="weui-cells isFabu ? 'class_toTap' : 'class_unTap'">
+        <view class="weui-cell weui-cell_active weui-cell_access ddTouBu" style="width: 600rpx;">
+            <view class="weui-cell__bd xxka_text {{isXunwu ? 'class_toTap' : 'class_unTap'}}" hover-class="hover"
+                bindtap="tapXunwu">失物招领</view>
+            <view class="weui-cell__bd xxka_text {{isPinche ? 'class_toTap' : 'class_unTap'}}" hover-class="hover"
+                bindtap="tapPinche">校园拼车</view>
+            <view class="weui-cell__bd xxka_text {{isErshou ? 'class_toTap' : 'class_unTap'}}" hover-class="hover"
+                bindtap="tapErshou">跳蚤市场</view>
+            <view class="weui-cell__bd xxka_text {{isHuangye ? 'class_toTap' : 'class_unTap'}}" hover-class="hover"
+                bindtap="tapHuangye">黄页</view>
+            <view class="weui-cell__bd xxka_text {{isHuzhu ? 'class_toTap' : 'class_unTap'}}" hover-class="hover"
+                bindtap="tapHuzhu">校园互助</view>
+            <!-- <view class="weui-cell__bd xxka_text {{isLuntan ? 'class_toTap' : 'class_unTap'}}" hover-class="hover"
+                bindtap="tapLuntan">论坛</view>
+            <view class="weui-cell__bd xxka_text {{isJiaoyou ? 'class_toTap' : 'class_unTap'}}" hover-class="hover"
+                bindtap="tapJiaoyou">交友</view> -->
+            <view class="weui-cell__bd xxka_text {{isZufang ? 'class_toTap' : 'class_unTap'}}" hover-class="hover"
+                bindtap="tapZufang">租房</view>
+            <view class="weui-cell__bd xxka_text {{isJianzhi ? 'class_toTap' : 'class_unTap'}}" hover-class="hover"
+                bindtap="tapJianzhi">兼职</view>
+            <view class="weui-cell__bd xxka_text {{isBigthings ? 'class_toTap' : 'class_unTap'}}" hover-class="hover"
+                bindtap="tapBigthings" wx:if="{{isAdmin}}">校园大事</view>
+        </view>
+    </view>
+</view>
+
+<view class="page__bd">
+    <!-- 黄页列表 -->
+    <view class="weui-panel" wx:if="{{isHuangye}}" bindtap="toDetail" wx:for="{{dingdanList}}" wx:key="index"
+        data-id="{{item._id}}" data-index="{{index}}" data-openid="{{item._openid}}">
+        <mp-slideview buttons="{{item.isXiajia? slideButtons_more2:slideButtons_more}}" bindbuttontap="toSlideButton"
+            data-id="{{item._id}}" data-imagesUrlList="{{item.imagesUrlList}}" data-xiajia="{{item.isXiajia}}">
+            <view class="weui-panel__bd">
+                <view class="weui-media-box weui-media-box_text">
+                    <view class="flex">
+                        <h4 class="weui-media-box__title" style="width:540rpx;">{{item.name}}</h4>
+                        <view wx:if="{{!item.isXiajia}}">
+                            <view class="yifabu" wx:if="{{item.isHege&&!item.isZhiding}}">已发布</view>
+                            <view class="shenhe" wx:if="{{!item.isHege}}">待审核</view>
+                            <view class="zhiding" wx:if="{{item.isHege&&item.isZhiding}}">已置顶</view>
+                        </view>
+                        <view class="yixiajia" wx:if="{{item.isXiajia}}">已下架</view>
+                    </view>
+                    <view class="weui-media-box__desc">{{item.jianjie}}</view>
+                    <view class="weui-media-box__info" style="display:flex;">
+                        <view class="weui-media-box__info__meta">{{item.createTime}}</view>
+                        <!-- <view style="padding-left:350rpx" catchtap="toDel" data-id="{{item._id}}"
+                            data-imagesUrlList="{{item.imagesUrlList}}">
+                            <mp-icon icon="delete" color="black" size="{{20}}"></mp-icon>
+                        </view> -->
+                    </view>
+                </view>
+            </view>
+        </mp-slideview>
+    </view>
+    <!-- 寻物列表 -->
+    <view class="weui-panel" wx:if="{{isXunwu}}" bindtap="toDetail" wx:for="{{dingdanList}}" wx:key="index"
+        data-id="{{item._id}}" data-index="{{index}}">
+        <mp-slideview buttons="{{item.isXiajia? slideButtons_more2:slideButtons_more}}" bindbuttontap="toSlideButton"
+            data-id="{{item._id}}" data-imagesUrlList="{{item.imagesUrlList}}" data-xiajia="{{item.isXiajia}}" data-isxunren="{{item.isXunren}}" data-isxunwu="{{item.isXunwu}}">
+            <view class="weui-panel__bd">
+                <view class="weui-media-box weui-media-box_text">
+                    <view class="flex">
+                        <h4 class="weui-media-box__title" style="width:540rpx;">{{item.name}}</h4>
+                        <view wx:if="{{!item.isXiajia}}">
+                            <view class="yifabu" wx:if="{{item.isHege&&!item.isZhiding}}">已发布</view>
+                            <view class="shenhe" wx:if="{{!item.isHege}}">待审核</view>
+                            <view class="zhiding" wx:if="{{item.isHege&&item.isZhiding}}">已置顶</view>
+                        </view>
+                        <view class="yixiajia" wx:if="{{item.isXiajia}}">已下架</view>
+                    </view>
+                    <view class="weui-media-box__desc">{{item.jianjie}}</view>
+                    <view class="weui-media-box__info" style="display:flex;">
+                        <view class="weui-media-box__info__meta">{{item.createTime}}</view>
+                    </view>
+                </view>
+            </view>
+        </mp-slideview>
+    </view>
+    <!-- 校园拼车 -->
+    <view class="weui-panel" wx:if="{{isPinche}}" bindtap="toDetail" wx:for="{{dingdanList}}" wx:key="index"
+        data-id="{{item._id}}" data-index="{{index}}" data-openid="{{item._openid}}">
+        <mp-slideview buttons="{{item.isXiajia? slideButtons_more2:slideButtons_more}}" bindbuttontap="toSlideButton"
+            data-id="{{item._id}}" data-imagesUrlList="{{item.imagesUrlList}}" data-xiajia="{{item.isXiajia}}">
+            <view class="weui-panel__bd">
+                <view class="weui-media-box weui-media-box_text">
+                    <view class="flex">
+                        <h4 class="weui-media-box__title" style="width:540rpx;">行程：{{item.xingch_start}} >> {{item.xingch_end}}</h4>
+                        <view wx:if="{{!item.isXiajia}}">
+                            <view class="yifabu" wx:if="{{item.isHege&&!item.isZhiding}}">已发布</view>
+                            <view class="shenhe" wx:if="{{!item.isHege}}">待审核</view>
+                            <view class="zhiding" wx:if="{{item.isHege&&item.isZhiding}}">已置顶</view>
+                        </view>
+                        <view class="yixiajia" wx:if="{{item.isXiajia}}">已下架</view>
+                    </view>
+
+                        <!-- <h4 class="weui-media-box__title">行程：{{item.xingch_start}} >> {{item.xingch_end}}</h4> -->
+                        <view class="weui-media-box__desc">时间：{{item.shijian}}</view>
+
+                    <view class="weui-media-box__info" style="display:flex;">
+                        <view class="weui-media-box__info__meta">{{item.createTime}}</view>
+                    </view>
+                </view>
+            </view>
+        </mp-slideview>
+    </view>
+    <!-- 跳蚤市场 -->
+    <view class="weui-panel" wx:if="{{isErshou}}" bindtap="toDetail" wx:for="{{dingdanList}}" wx:key="index"
+        data-id="{{item._id}}" data-index="{{index}}" data-openid="{{item._openid}}">
+        <mp-slideview buttons="{{item.isXiajia? slideButtons_more2:slideButtons_more}}" bindbuttontap="toSlideButton"
+            data-id="{{item._id}}" data-imagesUrlList="{{item.imagesUrlList}}" data-xiajia="{{item.isXiajia}}">
+            <view class="weui-panel__bd">
+                <view class="weui-media-box weui-media-box_text">
+                    <view class="flex">
+                        <h4 class="weui-media-box__title" style="width:540rpx;">{{item.jianjie}}</h4>
+                        <view wx:if="{{!item.isXiajia}}">
+                            <view class="yifabu" wx:if="{{item.isHege&&!item.isZhiding}}">已发布</view>
+                            <view class="shenhe" wx:if="{{!item.isHege}}">待审核</view>
+                            <view class="zhiding" wx:if="{{item.isHege&&item.isZhiding}}">已置顶</view>
+                        </view>
+                        <view class="yixiajia" wx:if="{{item.isXiajia}}">已下架</view>
+                    </view>
+                    <view class="weui-media-box__desc">￥{{item.jiage}}</view>
+                    <view class="weui-media-box__info" style="display:flex;">
+                        <view class="weui-media-box__info__meta">{{item.createTime}}</view>
+                    </view>
+                </view>
+            </view>
+        </mp-slideview>
+    </view>
+    <!-- 校园互助 -->
+    <view class="weui-panel" wx:if="{{isHuzhu}}" bindtap="toDetail" wx:for="{{dingdanList}}" wx:key="index"
+        data-id="{{item._id}}" data-index="{{index}}" data-openid="{{item._openid}}">
+        <mp-slideview buttons="{{item.isXiajia? slideButtons_more2:slideButtons_more}}" bindbuttontap="toSlideButton"
+            data-id="{{item._id}}" data-imagesUrlList="{{item.imagesUrlList}}" data-xiajia="{{item.isXiajia}}">
+            <view class="weui-panel__bd">
+                <view class="weui-media-box weui-media-box_text">
+                    <view class="flex">
+                        <h4 class="weui-media-box__title" style="width:540rpx;">{{item.jianjie}}</h4>
+                        <view wx:if="{{!item.isXiajia}}">
+                            <view class="yifabu" wx:if="{{item.isHege&&!item.isZhiding}}">已发布</view>
+                            <view class="shenhe" wx:if="{{!item.isHege}}">待审核</view>
+                            <view class="zhiding" wx:if="{{item.isHege&&item.isZhiding}}">已置顶</view>
+                        </view>
+                        <view class="yixiajia" wx:if="{{item.isXiajia}}">已下架</view>
+                    </view>
+                    <view class="weui-media-box__info" style="display:flex;">
+                        <view class="weui-media-box__info__meta">{{item.createTime}}</view>
+                        <!-- <view style="padding-left:350rpx" catchtap="toDel" data-id="{{item._id}}"
+                            data-imagesUrlList="{{item.imagesUrlList}}">
+                            <mp-icon icon="delete" color="black" size="{{20}}"></mp-icon>
+                        </view> -->
+                    </view>
+                </view>
+            </view>
+        </mp-slideview>
+    </view>
+    <!-- 校园大事件 -->
+    <view class="weui-panel" wx:if="{{isBigthings}}" bindtap="toDetail" wx:for="{{dingdanList}}" wx:key="index"
+        data-id="{{item._id}}" data-index="{{index}}" data-openid="{{item._openid}}">
+        <mp-slideview buttons="{{item.isXiajia? slideButtons_more2:slideButtons_more}}" bindbuttontap="toSlideButton"
+            data-id="{{item._id}}" data-imagesUrlList="{{item.imagesUrlList}}" data-xiajia="{{item.isXiajia}}">
+            <view class="weui-panel__bd">
+                <view class="weui-media-box weui-media-box_text">
+                    <view class="flex">
+                        <h4 class="weui-media-box__title" style="width:540rpx;">{{item.jianjie}}</h4>
+                        <view wx:if="{{!item.isXiajia}}">
+                            <view class="yifabu" wx:if="{{item.isHege&&!item.isZhiding}}">已发布</view>
+                            <view class="shenhe" wx:if="{{!item.isHege}}">待审核</view>
+                            <view class="zhiding" wx:if="{{item.isHege&&item.isZhiding}}">已置顶</view>
+                        </view>
+                        <view class="yixiajia" wx:if="{{item.isXiajia}}">已下架</view>
+                    </view>
+
+                    <view class="weui-media-box__info" style="display:flex;">
+                        <view class="weui-media-box__info__meta">{{item.createTime}}</view>
+                    </view>
+                </view>
+            </view>
+        </mp-slideview>
+    </view>
+    <!-- 论坛 -->
+    <view class="weui-panel" wx:if="{{isLuntan}}" bindtap="toDetail" wx:for="{{dingdanList}}" wx:key="index"
+        data-id="{{item._id}}" data-index="{{index}}" data-openid="{{item._openid}}">
+        <mp-slideview buttons="{{item.isXiajia? slideButtons_more2:slideButtons_more}}" bindbuttontap="toSlideButton"
+            data-id="{{item._id}}" data-imagesUrlList="{{item.imagesUrlList}}" data-xiajia="{{item.isXiajia}}">
+            <view class="weui-panel__bd">
+                <view class="weui-media-box weui-media-box_text">
+                    <view class="flex">
+                        <h4 class="weui-media-box__title" style="width:540rpx;">{{item.jianjie}}</h4>
+                        <view wx:if="{{!item.isXiajia}}">
+                            <view class="yifabu" wx:if="{{item.isHege&&!item.isZhiding}}">已发布</view>
+                            <view class="shenhe" wx:if="{{!item.isHege}}">待审核</view>
+                            <view class="zhiding" wx:if="{{item.isHege&&item.isZhiding}}">已置顶</view>
+                        </view>
+                        <view class="yixiajia" wx:if="{{item.isXiajia}}">已下架</view>
+                    </view>
+                    <view class="weui-media-box__info" style="display:flex;">
+                        <view class="weui-media-box__info__meta">{{item.createTime}}</view>
+                    </view>
+                </view>
+            </view>
+        </mp-slideview>
+    </view>
+    <!-- 交友 -->
+    <view class="weui-panel" wx:if="{{isJiaoyou}}" bindtap="toDetail" wx:for="{{dingdanList}}" wx:key="index"
+        data-id="{{item._id}}" data-index="{{index}}" data-openid="{{item._openid}}">
+        <mp-slideview buttons="{{item.isXiajia? slideButtons_more2:slideButtons_more}}" bindbuttontap="toSlideButton"
+            data-id="{{item._id}}" data-imagesUrlList="{{item.imagesUrlList}}" data-xiajia="{{item.isXiajia}}">
+            <view class="weui-panel__bd">
+                <view class="weui-media-box weui-media-box_text">
+                    <view class="flex">
+                        <h4 class="weui-media-box__title" style="width:540rpx;">{{item.jianjie}}</h4>
+                        <view wx:if="{{!item.isXiajia}}">
+                            <view class="yifabu" wx:if="{{item.isHege&&!item.isZhiding}}">已发布</view>
+                            <view class="shenhe" wx:if="{{!item.isHege}}">待审核</view>
+                            <view class="zhiding" wx:if="{{item.isHege&&item.isZhiding}}">已置顶</view>
+                        </view>
+                        <view class="yixiajia" wx:if="{{item.isXiajia}}">已下架</view>
+                    </view>
+
+                    <view class="weui-media-box__info" style="display:flex;">
+                        <view class="weui-media-box__info__meta">{{item.createTime}}</view>
+                    </view>
+                </view>
+            </view>
+        </mp-slideview>
+    </view>
+    <!-- 租房 -->
+    <view class="weui-panel" wx:if="{{isZufang}}" bindtap="toDetail" wx:for="{{dingdanList}}" wx:key="index"
+        data-id="{{item._id}}" data-index="{{index}}" data-openid="{{item._openid}}">
+        <mp-slideview buttons="{{item.isXiajia? slideButtons_more2:slideButtons_more}}" bindbuttontap="toSlideButton"
+            data-id="{{item._id}}" data-imagesUrlList="{{item.imagesUrlList}}" data-xiajia="{{item.isXiajia}}"> 
+            <view class="weui-panel__bd">
+                <view class="weui-media-box weui-media-box_text">
+                    <view class="flex">
+                        <h4 class="weui-media-box__title" style="width:540rpx;">{{item.name}}</h4>
+                        <view wx:if="{{!item.isXiajia}}">
+                            <view class="yifabu" wx:if="{{item.isHege&&!item.isZhiding}}">已发布</view>
+                            <view class="shenhe" wx:if="{{!item.isHege}}">待审核</view>
+                            <view class="zhiding" wx:if="{{item.isHege&&item.isZhiding}}">已置顶</view>
+                        </view>
+                        <view class="yixiajia" wx:if="{{item.isXiajia}}">已下架</view>
+                    </view>
+                    <view class="flex">
+                        <view class="weui-media-box__desc" style="margin-right:15rpx;">{{item.huxing}}</view>
+                        <view class="weui-media-box__desc" style="margin-right:15rpx;">{{item.mianji}}</view>
+                        <view class="weui-media-box__desc" style="margin-right:15rpx;">{{item.louceng}}</view>
+                    </view>
+                    <view class="weui-media-box__desc">{{item.jianjie}}</view>
+                    <view class="weui-media-box__info" style="display:flex;">
+                        <view class="weui-media-box__info__meta">{{item.createTime}}</view>
+                    </view>
+                </view>
+            </view>
+        </mp-slideview>
+    </view>
+    <!-- 兼职 -->
+    <view class="weui-panel" wx:if="{{isJianzhi}}" bindtap="toDetail" wx:for="{{dingdanList}}" wx:key="index"
+        data-id="{{item._id}}" data-index="{{index}}" data-openid="{{item._openid}}">
+        <mp-slideview buttons="{{item.isXiajia? slideButtons_more2:slideButtons_more}}" bindbuttontap="toSlideButton"
+            data-id="{{item._id}}" data-imagesUrlList="{{item.imagesUrlList}}" data-xiajia="{{item.isXiajia}}">
+            <view class="weui-panel__bd">
+                <view class="weui-media-box weui-media-box_text">
+                    <view class="flex">
+                        <h4 class="weui-media-box__title" style="width:540rpx;">{{item.name}}</h4>
+                        <view wx:if="{{!item.isXiajia}}">
+                            <view class="yifabu" wx:if="{{item.isHege&&!item.isZhiding}}">已发布</view>
+                            <view class="shenhe" wx:if="{{!item.isHege}}">待审核</view>
+                            <view class="zhiding" wx:if="{{item.isHege&&item.isZhiding}}">已置顶</view>
+                        </view>
+                        <view class="yixiajia" wx:if="{{item.isXiajia}}">已下架</view>
+                    </view>
+                    <view class="flex" style="margin-top:20rpx;margin-bottom:20rpx;">
+                        <view class="weui-media-box__desc" style="margin-right:15rpx;">{{item.xinzi}}元</view>
+                        <view class="leixing" style="margin-right:15rpx;">{{item.leixing}}</view>
+                    </view>
+                    <!-- <view class="weui-media-box__desc">{{item.jianjie}}</view> -->
+                    <view class="weui-media-box__info" style="display:flex;">
+                        <view class="weui-media-box__info__meta">{{item.createTime}}</view>
+                    </view>
+                </view>
+            </view>
+        </mp-slideview>
+    </view>
+    <!-- 底部加载 无更多 显示 -->
+    <view class="weui-loadmore" wx:if="{{isShowLoading}}">
+        <i class="weui-loading"></i>
+        <text class="weui-loadmore__tips">正在加载</text>
+    </view>
+    <view class="weui-loadmore weui-loadmore_line" wx:if="{{isZanWu}}">
+        <text class="weui-loadmore__tips">暂无数据</text>
+    </view>
+    <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot" wx:if="{{isGengDuo}}">
+    </view>
+</view>
+<view class="fadeIn" wx:if="{{isShowSlideButton}}">
+    <view class="weui-mask" bindtap="tocloseSlideButton"></view>
+    <view class="weui-dialog" wx:if="{{ showXiajia }}">
+        <view class="weui-dialog__hd"><strong class="weui-dialog__title">提示</strong></view>
+
+        <view class="weui-dialog__bd" wx:if="{{showXiajia}}">{{ isXiajia ? '确定下架？' :'确定上架？'}}</view>
+        <view class="weui-dialog__ft">
+            <a class="weui-dialog__btn weui-dialog__btn_default" bindtap="tocloseSlideButton">取消</a>
+            <a class="weui-dialog__btn weui-dialog__btn_primary" bindtap="toXiajiaConfirm" wx:if="{{showXiajia}}">确定</a>
+        </view>
+
+    </view>
+    <view class="weui-dialog" wx:if="{{ isDel }}">
+        <view class="weui-dialog__hd"><strong class="weui-dialog__title">提示</strong></view>
+        <view class="weui-dialog__bd" wx:if="{{isDel}}">确定删除？</view>
+        <view class="weui-dialog__ft">
+            <a class="weui-dialog__btn weui-dialog__btn_default" bindtap="tocloseSlideButton">取消</a>
+            <a class="weui-dialog__btn weui-dialog__btn_primary" bindtap="toDelConfirm" wx:if="{{isDel}}">确定</a>
+        </view>
+    </view>
+</view>

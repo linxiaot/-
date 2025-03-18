@@ -1,5 +1,8 @@
 {
   "usingComponents": {
-    
+    "mp-icon": "weui-miniprogram/icon/icon",
+    "mp-dialog": "weui-miniprogram/dialog/dialog",
+    "dixian":"../../components/dianxian/dixian",
+    "mp-badge": "weui-miniprogram/badge/badge"
   }
 }

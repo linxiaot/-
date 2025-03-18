@@ -1,2 +1,54 @@
-<!--pages/qiang/huzhu/huzhu.wxml-->
-<text>pages/qiang/huzhu/huzhu.wxml</text>
+<view>
+    <!-- 搜索框 -->
+    <view class="weui-search-bar" id="searchBar" bindtap="toSearch">
+        <form class="weui-search-bar__form">
+            <view class="weui-search-bar__box">
+                <input type="text" class="weui-search-bar__input" />
+            </view>
+            <label class="weui-search-bar__label">
+                <i class="weui-icon-search"></i>
+                <span class="weui-search-bar__text">搜索</span>
+            </label>
+        </form>
+    </view>
+
+    <!-- xunwu 排序 发布 -->
+    <view class="paixuhetianjia flex">
+        <view bindtap="toPaixu" hover-class="hover">
+            排序<image mode="widthFix" style="margin-top:10rpx;margin-left:10rpx;width:25rpx;"
+                src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/xiala.png">
+            </image>
+        </view>
+        <view bindtap="toFabu">
+            <mp-icon type="field" icon="add" color="black" size="{{20}}"></mp-icon>
+        </view>
+    </view>
+    <!-- huzhu 列表 -->
+    <view class="weui-panel weui-panel_access">
+        <view class="weui-panel__bd">
+            <view class="weui-media-box weui-media-box_appmsg" wx:for="{{huzhuList}}" wx:key="index" bindtap="toDetail"
+                data-id="{{item._id}}" data-openid="{{item._openid}}">
+                <view class="weui-media-box__bd">
+                    <h4 class="weui-media-box__title yincang" style="{{item.isXiajia?'color:gray;':''}}">{{item.jianjie}}</h4>
+                    <view class="weui-media-box__desc">联系：{{item.lianxi}}</view>
+                    <view class="weui-media-box__desc">发布：{{item.createTime}}</view>
+                    <view style="display:flex;justify-content:flex-end;">
+                        <view class="tuijian" style="" wx:if="{{item.isZhiding&&!item.isXiajia}}">推荐</view>
+                        <view class="yixiajia" style="" wx:if="{{item.isXiajia}}">已下架</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+
+    <!-- 底部 -->
+    <!-- <view style="height:200rpx;"></view> -->
+    <!-- 底部加载 无更多 显示 -->
+    <view class="weui-loadmore" wx:if="{{isShowLoading}}">
+        <i class="weui-loading"></i>
+        <text class="weui-loadmore__tips">正在加载</text>
+    </view>
+    <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot" wx:if="{{isGengDuo}}">
+        <text class="weui-loadmore__tips"></text>
+    </view>
+</view>

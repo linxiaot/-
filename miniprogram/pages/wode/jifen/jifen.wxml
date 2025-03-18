@@ -8,8 +8,30 @@
       <text>积分</text>
     </view>
   </view>
+
+  <view class="weui-panel">
+    <view class="weui-panel__hd">积分说明</view>
+    <view class="weui-panel__bd">
+      <view class="weui-media-box weui-media-box_text">
+        <!-- <view class="weui-media-box__desc">{{jifen_shuoming}}</view> -->
+        <view class="weui-media-box__desc" wx:for="{{jifen_shuoming_list}}">{{item}}</view>
+      </view>
+    </view>
+  </view>
+  <view class="weui-panel">
+    <view class="weui-panel__hd">如何获取积分</view>
+    <view class="weui-panel__bd">
+      <view class="weui-media-box weui-media-box_text">
+        <!-- <view class="weui-media-box__desc">{{jifen_howget}}</view> -->
+        <view class="weui-media-box__desc" wx:for="{{jifen_howget_list}}">{{item}}</view>
+      </view>
+    </view>
+  </view>
   <!-- 积分列表 -->
-  <view class="weui-form-preview" wx:for="{{jifen}}" wx:key="index">
+  <view class="weui-panel">
+    <view class="weui-panel__hd">积分记录</view>
+  </view>
+  <!-- <view class="weui-form-preview" wx:for="{{jifen}}" wx:key="index">
     <view class="weui-form-preview__bd">
       <view class="weui-form-preview__item">
         <label class="weui-form-preview__label">{{item.jifen_name}}</label>
@@ -19,7 +41,19 @@
       </view>
       <view class="weui-form-preview__item">
         <label class="weui-form-preview__label " style="font-size:25rpx;">{{item.jifen_time}}</label>
-        <!-- <text class="weui-form-preview__value">{{item.xd_time}}</text> -->
+      </view>
+    </view>
+  </view> -->
+  <view class="weui-form-preview padding-xs text-sm flex justify-between padding-left padding-right" wx:for="{{jifen}}" wx:key="index">
+    <view class="margin-xs">
+      <view class="">
+        {{item.jifen_name}}
+      </view>
+      <view>{{item.jifen_time}}</view>
+    </view>
+    <view class="margin-xs">
+      <view class="">
+        <text wx:if="{{item.jifen_num >= 0}}">+</text>{{item.jifen_num}}
       </view>
     </view>
   </view>

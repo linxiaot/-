@@ -33,3 +33,28 @@
   display: flex;
   justify-content: center;
 }
+
+.actionsheet__cell{
+  padding: 32rpx;
+  font-size: 34rpx;
+  line-height: 1.41176471;
+  color: var(--weui-FG-0);
+  text-align: left;
+}
+.position_absolute{
+  position: absolute;
+}
+.position_fixed{
+  position: fixed;
+}
+.position_relative{
+  position: relative;
+}
+.address{
+  font-size: small;
+  background-color: gold;
+  border-radius: 5rpx;
+  width: 130rpx;
+  margin-left: 20rpx;
+  text-align: center;
+}

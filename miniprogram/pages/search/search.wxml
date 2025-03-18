@@ -1,0 +1,255 @@
+<!--pages/search/search.wxml-->
+<!-- 搜索框 -->
+<!-- <view class="biaoti" wx:if="{{searchType == 'huangye'}}">黄页</view>
+<view class="biaoti" wx:if="{{searchType == 'xunwu' && isXunwu}}">寻物启事</view>
+<view class="biaoti" wx:if="{{searchType == 'xunwu' && isXunren}}">失物招领</view>
+<view class="biaoti" wx:if="{{searchType == 'pinche'}}">校园拼车</view>
+<view class="biaoti" wx:if="{{searchType == 'ershou'}}">跳蚤市场</view>
+<view class="biaoti" wx:if="{{searchType == 'huzhu'}}">校园互助</view> -->
+<view class="page__bd">
+    <view class="weui-search-bar weui-search-bar_focusing" id="searchBar">
+        <form class="weui-search-bar__form">
+            <view class="weui-search-bar__box">
+                <i class="weui-icon-search"></i>
+                <input type="text" class="weui-search-bar__input" placeholder="搜索" value="{{inputVal}}"
+                    focus='{{isFocus}}' bindinput="inputTyping" bindtap="toshowSearchWord" bindconfirm="toSearch"
+                    confirm-type="确认" />
+                <span class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput"></span>
+            </view>
+        </form>
+    </view>
+    <!-- 提示搜索关键词 -->
+    <view class="weui-cells searchbar-result" wx:if="{{isShowSearchWord}}">
+        <view class="weui-cell weui-cell_active " wx:for="{{searchWordList}}" wx:key="index" bindtap="toWordSearch"
+            data-index="{{index}}" data-searchword="{{item}}">
+            <view class="weui-cell__bd weui-cell_primary">
+                <view style="margin-left:40rpx;">{{item}}</view>
+            </view>
+        </view>
+    </view>
+    <!-- 结果展示 -->
+    <!-- 黄页搜索结果 -->
+    <view wx:if="{{searchType == 'huangye'}}">
+        <view class="weui-panel" bindtap="toSearchDetail" wx:for="{{searchResultList}}" wx:key="index"
+            data-id="{{item._id}}" data-openid="{{item._openid}}">
+            <view class="weui-panel__bd">
+                <view class="weui-media-box weui-media-box_text">
+                    <h4 class="weui-media-box__title">{{item.name}}</h4>
+                    <view class="weui-media-box__desc">
+                        <text>{{item.jianjie_start}}</text>
+                        <text class="tuchu">{{inputVal}}</text>
+                        <text>{{item.jianjie_end}}</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <!-- 寻物启事 搜索结果 -->
+    <view wx:if="{{searchType == 'xunwu'}}">
+        <view class="weui-panel" bindtap="toSearchDetail" wx:for="{{searchResultList}}" wx:key="index"
+            data-id="{{item._id}}" data-openid="{{item._openid}}">
+            <view class="weui-panel__bd">
+                <view class="weui-media-box weui-media-box_text">
+                    <h4 class="weui-media-box__title">{{item.name}}</h4>
+                    <view class="weui-media-box__desc">
+                        <text>{{item.jianjie_start}}</text>
+                        <text class="tuchu">{{inputVal}}</text>
+                        <text>{{item.jianjie_end}}</text>
+                        <text>/{{item.shijian}}</text>
+                        <text>/{{item.didian}}</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <!-- 校园拼车 搜索结果 -->
+    <view wx:if="{{searchType == 'pinche'}}">
+        <view class="weui-panel" bindtap="toSearchDetail" wx:for="{{searchResultList}}" wx:key="index"
+            data-id="{{item._id}}" data-openid="{{item._openid}}">
+            <view class="weui-panel__bd">
+                <view class="weui-media-box weui-media-box_text">
+                    <!-- <h4 class="weui-media-box__title">{{item.xingch}}</h4> -->
+                    <view class="weui-media-box__desc">
+                        <text>{{item.jianjie_start}}</text>
+                        <text class="tuchu">{{inputVal}}</text>
+                        <text>{{item.jianjie_end}}</text>
+                        <text>{{item.shijian}}</text>
+                        <text>{{item.personNum}}</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <!-- 跳蚤市场 搜索结果 -->
+    <view wx:if="{{searchType == 'ershou'}}">
+        <view class="weui-panel" bindtap="toSearchDetail" wx:for="{{searchResultList}}" wx:key="index"
+            data-id="{{item._id}}" data-openid="{{item._openid}}">
+            <view class="weui-panel__bd">
+                <view class="weui-media-box weui-media-box_text">
+                    <h4 class="weui-media-box__title">{{item.xingch}}</h4>
+                    <view class="weui-media-box__desc">
+                        <view class="yincangwenzi">
+                            <text>{{item.jianjie_start}}</text>
+                            <text class="tuchu">{{inputVal}}</text>
+                            <text>{{item.jianjie_end}}</text>
+                        </view>
+                        <!-- <text>/￥{{item.jiage}}</text> -->
+                        <!-- <text>/{{item.personNum}}</text> -->
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <!-- 美食店铺搜索结果 -->
+    <view wx:if="{{searchType == 'shangjia'}}">
+        <view class="dianpu" wx:for="{{searchResultList}}" wx:key="index" data-id="{{shangjia_item._id}}" bindtap="toDianpu"
+            wx:for-item="shangjia_item">
+            <view class="dianpu_zuo">
+                <image style="width: 200rpx;height: 150rpx;" src="{{shangjia_item.zhaopaiUrl.imagefileID}}"></image>
+            </view>
+            <view class="dianpu_you">
+                <view class="dianpu_you_1">{{shangjia_item.name}}</view>
+                <view class="dianpu_you_2">
+                    <view>*****</view>
+                    <view>30分钟</view>
+                    <!-- 按照30分钟0.3km换算 -->
+                </view>
+                <view class="dianpu_you_3">起送价￥{{shangjia_item.qisong}}</view>
+                <!-- 店铺推荐 -->
+                <view class="dianpu_you_4">
+                    <view class="dianpu_you_4_items" wx:for="{{shangjia_item.foodList_zhiding}}" wx:key="index_2"
+                        wx:for-index="index_2" data-id="{{shangjia_item._id}}" data-index_a="{{item.category_id}}"
+                        data-index_b="{{ item.id }}" bindtap="toDetail_meishi" wx:if="{{index_2<3}}">
+                        <image class="dianpu_you_4_1" style="width: 150rpx;height: 113rpx;"
+                            src="{{item.imageUrl.imagefileID}}"></image>
+                        <view class="dianpu_you_4_2">{{item.name}}</view>
+                        <view class="dianpu_you_4_3">￥{{item.price}}</view>
+                    </view>
+
+                </view>
+            </view>
+        </view>
+    </view>
+
+    <!-- 搜索结果 -->
+    <view
+        wx:if="{{searchType == 'huzhu'||searchType == 'bigthings'||searchType == 'luntan'||searchType == 'jiaoyou'||searchType == 'zufang'||searchType == 'jianzhi'}}">
+        <view class="weui-panel" bindtap="toSearchDetail" wx:for="{{searchResultList}}" wx:key="index"
+            data-id="{{item._id}}" data-openid="{{item._openid}}">
+            <view class="weui-panel__bd">
+                <view class="weui-media-box weui-media-box_text">
+                    <h4 class="weui-media-box__title">{{item.huxing}}</h4>
+                    <view class="weui-media-box__desc">
+                        <view class="yincangwenzi">
+                            <text>{{item.jianjie_start}}</text>
+                            <text class="tuchu">{{inputVal}}</text>
+                            <text>{{item.jianjie_end}}</text>
+                        </view>
+                        <!-- <text>/￥{{item.jiage}}</text> -->
+                        <!-- <text>/{{item.personNum}}</text> -->
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+
+    <!-- 首页搜索结果展示 -->
+    <view wx:for="{{searchResultAll}}" wx:key="index" wx:for-item="all">
+
+        <!-- 黄页搜索结果 -->
+        <view wx:if="{{all.searchType == 'huangye'}}">
+            <view class="weui-panel" style="margin-top: 0rpx;" bindtap="toSearchDetail" wx:for="{{all.result}}"
+                wx:key="index" data-id="{{item._id}}" data-openid="{{item._openid}}"
+                data-searchtype="{{all.searchType}}">
+                <view class="weui-panel__bd">
+                    <view class="weui-media-box weui-media-box_text">
+                        <h4 class="weui-media-box__title">{{item.name}}</h4>
+                        <view class="weui-media-box__desc">
+                            <text>{{item.jianjie_start}}</text>
+                            <text class="tuchu">{{inputVal}}</text>
+                            <text>{{item.jianjie_end}}</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <!-- 搜索结果 -->
+        <view
+            wx:if="{{all.searchType == 'huzhu'||all.searchType == 'bigthings'||all.searchType == 'luntan'||all.searchType == 'jiaoyou'||all.searchType == 'zufang'||all.searchType == 'jianzhi'}}">
+            <view class="weui-panel" style="margin-top: 0rpx;" bindtap="toSearchDetail" wx:for="{{all.result}}"
+                wx:key="index" data-id="{{item._id}}" data-openid="{{item._openid}}"
+                data-searchtype="{{all.searchType}}">
+                <view class="weui-panel__bd">
+                    <view class="weui-media-box weui-media-box_text">
+                        <h4 class="weui-media-box__title">{{item.huxing}}</h4>
+                        <view class="weui-media-box__desc">
+                            <view class="yincangwenzi">
+                                <text>{{item.jianjie_start}}</text>
+                                <text class="tuchu">{{inputVal}}</text>
+                                <text>{{item.jianjie_end}}</text>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <!-- 寻物启事 搜索结果 -->
+        <view wx:if="{{all.searchType == 'xunwu'}}">
+            <view class="weui-panel" style="margin-top: 0rpx;" bindtap="toSearchDetail" wx:for="{{all.result}}"
+                wx:key="index" data-id="{{item._id}}" data-openid="{{item._openid}}"
+                data-searchtype="{{all.searchType}}">
+                <view class="weui-panel__bd">
+                    <view class="weui-media-box weui-media-box_text">
+                        <h4 class="weui-media-box__title">{{item.name}}</h4>
+                        <view class="weui-media-box__desc">
+                            <text>{{item.jianjie_start}}</text>
+                            <text class="tuchu">{{inputVal}}</text>
+                            <text>{{item.jianjie_end}}</text>
+                            <text>/{{item.shijian}}</text>
+                            <text>/{{item.didian}}</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <!-- 校园拼车 搜索结果 -->
+        <view wx:if="{{all.searchType == 'pinche'}}">
+            <view class="weui-panel" style="margin-top: 0rpx;" bindtap="toSearchDetail" wx:for="{{all.result}}"
+                wx:key="index" data-id="{{item._id}}" data-openid="{{item._openid}}"
+                data-searchtype="{{all.searchType}}">
+                <view class="weui-panel__bd">
+                    <view class="weui-media-box weui-media-box_text">
+                        <h4 class="weui-media-box__title">{{item.xingch}}</h4>
+                        <view class="weui-media-box__desc">
+                            <text>{{item.jianjie_start}}</text>
+                            <text class="tuchu">{{inputVal}}</text>
+                            <text>{{item.jianjie_end}}</text>
+                            <text>{{item.shijian}}</text>
+                            <text>{{item.personNum}}人</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <!-- 跳蚤市场 搜索结果 -->
+        <view wx:if="{{all.searchType == 'ershou'}}">
+            <view class="weui-panel" style="margin-top: 0rpx;" bindtap="toSearchDetail" wx:for="{{all.result}}"
+                wx:key="index" data-id="{{item._id}}" data-openid="{{item._openid}}"
+                data-searchtype="{{all.searchType}}">
+                <view class="weui-panel__bd">
+                    <view class="weui-media-box weui-media-box_text">
+                        <view class="weui-media-box__desc">
+                            <view class="yincangwenzi">
+                                <text>{{item.jianjie_start}}</text>
+                                <text class="tuchu">{{inputVal}}</text>
+                                <text>{{item.jianjie_end}}</text>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+
+
+    </view>
+</view>

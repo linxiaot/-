@@ -1,61 +1,98 @@
 {
-  "pages": [
-    "pages/shouye/shouye",
-    "pages/shouye/daiqu/daiqu",
-    "pages/shouye/jizou/jizou",
-    "pages/shouye/meishi/meishi",
+    "pages": [
+        "pages/shouye/shouye",
+        "pages/shouye/daiqu/daiqu",
+        "pages/shouye/daiqu/ocrguide/ocrguide",
+        "pages/shouye/jizou/jizou",
+        "pages/shouye/paotui/paotui",
+        "pages/shouye/zufang/zufang",
+        "pages/shouye/ganxi/ganxi",
+        "pages/shouye/jianzhi/jianzhi",
+        "pages/shouye/dianpu/dianpu",
+        "pages/shouye/meishi/meishi",
+        "pages/shouye/meishi/check/check",
+        "pages/shouye/qita/qita",
+        "pages/shouye/qita/detail_qita/detail_qita",
+        "pages/wode/wode",
+        "pages/wode/ziliao/ziliao",
+        "pages/wode/jifen/jifen",
+        "pages/wode/dingdan/dingdan",
+        "pages/wode/fabu/fabu",
+        "pages/wode/xiangqing/xiangqing",
+        "pages/wode/renwu/renwu",
+        "pages/wode/money/money",
+        "pages/wode/xiaoqu/xiaoqu",
+        "pages/qiang/qiang",
+        "pages/qiang/kebiao/kebiao",
+        "pages/qiang/huangye/huangye",
+        "pages/qiang/huangye/xiangqing2/xiangqing2",
+        "pages/qiang/xunwu/xunwu",
+        "pages/qiang/pinche/pinche",
+        "pages/qiang/ershou/ershou",
+        "pages/qiang/bigthings/bigthings",
+        "pages/qiang/huzhu/huzhu",
+        "pages/qiang/luntan/luntan",
+        "pages/qiang/jiaoyou/jiaoyou",
+        "pages/imageEdit/imageEdit",
+        "pages/search/search",
+        "pages/add/add",
+        "pages/liaotian/liaotian",
+        "pages/talklist/talklist",
+        "pages/xuanzq/xuanzq",
+        "pages/shangjia/shangjia",
+        "pages/xtu/xtu",
+        "pages/shangjia/sjmeishidetail/sjmeishidetail",
+        "pages/pingjia/pingjia",
+        "pages/gd-component/gd-component",
+        "pages/campus/campus"
+    ],
+    "window": {
+        "backgroundColor": "#F6F6F6",
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#8AD4AF",
+        "navigationBarTitleText": "蜂蜂校园",
+        "navigationBarTextStyle": "black"
+    },
+    "tabBar": {
+            "color": "",
+            "selectedColor": "#8AD4AF",
+            "backgroundColor": "",
+            "position": "bottom",
+            "borderStyle": "black",
+        "list": [
+            {
+                "pagePath": "pages/shouye/shouye",
+                "text": "首页",
+                "iconPath": "images/tabBar/shouye.png",
+                "selectedIconPath": "images/tabBar/shouye2.png"
+            },
+            {
+                "pagePath": "pages/qiang/qiang",
+                "text": "墙",
+                "iconPath": "images/tabBar/gengduo.png",
+                "selectedIconPath": "images/tabBar/gengduo2.png"
+            },
+            {
+                "pagePath": "pages/wode/wode",
+                "text": "个人中心",
+                "iconPath": "images/tabBar/weibiaoti.png",
+                "selectedIconPath": "images/tabBar/weibiaoti2.png"
+            }
+        ]
+    },
+    "sitemapLocation": "sitemap.json",
+    "style": "v2",
+    "useExtendedLib": {
+        "kbone": true,
+        "weui": true
+    },
+    "requiredPrivateInfos":[
+        "chooseAddress"
+    ],
+    "__usePrivacyCheck__": true
     
-    "pages/xuanzq/xuanzq",
-    
-    "pages/wode/wode",
-    "pages/wode/ziliao/ziliao",
-    "pages/wode/jifen/jifen",
-    "pages/wode/dingdan/dingdan",
-    "pages/wode/xiangqing/xiangqing",
-    
-    "pages/qiang/pinche/pinche",
-    "pages/qiang/qiang",
-    "pages/qiang/xunwu/xunwu",
-    "pages/qiang/zhaoling/zhaoling",
-    "pages/qiang/jianzhi/jianzhi",
-    "pages/qiang/ershou/ershou",
-    "pages/qiang/huzhu/huzhu"
-    
-  ],
-  "window": {
-    "backgroundColor": "#F6F6F6",
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#F6F6F6",
-    "navigationBarTitleText": "小蜜蜂代取",
-    "navigationBarTextStyle": "black"
-  },
-  "tabBar": {
-    "color": "",
-    "selectedColor": "",
-    "backgroundColor": "",
-    "position": "bottom",
-    "borderStyle": "black",
-    "list": [{
-        "pagePath": "pages/shouye/shouye",
-        "text": "首页",
-        "iconPath": "images/tabBar/mifeng.png",
-        "selectedIconPath": "images/tabBar/mifeng_1.png"
-      },
 
-      {
-        "pagePath": "pages/wode/wode",
-        "text": "我的",
-        "iconPath": "images/tabBar/wode.png",
-        "selectedIconPath": "images/tabBar/wode_1.png"
-      }
-    ]
-  },
-  "sitemapLocation": "sitemap.json",
-  "style": "v2",
+    
 
-  "useExtendedLib": {
-    "kbone": true,
-    "weui": true
-  }
 
 }

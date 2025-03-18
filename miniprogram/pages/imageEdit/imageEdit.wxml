@@ -1,0 +1,13 @@
+<!--pages/imageEdit/imageEdit.wxml-->
+<!-- //这个地方的文件位置根据自己的情况而定 -->
+<import src="../../utils2/we-cropper/we-cropper-2d.wxml"/>
+ 
+<view class="cropper-wrapper" wx:if="{{isShow}}">
+  <template is="we-cropper" data="{{...cropperOpt}}"/>
+  <view class="cropper-buttons" style="color: {{cropperOpt.boundStyle.color}}">
+    <view class="upload btn" bindtap="uploadTap">选择图片</view>
+    <view class="getCropperImage btn" style="background-color: {{cropperOpt.boundStyle.color}};" bindtap="getCropperImage">完成</view>
+  </view> 
+</view>
+
+<!-- <image src="{{iamgeURllast}}"></image> -->

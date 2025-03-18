@@ -1,0 +1,221 @@
+/* pages/qiang/huangye/xiangqing2/xiangqing2.wxss */
+
+image{margin:4px 0}
+
+.flex{
+    display: flex;
+}
+.center{
+    justify-content: center;
+    align-items: center;
+}
+.cebian{
+    border-left:10rpx solid goldenrod;
+    padding-left: 10rpx;
+    margin-top: 20rpx;
+}
+.liuyan{
+    margin: 32rpx 0rpx;
+    color: gray;
+    font-size: small;
+    background-color:white ;
+    height: 70rpx;
+    padding-left: 15rpx;
+    padding-top: 15rpx;
+    border-radius: 10rpx;
+}
+.weui-half-screen-dialog {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 100rpx;
+    max-height: 100%;
+    z-index: 5000;
+    line-height: 1.4;
+    background-color: var(--weui-BG-2);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    overflow: hidden;
+    padding: 0 calc(24px + env(safe-area-inset-right)) env(safe-area-inset-bottom) calc(24px + env(safe-area-inset-left));
+}
+.liuyanzhanshi{
+    margin: 50rpx 0;
+}
+.author{
+    margin-left: 15rpx;
+    border-radius: 15rpx;
+    background-color: rgba(255, 217, 0, 0.5);
+    padding: 0rpx 8rpx;
+}
+.dianzan{
+    display:flex;
+    justify-content:flex-end;
+    align-items: center;
+}
+/* 底部菜单 */
+.diBu {
+    width: 750rpx;
+    position: fixed;
+    background-color: gold;
+    margin: 0 0rpx;
+    border-top-left-radius: 30rpx;
+    border-top-right-radius: 30rpx;
+    bottom: 0rpx;
+    z-index: 999;
+    /* height: 100rpx; */
+    /* color: white; */
+    font-weight: bold;
+    /* justify-content: center; */
+}
+
+.diBu view {
+    height: 80rpx;
+    padding-top: 30rpx;
+}
+
+.hover {
+    opacity: 0.8;
+    /* background: orange; */
+    background: #dcdcdc;
+}
+.hr{
+    border-top: 2rpx solid #dcdcdc;
+    margin-top: 15rpx;
+    padding-top: 15rpx;
+  }
+.lianxi{
+    background-color: gold;
+    text-align: center;
+    font-weight: bold;
+    margin: 15rpx 0;
+    padding: 15rpx 0;
+}
+.sheshi{
+    display: flex;
+    flex-direction: row;
+}
+.sheshi_item{
+    background-color: #dcdcdc;
+    padding: 0rpx 15rpx;
+    margin: 0 15rpx;
+    border-radius: 27rpx;
+}
+.yixiajia{
+    background-color: darkgray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80rpx;
+    /* text-align: center; */
+}
+
+.audio{
+    width: 560rpx;
+    margin-top: 30rpx;
+    background-color: #f3f3f3ff;
+    height: 100rpx;
+    border-radius: 5rpx;
+    display: flex;
+    /* padding: 5rpx; */
+    align-items: center;
+    color: gray;
+    border: 2rpx solid #8AD4AF;
+    margin-bottom: 20rpx;
+  
+  }
+  .audio_items{
+    margin: 0rpx 10rpx;
+  }
+  .audio_item1{
+    width: 100rpx;
+    height: 100rpx;
+    /* background-color: cornflowerblue; */
+    /* margin: 0rpx 5rpx; */
+    border-right: 2rpx solid #8AD4AF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .audio_item2{
+    width: 100rpx;
+    height: 100rpx;
+    /* background-color: cornflowerblue; */
+    /* margin: 0rpx 5rpx; */
+    /* border-right: 2rpx solid #8AD4AF; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .audio_items_item1{
+    width: 450rpx;
+    font-size: small;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+  }
+  .audio_items_item1_item1{
+    font-size: small;
+  }
+  .audio_items_item1_item2{
+    font-size: 20rpx;
+  }
+  .audio_items_item2{
+    font-size: small;
+  }
+  .slider{
+    margin: 0rpx 0rpx;
+    padding: 0rpx 10rpx;
+  }
+  
+  .audio_chuangkou{
+    /* width: 560rpx; */
+    padding: 0rpx 0rpx;
+    background-color: #f3f3f3ff;
+    height: 100rpx;
+    border-radius: 5rpx;
+    display: flex;
+    /* padding: 5rpx; */
+    align-items: center;
+    color: gray;
+    border: 2rpx solid #8AD4AF;
+    margin-bottom: 20rpx;
+  }
+  .audio_control{
+    display: flex;
+    justify-content: space-between;
+  }
+  .audio_control_items{
+    display: flex;
+  }
+
+  .pengyq_images {
+    width: 676rpx;
+    margin: 20rpx 0rpx;
+    height: 500rpx;
+    /* margin-bottom: 100rpx; */
+  }
+  .pengyq_images_grid{
+    position: relative;
+    float: left;
+    padding: 5rpx 5rpx;
+    width: 33.33333333%;
+    height: 200rpx;
+    /* border: none; */
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .pengyq_images_item{
+  
+    width: 100%;
+    height: 100%;
+  }
+  
+  .pengyq_images_item image {
+    width: 100%;
+    height: 100%;
+  }

@@ -1,1 +1,127 @@
-/* pages/qiang/ershou/ershou.wxss */
+.flex {
+    display: flex;
+}
+
+.center {
+    align-items: center;
+    justify-content: center;
+}
+
+.flex_1 {
+    flex: 1;
+}
+
+.fontsize_s {
+    font-size: small;
+}
+
+.hover {
+    opacity: 0.8;
+    background: #dcdcdc;
+}
+
+.class_toTap {
+    font-weight: bold;
+    font-size: 40rpx;
+}
+
+.class_unTap {
+    font-weight: lighter;
+}
+
+.jianjie textarea {
+    border-radius: 10rpx;
+    /* background-color: #f0f0f0; */
+}
+
+.paixuhetianjia {
+    margin-top: 20rpx;
+    margin-bottom: 20rpx;
+}
+
+.paixuhetianjia>view:first-child {
+    margin-left: 30rpx;
+}
+
+.paixuhetianjia>view:last-child {
+    margin-left: 550rpx;
+    width: 50rpx;
+}
+
+/* 新 */
+
+.ersh_liebiao {
+    margin-top: 50rpx;
+}
+
+.liebiaDibu {
+    height: 200rpx;
+}
+
+
+.ersh_cell {
+    position: absolute;
+    /* justify-content: center; */
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    border-radius: 5px;
+    background-color: white;
+    border-radius: 20rpx;
+}
+
+.name {
+    font-size: small;
+    font-weight: bold;
+}
+
+.jianjie_img {
+    width: 360rpx;
+    height: 480rpx;
+    border-top-left-radius: 20rpx;
+    border-top-right-radius: 20rpx;
+}
+
+.jianjie {
+    margin: 10rpx;
+    width: 340rpx;
+    height: 180rpx;
+}
+
+.touxiang {
+    border-radius: 50%;
+    width: 35rpx;
+    height: 35rpx;
+}
+
+.nickname {
+    font-size: small;
+    color: gray;
+    display: -webkit-box;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+}
+
+.zhanwei {
+    position: fixed;
+    height: 124rpx;
+    color: #d6d7d900;
+}
+
+.tuijian {
+    justify-content: end;
+    font-size: small;
+    color: gold
+}
+
+.yixiajia {
+    margin-left: 15rpx;
+    border-radius: 15rpx;
+    background-color: #f0f0f07c;
+    padding: 0rpx 8rpx;
+    color: gray;
+    font-size: small;
+}

@@ -1,0 +1,5 @@
+.weui-btn{
+    border-radius: 48rpx;
+    background-color: gold;
+    color: black;
+  }

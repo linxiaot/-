@@ -1,0 +1,95 @@
+/* pages/talklist/talklist.wxss */
+.list-row-wrapper {
+    padding-left: 20rpx;
+    box-sizing: border-box;
+    background-color: #fff;
+  }
+  .list-row {
+    display: flex;
+    border-bottom: 1rpx solid #ccc;
+    padding: 20rpx 0;
+    box-sizing: border-box;
+  }
+  .list-row-hover {
+    background-color: rgba(0, 0, 0, 0.3);
+    opacity: 0.8;
+  }
+  .list-icon {
+    height: 50px;
+    width: 50px;
+    position: relative;
+  }
+  .list-photo {
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .message-dot {
+    width: 16rpx;
+    height: 16rpx;
+    position: absolute;
+    top: -4rpx;
+    right: -4rpx;
+    background-color: red;
+    border-radius: 50%;
+  }
+  .list-content {
+    flex: 1;
+    font-size: 14px;
+    padding: 10rpx 20rpx 0;
+  }
+  .list-content-layout {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .list-content-name {
+    flex: 1;
+  }
+  .list-content-brief {
+    flex: 1;
+  }
+  .list-content-title {
+    color: #000;
+  }
+  .list-content-time {
+    font-size: 12px;
+    float: right;
+    color: #999;
+  }
+  .list-content-brief > text {
+    font-size: 12px;
+    color: #777;
+  }
+
+  .zhiding{
+    background-color: #ececec;
+  }
+  .weui-slideview__btn-group_default .weui-slideview__btn {
+    background: #c7c7cc;
+    font-size: small;
+    padding: 0 20rpx;
+}
+.weui-slideview__btn-group_warn .weui-slideview__btn {
+  background: #fe3b30;
+  font-size: small;
+  padding: 0 20rpx;
+}
+
+.search{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  /* width: 100%; */
+  height: 50rpx;
+  font-size: small;
+  border-radius: 20rpx;
+  border: 2rpx solid gray;
+  margin: 15rpx;
+  background-color: white;
+}
+.search image,.search input{
+  margin-left: 10rpx;
+}

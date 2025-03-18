@@ -1,0 +1,138 @@
+<!-- 对留言时间处理 -->
+<wxs module="m1">
+  var timeChuli = function (createTime) {
+    if (createTime) {
+      var newCreateTime = createTime.slice(0, 16)
+    } else {
+      var newCreateTime = 0
+    }
+    return newCreateTime
+  }
+  module.exports = {
+    timeChuli: timeChuli,
+  }
+</wxs>
+<!-- 功能菜单 -->
+<view class="menu weui-toptips" style="background-color:white;color: black;" wx:if="{{isShowMenu}}">
+  <view class="menu_item" hover-class="hover" bindtap="toZhiding">{{isZhiding?'取消置顶':'置顶'}}</view>
+  <view class="menu_item menu_item_boder" hover-class="hover" bindtap="toDel">删除</view>
+  <view class="menu_item" hover-class="hover" bindtap="toLahei">{{isLahei?'取消屏蔽':'屏蔽'}}</view>
+</view>
+<view class="showMenu" bindtap="toShowMenu">
+
+  <image mode="scaleToFill" style="width:50rpx;height: 50rpx;" src="../../images/tabBar/gengduo2.png">
+  </image>
+</view>
+
+<view class="container">
+  <!-- 消息展示列表 -->
+  <scroll-view scroll-y scroll-with-animation class="chat-content" scroll-top="{{ scrollTop }}"
+    scroll-into-view="{{ lastId }}">
+    <block wx:for="{{ liaotianList }}" wx:key="index">
+      <view class="riqi">
+        <view class="riqi_item" wx:if="{{index == 0}}">
+          {{m1.timeChuli(item.createTime)}}</view>
+        <view class="riqi_item"
+          wx:if="{{m1.timeChuli(item.createTime) > m1.timeChuli(liaotianList[index - 1].createTime)}}">
+          {{m1.timeChuli(item.createTime)}}</view>
+      </view>
+      <!-- 左边，对方的信息 -->
+      <view id="the-{{ index }}" class="container-left" wx:if="{{ item.userOpenid !== openid && !item.isSendAuto}}">
+        <view class="icon">
+          <view class="caret-left"></view>
+          <view class="photo">
+            <image src="{{ item.userAvatarUrl }}" style="width:36px;height:36px;"></image>
+          </view>
+        </view>
+        <view class="content" bindtap="toCopy" data-val_copy="{{ item.textLiaot }}" hover-class="hover">
+          <text class="{{searchIndex==index?'liaotian_text':''}}" wx:if="{{!item.isSendAuto}}">{{ item.textLiaot }}</text>
+        </view>
+      </view>
+
+      <!-- 自动发送的信息展示 -->
+      <view wx:if="{{item.isSendAuto}}" class="weui-cells">
+        <view class="goods weui-cell" wx:if="{{item.detailType == 'ershou'}}">
+          <view class="goods_image">
+            <image mode="scaleToFill" style="width:100rpx;height: 100rpx;" src="{{item.goodsInfo.imagetempFileURL}}">
+            </image>
+          </view>
+          <view class="goods_item">
+            <view class="goods_item_jiage">￥{{item.goodsInfo.jiage}}</view>
+            <view class="goods_item_time">{{item.goodsInfo.createTime}}</view>
+            <view class="goods_item_time" wx:if="{{item.goodsInfo == undefind}}">相关信息已被用户删除</view>
+          </view>
+        </view>
+        <view class="goods weui-cell" wx:if="{{item.detailType == 'pinche'}}">
+          <view class="goods_image">
+            <image mode="scaleToFill" style="width:80rpx;height: 80rpx;" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/pinche.png"></image>
+          </view>
+          <view class="goods_item">
+            <view class="goods_item_jiage">{{item.goodsInfo.xingch}}</view>
+            <view class="goods_item_time">{{item.goodsInfo.shijian}}</view>
+            <view class="goods_item_time" wx:if="{{item.goodsInfo == undefind}}">相关信息已被用户删除</view>
+          </view>
+        </view>
+        <view class="goods weui-cell" wx:if="{{item.detailType == 'huzhu'}}">
+          <view class="goods_image">
+            <image mode="scaleToFill" style="width:80rpx;height: 80rpx;" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/huzhu.png"></image>
+          </view>
+          <view class="goods_item">
+            <view class="goods_item_jiage">{{item.goodsInfo.jianjie}}</view>
+            <view class="goods_item_time">{{item.goodsInfo.createTime}}</view>
+            <view class="goods_item_time" wx:if="{{item.goodsInfo == undefind}}">相关信息已被用户删除</view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 右边，我的信息 -->
+      <view id="the-{{ index }}" class="container-right" wx:if="{{ item.userOpenid == openid && !item.isSendAuto}}">
+        <view class="content-right" bindtap="toCopy" data-val_copy="{{ item.textLiaot }}" hover-class="hover">
+          <text class="{{ searchIndex==index?'liaotian_text':'' }}" wx:if="{{!item.isSendAuto}}">{{ item.textLiaot }}</text>
+        </view>
+        <view class="icon-right">
+          <view class="photo">
+            <image src="{{ item.userAvatarUrl }}" style="width:36px;height:36px;"></image>
+          </view>
+          <view class="caret-right"></view>
+        </view>
+      </view>
+
+    </block>
+    <view class="riqi">
+      <view class="riqi_item" wx:if="{{isLahei}}">
+        已屏蔽，无法收发消息
+      </view>
+    </view>
+
+  </scroll-view>
+  <!-- 发送按钮 -->
+  <view class="zhanwei">-</view>
+  <form class="chat-input" id="hei">
+    <view class="chat-input-wrapper" wx:if="{{ liaotianList.length>5}}">
+      <view class="chat-input-record"></view>
+      <view class="chat-input-main">
+        <input value="{{ inputVal_liaotian }}" adjust-position="{{ true }}" confirm-type="send"
+          confirm-hold="{{ true }}" cursor-spacing="16" bindinput="onInput" bindconfirm="toSend" />
+      </view>
+      <view class="chat-input-other">
+        <text bindtap="toSend">发送</text>
+        <!-- <image src="../../images/icons/smile.png" bindtap="toSend"></image>
+        <image src="../../images/icons/add.png"></image> -->
+      </view>
+    </view>
+    <view class="chat-input-wrapper" wx:if="{{ liaotianList.length<6}}" style="{{isFocus?'height:650rpx':''}}">
+      <view class="chat-input-record"></view>
+      <view class="chat-input-main">
+        <input value="{{ inputVal_liaotian }}" adjust-position="{{ false }}" confirm-type="send"
+          confirm-hold="{{ true }}" cursor-spacing="16" bindinput="onInput" bindconfirm="toSend" bindtap="onFocusTap"
+          bindblur="onBlur" />
+      </view>
+      <view class="chat-input-other">
+        <text bindtap="toSend">发送</text>
+        <!-- <image src="../../images/icons/smile.png" bindtap="toSend"></image>
+        <image src="../../images/icons/add.png"></image> -->
+      </view>
+    </view>
+  </form>
+
+</view>

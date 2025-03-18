@@ -1,26 +1,50 @@
 {
-    "setting": {},
+    "setting": {
+        "compileHotReLoad": true
+    },
     "condition": {
-        "plugin": {
-            "list": []
-        },
-        "game": {
-            "list": []
-        },
-        "gamePlugin": {
-            "list": []
-        },
         "miniprogram": {
             "list": [
                 {
-                    "name": "我的资料",
-                    "pathName": "pages/wode/ziliao/ziliao",
+                    "name": "pages/shouye/daiqu/ocrguide/ocrguide",
+                    "pathName": "pages/shouye/daiqu/ocrguide/ocrguide",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "寄件",
+                    "pathName": "pages/shouye/jizou/jizou",
                     "query": "",
                     "scene": null
                 },
                 {
-                    "name": "代取下单",
-                    "pathName": "pages/shouye/daiqu/daiqu",
+                    "name": "其他",
+                    "pathName": "pages/shouye/qita/qita",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "商家后台",
+                    "pathName": "pages/shangjia/shangjia",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "墙",
+                    "pathName": "pages/qiang/qiang",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "个人资料",
+                    "pathName": "pages/wode/wode",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "商家后台",
+                    "pathName": "pages/shangjia/shangjia",
                     "query": "",
                     "scene": null
                 },
@@ -31,30 +55,33 @@
                     "scene": null
                 },
                 {
-                    "name": "我的",
-                    "pathName": "pages/wode/wode",
-                    "query": "",
-                    "scene": null
-                },
-                {
-                    "name": "预约寄件",
-                    "pathName": "pages/shouye/jizou/jizou",
-                    "query": "",
-                    "scene": null
-                },
-                {
-                    "name": "拼车",
-                    "pathName": "pages/qiang/pinche/pinche",
-                    "query": "",
-                    "scene": null
-                },
-                {
                     "name": "管理",
                     "pathName": "pages/xuanzq/xuanzq",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "代取",
+                    "pathName": "pages/shouye/daiqu/daiqu",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "我的任务",
+                    "pathName": "pages/wode/renwu/renwu",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "店铺",
+                    "pathName": "pages/shouye/dianpu/dianpu",
                     "query": "",
                     "scene": null
                 }
             ]
         }
-    }
+    },
+    "description": "项目私有配置文件。此文件中的内容将覆盖 project.config.json 中的相同字段。项目的改动优先同步到此文件中。详见文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html",
+    "libVersion": "3.3.5",
+    "projectname": "%E8%9C%82%E8%9C%82%E6%A0%A1%E5%9B%AD"
 }

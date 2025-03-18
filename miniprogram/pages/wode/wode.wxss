@@ -1,14 +1,136 @@
 /* pages/wode/wode.wxss */
+
+.linshi{
+  height: 200rpx;
+  background-color: #f7f7f7;
+}
 .page__bd {
-  margin-top: 30rpx;
+  /* height: 700rpx; */
+  margin-bottom: 50rpx;
+}
+
+.page__bd {
+  /* margin-top: 30rpx; */
   margin-left: 30rpx;
   margin-right: 30rpx;
-  
+
 }
-.ziti{
+
+.ziti {
   font-size: 30rpx;
   padding-top: 20rpx;
   padding-bottom: 20rpx;
+
 }
 
+.hr {
+  border-top: 1rpx solid #dcdcdc7a;
 
+}
+
+.qiandao {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.qiandao_item1 {
+  text-align: center;
+  border-radius: 8rpx;
+  background-color: gold;
+  padding: 5rpx 5rpx;
+  width: 100rpx;
+  font-size: small;
+}
+
+.qiandao_item2 {
+  margin-left: 10rpx;
+  text-align: center;
+  padding: 5rpx 5rpx;
+  font-size: 20rpx;
+}
+
+.hr {
+  height: 15rpx;
+  /* background-color: #f0f0f0; */
+}
+
+.dingdan {
+  padding: 0rpx 30rpx;
+  height: 240rpx;
+  display: flex;
+  flex-direction: column;
+  background: url(https://786d-xmf-0g87mzf198205ada-1305629196.tcb.qcloud.la/iamges_xitong/wode_beijingtu.png?sign=51a1c2f738fa339a1c5dac0d03d6dcbf&t=1628523246);
+}
+
+.dingdan_items {
+  display: flex;
+  flex: 1;
+  background-color: white;
+
+}
+
+.dingdan_item1 {
+  flex: 0.5;
+  padding: 15rpx 30rpx;
+  background-color: white;
+  border-radius: 10rpx 10rpx 0rpx 0rpx;
+}
+
+.dingdan_item2 {
+  font-size: small;
+  flex: 1;
+  text-align: center;
+}
+
+.dingdan_image {
+  width: 30rpx;
+  height: 30rpx;
+}
+
+.dingdan_item2_text{
+  color: rgb(87, 87, 87);
+  margin-top: 10rpx;
+}
+
+.ziliao {
+  display: flex;
+  flex-direction: row;
+}
+
+.ziliao_item1 {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.ziliao_item2 {
+  flex: 0.6;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ziliao_item1_item1 {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  padding: 15rpx 0rpx;
+
+}
+
+.ziliao_item1_item2 {
+  padding: 15rpx 0rpx;
+
+  display: flex;
+  flex: 1;
+  align-items: center;
+  font-size: 26rpx;
+  color:	#4682B4;
+}
+
+.wanzhengdu{
+  font-size: 20rpx;
+  color: #4682B4;
+}

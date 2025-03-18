@@ -1,6 +1,7 @@
 /**app.wxss**/
 /* @import 'style/weui.wxss';引入样式文件 */
-
+@import "colorui/main.wxss";
+@import "colorui/icon.wxss";
 .container {
   display: flex;
   flex-direction: column;
@@ -156,3 +157,4 @@ page {
   line-height: 36rpx;
   word-break: break-all;
 }
+

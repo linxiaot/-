@@ -1,24 +1,22 @@
 <!--pages/shouye/daiqu/daiqu.wxml-->
 
 <!-- 新表单结构 -->
-<view class="page" data-weui-theme="{{theme}}">
-
+<view class="page" data-weui-theme="{{theme}}" wx:if="{{!isEdit}}">
   <!-- 浮动提醒 -->
   <view wx:if="{{isToptips}}" style="background-color:gold; color:blue;" class="weui-toptips weui-toptips_warn">
     {{text_toptips}}
     <view wx:if="{{isBianji}}" style="color:black;">
       编辑内容：
       <view class="weui-cell__bd">
-        <textarea class="weui-textarea" placeholder-class="weui-input__placeholder" placeholder="请输入文本"
-          style="height: 3.3em; background-color:white" bindinput="inputToptips" value="{{text_toptips}}" />
-        <view class="weui-textarea-counter" style="color:red;" >!!!!提醒文字不要超过1行，否则影响其他信息显示。</view>
-        <view hover-class="hover" style="margin-left:450rpx; width:200rpx; background-color:SpringGreen; color:white ;border-radius:24rpx;font-weight:bold;" bindtap="toToptips_text">提交</view>
+        <textarea class="weui-textarea" placeholder-class="weui-input__placeholder" placeholder="请输入文本" style="height: 3.3em; background-color:white" bindinput="inputToptips" value="{{text_toptips}}" />
+        <view class="weui-textarea-counter" style="color:red;">!!!!提醒文字不要超过1行，否则影响其他信息显示。</view>
+        <view hover-class="hover" style="margin-left:450rpx; width:200rpx; background-color:SpringGreen; color:white ;border-radius:24rpx;font-weight:bold;" bindtap="toToptips_text">变更</view>
       </view>
     </view>
   </view>
-
-  <form bindsubmit="toSubmit" wx:if="{{!isXiadan}}">
-    <view class="weui-form" style="padding-top: 70rpx;">
+  <!-- 填单区域 -->
+  <form wx:if="{{!isXiadan}}">
+    <view class="weui-form" style="padding-top: 140rpx;">
       <!-- 头部标题 -->
       <view class="weui-form__text-area">
         <!-- 顶部开启 弹出 -->
@@ -31,46 +29,144 @@
           <mp-icon icon="close2" color="black" size="{{15}}" style="float:right;" bindtap="toYincangClose"></mp-icon>
           <!-- 事项1 -->
           <view class="flexjuzhong">
-            <view class="weui-form__desc ziti_xiao ">{{shiXiang_1}}</view>
+            <view class="weui-form__desc text- ">{{shiXiang_1}}</view>
           </view>
           <view wx:if="{{isBianji}}" style="color:black;background-color:gold;border-radius: 10rpx;margin-top:20rpx; ">
             <input class="weui-input" type="text" value="{{shiXiang_1}}" bindinput="inputShixiang_1" />
           </view>
-  
+
           <!-- 事项2 -->
-          <view class="weui-form__desc ziti_xiao">{{shiXiang_2}}</view>
+          <view class="weui-form__desc text-">{{shiXiang_2}}</view>
           <view wx:if="{{isBianji}}" style="color:black;background-color:gold;border-radius: 10rpx;margin-top:20rpx; ">
             <input class="weui-input" type="text" value="{{shiXiang_2}}" bindinput="inputShixiang_2" />
           </view>
           <!-- 事项3 -->
-          <view class="weui-form__desc ziti_xiao">{{shiXiang_3}}</view>
+          <view class="weui-form__desc text-">{{shiXiang_3}}</view>
           <view wx:if="{{isBianji}}" style="color:black;background-color:gold;border-radius: 10rpx;margin-top:20rpx; ">
             <input class="weui-input" type="text" value="{{shiXiang_3}}" bindinput="inputShixiang_3" />
           </view>
         </view>
         <!-- 提交变更 -->
         <view wx:if="{{isBianji}}" style="color:black;margin-top:20rpx;">
-            <view hover-class="hover2" style="margin-left:420rpx; width:200rpx; background-color:SpringGreen; color:white; border-radius:24rpx;font-weight:bold;" bindtap="toShixiang">变更</view>
+          <view hover-class="hover2" style="margin-left:420rpx; width:200rpx; background-color:SpringGreen; color:white; border-radius:24rpx;font-weight:bold;" bindtap="toShixiang">变更</view>
         </view>
         <!-- 管理员编辑开关 -->
-        <view class="weui-cell weui-cell_active weui-cell_switch" wx:if="{{isAdmin}}">
-          <view class="weui-cell__bd">管理员编辑</view>
-          <view class="weui-cell__ft">
-            <label class="weui-switch-cp">
-              <switch bindchange="toBianji" />
-            </label>
+        <view class="weui-cell weui-cell_active weui-cell_switch" style="display:flex;flex-direction:column;" wx:if="{{isAdmin}}">
+          <view class="flexjuzhong alignitems">
+            <view>管理员编辑</view>
+            <switch bindchange="toBianji" />
           </view>
-          <view wx:if="{{isBianji}}">
-            顶部提醒：<switch checked="{{isToptips}}" bindchange="toToptips" />
+          <view class="weui-cell" style="display:flex; margin-top:50rpx;" wx:if="{{isBianji}}">
+            <view class="flexjuzhong alignitems">
+              <view>顶部提醒</view>
+              <switch checked="{{isToptips}}" bindchange="toToptips" />
+            </view>
+            <view class="flexjuzhong alignitems">
+              <view>跑腿</view>
+              <switch checked="{{isPaotuiOpen}}" bindchange="toOpen_paotui" />
+            </view>
+            <view class="flexjuzhong alignitems">
+              <view>关闭下单</view>
+              <switch checked="{{xiadan.isXiadan_close}}" bindchange="toClose_xiadan" />
+            </view>
+            <view class="flexjuzhong alignitems">
+              <view>通知</view>
+              <switch checked="{{isTongzhi}}" bindchange="toTongzhi" />
+              <mp-icon icon="pencil" color="black" size="{{20}}" wx:if="{{isBianji}}" bindtap="openEditTongzhi">
+              </mp-icon>
+            </view>
           </view>
         </view>
       </view>
-      <!-- 第一部分 -->
-      <view class="weui-form__control-area" style="margin-top: 50rpx;">
-        <view class="weui-cells__group weui-cells__group_form">
-          <view class="weui-cells__title ziti_s">包裹信息</view>
-          <view class="weui-cells weui-cells_form">
-            <!-- 快递点名称 -->
+      <!-- 送达地点开启 -->
+      <view class=" bg-gray shadow margin-sm" wx:if="{{isBianji}}">
+        <view>
+          <view class="flex justify-between margin-xs solid-bottom padding-bottom-xs">
+            <view>送达地点开启</view>
+            <text class="text-green cuIcon-triangledownfill lg" bindtap="toSd_Didian_gengduo" wx:if="{{!isSd_DidianGengduo}}">更多</text>
+            <view class="text-green cuIcon-triangleupfill lg" bindtap="toSd_Didian_gengduo" wx:if="{{isSd_DidianGengduo}}">收起</view>
+            <view class="cu-btn sm round bg-green" style="" bindtap="toOpen_sd_Didian">变更</view>
+
+          </view>
+          <!-- <view class="flex justify-between" style="width: 100%;">
+            <view></view>
+            <view class="cu-btn round bg-green" style="" bindtap="toOpen_sd_Didian">变更</view>
+          </view> -->
+        </view>
+        <checkbox-group bindchange="checkboxChange_sd_Didian_open" class="sheshi" wx:if="{{isSd_DidianGengduo}}">
+          <view wx:for="{{beixuan_sd_Didian}}" wx:key="index">
+            <view wx:if="{{index < 2}}" class="sheshi_item">
+              <checkbox class="checkbox" value="{{item.sushe.name}}" checked="{{item.checked}}">
+                <view class="">{{item.sushe.name}}</view>
+              </checkbox>
+            </view>
+          </view>
+        </checkbox-group>
+
+        <checkbox-group class="grid col-2 padding" bindchange="checkboxChange_sd_Didian_open" wx:if="{{!isSd_DidianGengduo}}">
+          <view class="padding-xs" wx:for="{{beixuan_sd_Didian}}" wx:key="index">
+            <view class="">
+              <checkbox class="checkbox" value="{{item.sushe.name}}" checked="{{item.checked}}">
+                <view class="">{{item.sushe.name}}</view>
+              </checkbox>
+            </view>
+          </view>
+        </checkbox-group>
+
+
+
+      </view>
+
+      <!-- 多订单 ===================================================================================================== -->
+      <view class="bg-white ">
+        <!-- <button wx:if="{{!ceshi}}" catch:tap="ceshihedan" class="bg-green">测试合单支付</button> -->
+
+        <view class="bg-green light shadow  margin-lr-sm">
+          <view class="solid-bottom">
+            <view class="padding-sm flex justify-between">
+              <view class="text-lg" style=""><text class='cuIcon-titles text-orange '></text>包裹信息</view>
+              <view class="flex" style="" wx:if="{{dingdanList.length<21}}">
+                <!-- <view class="bg-gold cu-btn sm radius" catch:tap="showAddQuhuoma">再填写一个</view> -->
+                <view class="bg-gray cu-btn sm radius margin-left-xs" catch:tap="goOcrGuide">操作指引</view>
+                <view class="bg-gold cu-btn sm radius" catch:tap="goOcr">图片识别</view>
+              </view>
+
+            </view>
+            <!-- 多订单列表 -->
+            <view wx:if="{{dingdanList.length>1}}">
+              <view class="flex text-gray padding-sm solid-top" wx:if="{{dingdanList.length>0}}" catch:tap="">
+                <view style="flex:0.15"></view>
+                <view style="flex:0.6">快递点</view>
+                <view style="flex:1">取货码</view>
+                <view style="flex:0.2"></view>
+              </view>
+              <view class="flex padding-sm solid-top text-black" wx:for="{{dingdanList}}" wx:key="index">
+                <view class="flex" style="flex: 1;" data-index="{{index}}" catch:tap="showAddQuhuoma_edit">
+                  <view style="flex:0.15" class="text-gray">{{index+1}}/{{dingdanList.length}}</view>
+                  <!-- <view style="flex:0.6" class="text-{{item.kd_Dian == '--请选择--'?'blue':item.kd_Dian=='琴湖菜鸟驿站'?'purple':item.kd_Dian=='东门菜鸟驿站'?'red':item.kd_Dian=='顺丰快递'?'green':item.kd_Dian=='京东'?'yellow':item.kd_Dian=='邮政速递'?'orange':'black'}}">{{item.kd_Dian}}</view> -->
+                  <view style="flex:0.6" class="text-{{item.kd_Dian == '--请选择--'?'blue':''}}">{{item.kd_Dian}}</view>
+                  <view style="flex:1" class="text-cut">{{item.value_qh_Ma}}</view>
+                </view>
+                <view class="" style="flex:0.1">
+                  <!-- 删除一个包裹信息 -->
+                  <view class="cuIcon-delete text-gray text-center" catch:tap="removeQhm" data-index="{{index}}"></view>
+                </view>
+              </view>
+              <view class="flex margin-lr-sm " wx:if="{{dingdanList.length<21}}">
+                <button class="bg-gold cu-btn sm margin-tb-sm shadow-blur round" style="width: 50%;" catch:tap="showAddQuhuoma">再填写一个</button>
+              </view>
+            </view>
+          </view>
+        </view>
+
+
+      </view>
+
+      <!-- 第一部分   单订单  ===================================================================================================== -->
+      <view class="">
+        <!-- <view class="weui-cells__group weui-cells__group_form" wx:if="{{ceshi}}"> -->
+        <view class="bg-white margin-lr-sm" wx:if="{{dingdanList.length<=1}}">
+          <view class="bg-green light shadow">
             <view class="weui-cell weui-cell_active">
               <view class="weui-cell__hd">
                 <label class="weui-label ziti_s">快递点名称</label>
@@ -87,44 +183,40 @@
               <view class="weui-mask"></view>
               <view class="weui-actionsheet">
                 <view class="weui-actionsheet__menu">
-                  <view class="weui-actionsheet__cell" wx:for="{{kdDianList}}" wx:key='index' bindtap="tanChuSheet"
-                    data-name="{{item.name}}">{{item.name}}
+                  <view class="weui-actionsheet__cell" wx:for="{{kdDianList}}" wx:key='index' bindtap="tanChuSheet" data-name="{{item.name}}">{{item.name}}
                   </view>
                 </view>
               </view>
             </view>
 
             <!-- 取货码： -->
-            <view class="weui-cell weui-cell_active {{isWaring_qh_Ma ? 'weui-cell_warn' : ''}}">
-              <view class="weui-cell__hd">
-                <label class="weui-label ziti_s">取货码</label>
+            <view class="weui-cell {{isWaring_qh_Ma ? 'weui-cell_warn' : ''}}" style="display: flex;flex-direction: column;align-items: flex-start;">
+              <view style="display: flex; justify-content: space-between;">
+                <view class="weui-cell__hd" style="width: 580rpx;display: flex;">
+                  <label class="weui-label ziti_s" style="width: 100rpx;">取货码</label>
+                  <text style="color: red;font-size: xx-small;margin: auto;margin-left: 0;">(隐私号快递请填写快递单号)</text>
+                </view>
+                <view class="weui-cell__bd weui-flex ziti_s">
+                  <!-- <button style="border-radius: 48rpx;background-color: gold; height: 50rpx; font-size: small; color: black; padding:0 20rpx;margin-left:20rpx;" type="primary" size="mini" catch:tap="tapTiQudx">提取</button> -->
+                  <button class="bg-gold cu-btn sm round margin-left" style="width: 80rpx;" catch:tap="tapTiQudx">提取</button>
+                </view>
               </view>
-
-
               <view class="weui-cell__bd weui-flex ziti_s">
-                <input class="weui-input" type="text" placeholder="仅填一个取货码" placeholder-class="weui-input__placeholder"
-                  name="qh_Ma" value="{{value_qh_Ma}}" bindinput="onInput_qh_Ma" bindblur="outInput_qh_Ma"
-                  bindtap="tapInput_qh_Ma" />
-                <view wx:if="{{showClearBtn_qh_Ma}}" class="weui-btn_reset weui-btn_icon weui-btn_input-clear"
-                  bindtap="onClear_qh_Ma">
+                <input class="margin padding solid bg-white radius" style="height: max-content;width: 500rpx;" type="text" placeholder="粘贴短信可识别" placeholder-class="weui-input__placeholder" name="qh_Ma" value="{{value_qh_Ma}}" bindinput="onInput_qh_Ma" bindblur="outInput_qh_Ma" catch:tap="tapInput_qh_Ma" />
+                <view wx:if="{{showClearBtn_qh_Ma}}" class="margin-top" catch:tap="onClear_qh_Ma">
                   <i class="weui-icon-clear"></i>
                 </view>
               </view>
-              <!-- 是否显示 取货码 提取按钮   暂时isTiqu没有动态绑定 默认一直显示-->
-              <view class="weui-cell__bd weui-flex ziti_s" wx:if="isTiqu">
-                <button
-                  style="border-radius: 48rpx;background-color: gold; height: 50rpx; font-size: small; color: black;"
-                  type="primary" size="mini" bindtap="tapTiQudx">去提取</button>
-              </view>
-
-
+            </view>
+            <view class="flex margin-lr-sm " wx:if="{{dingdanList.length<=1}}">
+              <button class="bg-gold cu-btn sm margin-bottom-sm shadow-blur round" style="width: 50%;" catch:tap="showAddQuhuoma">再填写一个</button>
             </view>
           </view>
         </view>
-        <!-- 第二部分 -->
-        <view class="weui-cells__group weui-cells__group_form">
-          <view class="weui-cells__title  ziti_s">收件人信息</view>
-          <view class="weui-cells weui-cells_form">
+        <!-- 第二部分 收件人信息-->
+        <view class="padding-sm">
+          <view class="bg-green light shadow">
+            <view class="padding-sm text-lg"><text class='cuIcon-titles text-orange'></text>收件人信息</view>
             <!-- 快递姓名 -->
             <view class="weui-cell weui-cell_active {{isWaring_kd_Name ? 'weui-cell_warn' : ''}}">
               <view class="weui-cell__hd">
@@ -132,10 +224,8 @@
               </view>
               <view class="weui-cell__bd weui-flex ziti_s">
 
-                <input class="weui-input" type="text" placeholder="不是自己姓名的，填入昵称" name="kd_Name"
-                  placeholder-class="weui-input__placeholder" value="{{value_kd_Name}}" bindinput="onInput_kd_Name" />
-                <view wx:if="{{showClearBtn_kd_Name}}" class="weui-btn_reset weui-btn_icon weui-btn_input-clear"
-                  bindtap="onClear_kd_Name">
+                <input class="weui-input" type="text" placeholder="非本人姓名的，请私聊告知姓名" name="kd_Name" placeholder-class="weui-input__placeholder fontsize_small" value="{{value_kd_Name}}" bindinput="onInput_kd_Name" />
+                <view wx:if="{{showClearBtn_kd_Name}}" class="weui-btn_reset weui-btn_icon weui-btn_input-clear" bindtap="onClear_kd_Name">
                   <i class="weui-icon-clear"></i>
                 </view>
 
@@ -149,11 +239,8 @@
               </view>
               <view class="weui-cell__bd weui-flex ziti_s">
 
-                <input class="weui-input" type="number" maxlength="11" placeholder="填写快递上的收件手机号码" name="kd_PhoNum"
-                  placeholder-class="weui-input__placeholder" value="{{value_kd_PhoNum}}"
-                  bindinput="onInput_kd_PhoNum" />
-                <view wx:if="{{showClearBtn_kd_PhoNum}}" class="weui-btn_reset weui-btn_icon weui-btn_input-clear"
-                  bindtap="onClear_kd_PhoNum">
+                <input class="weui-input" type="number" maxlength="11" placeholder="填写快递上的收件手机号码" name="kd_PhoNum" placeholder-class="weui-input__placeholder" value="{{value_kd_PhoNum}}" bindinput="onInput_kd_PhoNum" />
+                <view wx:if="{{showClearBtn_kd_PhoNum}}" class="weui-btn_reset weui-btn_icon weui-btn_input-clear" bindtap="onClear_kd_PhoNum">
                   <i class="weui-icon-clear"></i>
                 </view>
 
@@ -166,129 +253,774 @@
               <view class="weui-cell__hd">
                 <label class="weui-label ziti_s">送达地点</label>
               </view>
-              <!-- <view wx:if="{{isBianji}}">
-                <text>全选</text>
-                <switch checked="{{isXzq_1}}" bindchange="toXuanzq" />
-              </view> -->
-              <view>
-                <!-- 1号选择器 全部 -->
-                <view class="weui-cell__bd ziti_s">
-                  <picker mode="multiSelector" bindchange="bindMultiPickerChange"
-                    bindcolumnchange="bindMultiPickerColumnChange" range="{{multiArray}}">
-                    <view class="picker">
-                      <a class="xuanZeqi">{{sd_Didian}}</a>
-                    </view>
-                  </picker>
-                </view>
 
-                <view class="weui-cell__bd weui-flex ziti_s" wx:if="{{isZiDingYi}}">
-                  <input class="weui-input" type="text" placeholder="填入校内地址" name="input_sd_Didian"
-                    placeholder-class="weui-input__placeholder" value="{{value_sd_Didian}}"
-                    bindinput="onInput_sd_Didian" />
-                  <view wx:if="{{showClearBtn_sd_Didian}}" class="weui-btn_reset weui-btn_icon weui-btn_input-clear"
-                    bindtap="onClear_sd_Didian">
-                    <i class="weui-icon-clear"></i>
+              <!-- 送达地点选择 -->
+              <view>
+                <view style="display:flex;">
+                  <view class="ziti_s" style="margin-right:10rpx;">
+                    <view class="weui-input xuanZeqi" placeholder-class="weui-input__placeholder" bindtap="openAndroid_sdSushe">
+                      {{sd_Didian_sdSushe}}
+                    </view>
+                  </view>
+                  <view class="weui-cell__bd ziti_s" style="width:250rpx;margin-left:30rpx;">
+                    <view class="weui-input xuanZeqi" placeholder-class="weui-input__placeholder" bindtap="openAndroid_sdLoudong">
+                      {{sd_Didian_sdLoudong}}
+                    </view>
+                  </view>
+                </view>
+                <!-- 送达地点弹出框 -->
+                <view wx:if="{{showAndroidDialog_sdSushe}}" class="weui-skin_android fadeIn">
+                  <view class="weui-mask"></view>
+                  <view class="weui-actionsheet">
+                    <view class="weui-actionsheet__menu" style="display:flex">
+                      <view style="flex:1;">
+                        <view class="weui-actionsheet__cell" wx:for="{{sdSusheList1}}" wx:key='index' bindtap="tosdSushe" data-name="{{item.name}}" data-id="{{index}}">{{item.name}}
+                        </view>
+                      </view>
+                      <view style="flex:{{sdSusheList2.length==0?'none':1}}">
+                        <view class="weui-actionsheet__cell" wx:for="{{sdSusheList2}}" wx:key='index' bindtap="tosdSushe" data-name="{{item.name}}" data-id="{{index+9}}">{{item.name}}
+                        </view>
+                      </view>
+                    </view>
+                  </view>
+                </view>
+                <view wx:if="{{showAndroidDialog_sdLoudong}}" class="weui-skin_android fadeIn">
+                  <view class="weui-mask"></view>
+                  <view class="weui-actionsheet">
+                    <view class="weui-actionsheet__menu" style="display:flex">
+                      <!-- <view class="actionsheet__cell {{index>8 ?'position_absolute':''}}" style="margin-left:{{index>8 ? 274 :0}}rpx;top:{{index>8 ?(index-9)*112 : 0}}rpx;" wx:for="{{sdLoudongList}}" wx:key='index' bindtap="tosdLoudong"
+                        data-name="{{item.name}}">{{item.name}}
+                      </view> -->
+                      <view style="flex:1;">
+                        <view class="weui-actionsheet__cell" wx:for="{{sdLoudongList1}}" wx:key='index' bindtap="tosdLoudong" data-name="{{item.name}}">{{item.name}}
+                        </view>
+                      </view>
+                      <view style="flex:{{sdLoudongList2.length==0?'none':1}}">
+                        <view class="weui-actionsheet__cell" wx:for="{{sdLoudongList2}}" wx:key='index' bindtap="tosdLoudong" data-name="{{item.name}}">{{item.name}}
+                        </view>
+                      </view>
+
+                    </view>
                   </view>
                 </view>
               </view>
 
             </view>
           </view>
+
+          <!-- 备注信息 -->
+          <view class="padding solid-top bg-green light shadow" style="margin-top: 0;margin-bottom: 0;">
+            <!-- <view class="" style="height:150rpx;padding: 50rpx 50rpx;"> -->
+            <view class="text-lg padding-xs">备注</view>
+            <view class="weui-cell__bd ziti_s">
+              <view class="weui-cell__bd  weui-flex" wx:if="{{!dialogShow}}">
+                <textarea class="weui-textarea bg-white radius" placeholder-class="weui-input__placeholder" value="{{value_beizhu}}" placeholder="" style="" bindinput="onInput_beizhu" maxlength="200">
+                  </textarea>
+                <view wx:if="{{showClearBtn_beizhu}}" class="weui-btn_reset weui-btn_icon weui-btn_input-clear" bindtap="onClear_beizhu">
+                  <i class="weui-icon-clear"></i>
+                </view>
+              </view>
+            </view>
+          </view>
+
+          <!-- </view> -->
         </view>
       </view>
-      <view class="weui-form__tips-area">
+      <!-- 价格提示 -->
+      <view class="jiage" wx:if="{{jiage!==999}}">
+        <view>基础价格:<text class="jiage_text">{{jiage}}</text>元/件</view>
+        <view>超出加客服补差价</view>
+      </view>
+      <view class="weui-form__tips-area" wx:if="{{jiage!==999}}">
         <view class="weui-form__tips" bindtap="toCopywx">
           首次使用请务必添加相应区域微信号哦：
         </view>
         <view class="weui-form__tips" bindtap="toCopywx">
-          <a href="javascript:">{{wxPaisong}}</a>
+          <a class="ziti_m" style="color:red">{{wxPaisong}}</a>
           <a wx:if="{{wxPaisong != ''}}" href="javascript:"> 复制</a>
         </view>
       </view>
       <!-- 下单按钮 -->
       <view class="weui-form__opr-area" style="margin-bottom: 56rpx">
         <!-- <a class="weui-btn weui-btn_primary">下单</a> -->
-        <button class="weui-btn weui-btn_primary" form-type="submit" bindtap="openConfirm" size="">下单
-        </button>
+        <button wx:if="{{dingdanList.length<=1}}" class="weui-btn weui-btn_primary" bindtap="openConfirm" size="" disabled="{{disabledXiadan}}">下单</button>
+        <button wx:if="{{dingdanList.length>1}}" class="weui-btn weui-btn_primary" bindtap="openConfirmDingdanMore" size="" disabled="{{disabledXiadan}}">合并下单</button>
       </view>
-      <!-- [弹窗] 下单信息 核对 -->
-      <mp-dialog title="请确认" show="{{dialogShow}}" bindbuttontap="tapDialogButton" buttons="{{buttons}}">
-        <view>
-          取货码：{{qh_Ma}}
-        </view>
-        <view>
-          姓名：{{kd_Name}}
-        </view>
-        <view>
-          手机号码：{{kd_PhoNum}}
-        </view>
-      </mp-dialog>
-      <!-- [弹窗] 询问客户是否粘贴剪贴板的内容 -->
-      <mp-dialog title="粘贴短信" show="{{showDuanXin}}" bindbuttontap="tapDuanXin" buttons="{{dxbuttons}}">
-        <view>
-          <!-- 短信内容 -->
-          {{dx_Weikong}}{{contentDuanXin}}
-        </view>
-      </mp-dialog>
-      <!-- 底部 -->
-      <!-- <view class="weui-form__tips-area">
-        <view class="weui-form__tips">
-          下单后,请保持手机畅通
-        </view>
-        <view class="weui-msg__tips" bindtap="toCopywx">官方wx：{{weiXinhao}}
-          <a>复制</a>
-        </view>
-      </view> -->
 
+      <!-- 底部 -->
       <view class="weui-form__extra-area">
         <view class="weui-footer">
           <view class="weui-footer__links">
             <a href="javascript:" class="weui-footer__link" bindtap="toDingDan">查看所有订单
             </a>
           </view>
-          <view class="weui-footer__text">Copyright © 2018-2021 xiaomif</view>
+          <!-- <view class="weui-footer__text">Copyright © 2018-2021 xiaomif</view> -->
         </view>
       </view>
     </view>
-  </form>
-  <!-- 下单成功结果显示 -->
 
+    <!-- [弹窗] 下单信息 核对       =================================   单取货码  ================== -->
+    <mp-dialog title="确认订单" bindclose="dialogclose" show="{{dialogShow}}" bindbuttontap="toTijiaoLast" buttons="{{buttons}}" wx:if="{{dingdanList.length<=1}}">
+      <view class="dingdan">
+        <view class="dingdan_items">
+          <view class="dingdan_item1">快递点</view>
+          <view class="dingdan_item2">{{kd_Dian}}</view>
+        </view>
+        <view class="dingdan_items">
+          <view class="dingdan_item1">取货码</view>
+          <view class="dingdan_item2">{{value_qh_Ma}}</view>
+        </view>
+        <view class="dingdan_items">
+          <view class="dingdan_item1">姓名</view>
+          <view class="dingdan_item2">{{value_kd_Name}}</view>
+        </view>
+        <view class="dingdan_items">
+          <view class="dingdan_item1">手机号码</view>
+          <view class="dingdan_item2">{{value_kd_PhoNum}}</view>
+        </view>
+        <view class="dingdan_items">
+          <view class="dingdan_item1">送达地点</view>
+          <view class="dingdan_item2">{{sd_Didian}}</view>
+        </view>
+        <view class="jiezhang_items_1">
+          <view class="jiezhang_item1">小计：</view>
+          <view class="jiezhang_item2">￥{{jiage}}</view>
+        </view>
+      </view>
+      <view class="jiezhang">
+        <!-- 积分抵扣 -->
+        <view class="jiezhang_items">
+          <view class="jiezhang_item1" style="display: flex;">
+            <view style="margin-right: 10rpx;" bindtap="checkbox_Dikou">
+              <image style="width: 35rpx;height: 35rpx;" src="{{isDikou?'../../../images/danxuanxuanzhong.png':'../../../images/danxuanweixuan.png'}}"></image>
+            </view>
+            <text>积分抵扣</text>
+            <text style="color: gray;">（{{isDikou?jifen_shiji_dikou:'剩余'+jifen_sum}}）</text>
+          </view>
+          <view class="jiezhang_item2" wx:if="{{isUse_jifendk}}">{{dikou_money}}</view>
+          <view class="jiezhang_item2" wx:if="{{!isUse_jifendk}}" style="color: gray;">（不可用）</view>
+        </view>
+
+        <view class="jiezhang_items_1">
+          <view class="jiezhang_item1">合计：</view>
+          <view class="jiezhang_item2_heji">
+            <text>￥</text>
+            <text style="font-size: medium;">{{heji_money}}</text>
+          </view>
+        </view>
+      </view>
+      <!-- 支付方式 -->
+      <view class="jiezhang">
+        <view class="jiezhang_items">
+          <view class="jiezhang_item1" style="display: flex;">
+            <view style="margin-right: 10rpx;" bindtap="checkbox_fengmi">
+              <image style="width: 35rpx;height: 35rpx;" src="{{isFengmi_dikou?'../../../images/danxuanxuanzhong.png':'../../../images/danxuanweixuan.png'}}">
+              </image>
+            </view>
+            <text>蜂蜜支付</text>
+            <text style="color: gray;">（余额{{fengmi_sum}}）</text>
+          </view>
+          <view class="chongzhi" bindtap="toChongzhi">去充值</view>
+        </view>
+        <view class="jiezhang_items">
+          <view class="jiezhang_item1" style="display: flex;">
+            <view style="margin-right: 10rpx;" bindtap="checkbox_fengmi">
+              <image style="width: 35rpx;height: 35rpx;" src="{{isWeixinfu?'../../../images/danxuanxuanzhong.png':'../../../images/danxuanweixuan.png'}}">
+              </image>
+            </view>
+            <text>微信支付</text>
+          </view>
+        </view>
+      </view>
+
+
+
+    </mp-dialog>
+
+    <!-- [弹窗] 下单信息 核对 多订单 ================================= 多订单  =============================-->
+    <mp-dialog title="确认订单" bindclose="dialogclose" show="{{dialogShowMore}}" bindbuttontap="toTijiaoLastDingdanMore" buttons="{{buttonsHebing}}" wx:if="{{dingdanList.length>1}}">
+      <view class="dingdan">
+        <view class="dingdan_items">
+          <view class="dingdan_item1">姓名</view>
+          <view class="dingdan_item2">{{value_kd_Name}}</view>
+        </view>
+        <view class="dingdan_items">
+          <view class="dingdan_item1">手机号码</view>
+          <view class="dingdan_item2">{{value_kd_PhoNum}}</view>
+        </view>
+        <view class="dingdan_items">
+          <view class="dingdan_item1">送达地点</view>
+          <view class="dingdan_item2">{{sd_Didian}}</view>
+        </view>
+        <view class="dingdan_items bg-gray padding-xs">
+          <view class="dingdan_item1">快递点</view>
+          <view class="dingdan_item1">取货码</view>
+        </view>
+        <view class="dingdan_items" wx:for="{{dingdanList}}" wx:if="{{index<3}}" wx:key="index">
+          <view class="dingdan_item2" style="flex:0.5">{{item.kd_Dian}}</view>
+          <view class="dingdan_item2 text-cut" style="flex:1">{{item.value_qh_Ma}}</view>
+        </view>
+        <view class="text-center" wx:if="{{dingdanList.length>=4}}">...</view>
+        <view class="flex justify-between">
+          <view class="jiezhang_items_1">
+            <view class="jiezhang_item1">数量 x</view>
+            <view class="jiezhang_item2 margin-left-xs">{{dingdanList.length}}</view>
+          </view>
+          <view class="jiezhang_items_1">
+            <view class="jiezhang_item1">小计：</view>
+            <!-- <view class="jiezhang_item2">￥{{jiage*dingdanList.length}}</view> -->
+            <view class="jiezhang_item2">￥{{xiaoji_money}}</view>
+          </view>
+        </view>
+      </view>
+
+      <view class="jiezhang">
+        <!-- 积分抵扣 -->
+        <view class="jiezhang_items">
+          <view class="jiezhang_item1" style="display: flex;">
+            <view style="margin-right: 10rpx;" bindtap="checkbox_Dikou">
+              <image style="width: 35rpx;height: 35rpx;" src="{{isDikou?'../../../images/danxuanxuanzhong.png':'../../../images/danxuanweixuan.png'}}"></image>
+            </view>
+            <text>积分抵扣</text>
+            <!-- <text wx:if="{{isUse_jifendk}}" style="color: gray;">（{{isDikou?jifen_shiji_dikou:'剩余'+jifen_sum}}）</text> -->
+            <text style="color: gray;">（{{isDikou?jifen_shiji_dikou:'剩余'+jifen_sum}}）</text>
+          </view>
+          <view class="jiezhang_item2" wx:if="{{isUse_jifendk}}">{{dikou_money}}</view>
+          <view class="jiezhang_item2" wx:if="{{!isUse_jifendk}}" style="color: gray;">（不可用）</view>
+        </view>
+
+        <view class="jiezhang_items_1">
+          <view class="jiezhang_item1">合计：</view>
+          <view class="jiezhang_item2_heji">
+            <text>￥</text>
+            <text style="font-size: medium;">{{heji_money}}</text>
+          </view>
+        </view>
+      </view>
+      <!-- 支付方式 -->
+      <view class="jiezhang">
+        <view class="jiezhang_items">
+          <view class="jiezhang_item1" style="display: flex;">
+            <view style="margin-right: 10rpx;" bindtap="checkbox_fengmi">
+              <image style="width: 35rpx;height: 35rpx;" src="{{isFengmi_dikou?'../../../images/danxuanxuanzhong.png':'../../../images/danxuanweixuan.png'}}">
+              </image>
+            </view>
+            <text>蜂蜜支付</text>
+            <text style="color: gray;">（余额{{fengmi_sum}}）</text>
+          </view>
+          <view class="chongzhi" bindtap="toChongzhi">去充值</view>
+        </view>
+        <view class="jiezhang_items">
+          <view class="jiezhang_item1" style="display: flex;">
+            <view style="margin-right: 10rpx;" bindtap="checkbox_fengmi">
+              <image style="width: 35rpx;height: 35rpx;" src="{{isWeixinfu?'../../../images/danxuanxuanzhong.png':'../../../images/danxuanweixuan.png'}}">
+              </image>
+            </view>
+            <text>微信支付</text>
+          </view>
+        </view>
+      </view>
+
+
+
+    </mp-dialog>
+
+
+  </form>
+  <!-- 公众号二维码 -->
+  <view class="fadeIn" wx:if="{{isShowMa}}" catch:tap="ShowMa">
+    <view class="weui-mask"></view>
+    <view class="weui-dialog">
+      <view style="display: flex;flex-direction: column;align-items: center;">
+        <view style="padding: 10rpx;">
+          <text>先关注公众号再下单才能收到送达提醒</text>
+        </view>
+        <!-- <view style="padding: 10rpx;">
+          <text>先关注公众号方可下单</text>
+        </view> -->
+        <view style="padding: 10rpx;">
+          <text>长按识别关注公众号</text>
+        </view>
+        <image src="../../../images/erweima3.jpg" mode="widthFix" style="width: 300rpx;" show-menu-by-longpress />
+      </view>
+      <view class="weui-dialog__ft">
+        <a class="weui-dialog__btn weui-dialog__btn_default" catchtap="ShowMa">关闭</a>
+      </view>
+    </view>
+  </view>
+
+  <!-- 下单成功结果显示 -->
   <view class="weui-msg" wx:if="{{isXiadan}}">
+    <view wx:if="{{isBanner}}">
+      <view class="weui-mask"></view>
+
+      <view class="banner">
+        <view style="display:flex;justify-content: flex-end;">
+          <mp-icon icon="close2" color="black" size="{{25}}" catchtap="closebanner"></mp-icon>
+        </view>
+        <image class="banner_image" mode="widthFix" src="{{xiadansuccess}}"></image>
+      </view>
+    </view>
     <view class="weui-msg__icon-area">
       <i class="weui-icon-success weui-icon_msg"></i>
     </view>
     <view class="weui-msg__text-area">
       <h2 class="weui-msg__title">下单成功</h2>
-      <view class="weui-msg__desc" style="margin-top:50rpx;">{{kd_Dian}}</view>
-      <view class="weui-msg__desc ">{{qh_Ma}}</view>
-      <view class="weui-msg__desc">{{kd_Name}}</view>
-      <view class="weui-msg__desc">{{kd_PhoNum}}</view>
+      <view>
+        <view wx:if="{{dingdanList.length<=1}}">
+          <view class="weui-msg__desc" style="margin-top:50rpx;">{{kd_Dian}}</view>
+          <view class="weui-msg__desc ">{{value_qh_Ma}}</view>
+        </view>
+        <view class="bg-white shadow margin-sm" wx:if="{{dingdanList.length>1}}">
+          <view class="flex text-gray padding-sm">
+            <view style="flex:0.6">快递点</view>
+            <view style="flex:1">取货码</view>
+          </view>
+          <view class="flex padding-sm solid-top" wx:for="{{dingdanList}}" wx:key="index">
+            <view style="flex:0.6">{{item.kd_Dian}}</view>
+            <view style="flex:1" class="text-cut">{{item.value_qh_Ma}}</view>
+          </view>
+        </view>
+      </view>
+
+      <view class="weui-msg__desc">{{value_kd_Name}}</view>
+      <view class="weui-msg__desc">{{value_kd_PhoNum}}</view>
       <view class="weui-msg__desc">{{sd_Didian}}</view>
       <!-- <view class="weui-msg__desc" wx:if="{{isZiDingYi}}">{{input_sd_Didian}}</view> -->
 
     </view>
+
     <view class="weui-msg__opr-area">
       <view class="weui-btn-area">
-        <a href="javascript:history.back();" class="weui-btn weui-btn_primary" bindtap="toContinue">继续下单
+        <a href="javascript:history.back();" class="weui-btn weui-btn_primary" catchtap="toContinue">继续下单
         </a>
       </view>
     </view>
     <view class="weui-msg__tips-area">
       <!-- <view class="weui-msg__tips">提示详情，可根据实际需要安排，如果换行则不超过规定长度，居中展现<a>文字链接</a></view> -->
-      <view class="weui-msg__tips" bindtap="toCopywx">此区域派送微信wx：</view>
-      <view class="weui-msg__tips" bindtap="toCopywx">
+      <view class="weui-msg__tips" catchtap="toCopywx">此区域派送微信wx：</view>
+      <view class="weui-msg__tips" catchtap="toCopywx">
         {{wxPaisong}}<a>复制</a>
       </view>
     </view>
+
+    <!-- <view class="fadeIn" wx:if="{{isShowMa}}" catch:tap="ShowMa">
+      <view class="weui-mask"></view>
+      <view class="weui-dialog">
+        <view style="display: flex;flex-direction: column;align-items: center;">
+          <view style="padding: 10rpx;">
+            <text>长按识别关注公众号</text>
+          </view>
+          <view style="padding: 10rpx;">
+            <text>重要消息不错过！</text>
+          </view>
+          <image src="../../../images/erweima3.jpg" mode="widthFix" style="width: 300rpx;" show-menu-by-longpress />
+        </view>
+        <view class="weui-dialog__ft">
+          <a class="weui-dialog__btn weui-dialog__btn_default" catchtap="ShowMa">关闭</a>
+        </view>
+      </view>
+    </view> -->
+
     <view class="weui-form__extra-area">
       <view class="weui-footer">
         <view class="weui-footer__links">
-          <a href="javascript:" class="weui-footer__link" bindtap="toDingDan">查看所有订单
+          <a href="javascript:" class="weui-footer__link" catchtap="toDingDan">查看所有订单
           </a>
         </view>
-        <view class="weui-footer__text">Copyright © 2018-2021 xiaomif</view>
+        <!-- <view class="weui-footer__text">Copyright © 2018-2021 xiaomif</view> -->
       </view>
     </view>
   </view>
+</view>
+<!-- [弹窗] 询问客户是否粘贴剪贴板的内容 -->
 
+<mp-dialog title="粘贴短信" show="{{showDuanXin}}" bindbuttontap="tapDuanXin" buttons="{{dxbuttons}}">
+  <view>
+    <!-- 短信内容 -->
+    {{dx_Weikong}}{{contentDuanXin}}
+  </view>
+</mp-dialog>
+<!-- [弹窗] 询问客户是否粘贴剪贴板的内容  2 -->
+
+<mp-dialog style="z-index: 999;" title="粘贴短信" show="{{showDuanXin2}}" bindbuttontap="tapDuanXin2" buttons="{{dxbuttons}}">
+  <view>
+    <!-- 短信内容 -->
+    {{dx_Weikong}}{{contentDuanXin}}
+  </view>
+</mp-dialog>
+
+<!-- 编辑 订单 ========================================================= 编辑   编辑  =============================-->
+<view class="weui-form__control-area" style="margin-top: 50rpx;" wx:if="{{isEdit}}">
+  <view class="weui-form__text-area">
+    <h2 class="weui-form__title" bindtap="">编辑订单</h2>
+  </view>
+  <view class="weui-cells__group weui-cells__group_form">
+    <view class="weui-cells__title ziti_s">包裹信息</view>
+    <view class="weui-cells weui-cells_form">
+      <!-- 快递点名称 -->
+      <view class="weui-cell weui-cell_active">
+        <view class="weui-cell__hd">
+          <label class="weui-label ziti_s">快递点名称</label>
+        </view>
+        <view class="weui-cell__bd ziti_s">
+          <view class="weui-input xuanZeqi" placeholder-class="weui-input__placeholder" bindtap="openAndroid">
+            {{kd_Dian}}
+          </view>
+        </view>
+      </view>
+      <!-- 加入新的选择器 弹出式菜单-->
+      <!-- 选择快递点 -->
+      <view wx:if="{{showAndroidDialog}}" class="weui-skin_android fadeIn">
+        <view class="weui-mask"></view>
+        <view class="weui-actionsheet">
+          <view class="weui-actionsheet__menu">
+            <view class="weui-actionsheet__cell" wx:for="{{kdDianList}}" wx:key='index' bindtap="tanChuSheet" data-name="{{item.name}}">{{item.name}}
+            </view>
+          </view>
+        </view>
+      </view>
+
+
+      <!-- 取货码： -->
+
+      <view class="weui-cell weui-cell_active {{isWaring_qh_Ma ? 'weui-cell_warn' : ''}}">
+        <view class="weui-cell__hd weui-flex">
+          <label class="weui-label ziti_s">取货码</label>
+        </view>
+        <view class="weui-cell__bd weui-flex ziti_s">
+          <input class="weui-input" style="width:220rpx;" type="text" placeholder="仅填一个取货码" placeholder-class="weui-input__placeholder" name="qh_Ma" value="{{value_qh_Ma}}" bindinput="onInput_qh_Ma" bindblur="outInput_qh_Ma" bindtap="tapInput_qh_Ma" />
+          <view wx:if="{{showClearBtn_qh_Ma}}" class="weui-btn_reset weui-btn_icon weui-btn_input-clear" bindtap="onClear_qh_Ma">
+            <i class="weui-icon-clear"></i>
+          </view>
+        </view>
+        <!-- 是否显示 取货码 提取按钮   暂时isTiqu没有动态绑定 默认一直显示-->
+        <!-- <view class="weui-cell__bd weui-flex ziti_s" wx:if="isTiqu"> -->
+        <view class="weui-cell__bd weui-flex ziti_s">
+          <button style="border-radius: 48rpx;background-color: gold; height: 50rpx; font-size: small; color: black; padding:0 20rpx;margin-left:20rpx;" type="primary" size="mini" bindtap="tapTiQudx">提取</button>
+        </view>
+      </view>
+      <view class="weui-cell__bd weui-flex ziti_s">
+        <text style="color: red;font-size: xx-small;margin: auto;">(隐私号快递请填写快递单号)</text>
+      </view>
+
+    </view>
+  </view>
+  <!-- 第二部分 -->
+  <view class="weui-cells__group weui-cells__group_form">
+    <view class="weui-cells__title  ziti_s">收件人信息</view>
+    <view class="weui-cells weui-cells_form">
+
+      <!-- 快递姓名 -->
+      <view class="weui-cell weui-cell_active {{isWaring_kd_Name ? 'weui-cell_warn' : ''}}">
+        <view class="weui-cell__hd">
+          <label class="weui-label ziti_s">快递姓名</label>
+        </view>
+        <view class="weui-cell__bd weui-flex ziti_s">
+          <input class="weui-input" type="text" placeholder="非本人姓名的，填入昵称" name="kd_Name" placeholder-class="weui-input__placeholder" value="{{value_kd_Name}}" bindinput="onInput_kd_Name" />
+          <view wx:if="{{showClearBtn_kd_Name}}" class="weui-btn_reset weui-btn_icon weui-btn_input-clear" bindtap="onClear_kd_Name">
+            <i class="weui-icon-clear"></i>
+          </view>
+        </view>
+      </view>
+      <!-- 手机号码 -->
+      <view class="weui-cell weui-cell_active {{isWaring_kd_PhoNum   ? 'weui-cell_warn' : ''}}">
+        <view class="weui-cell__hd">
+          <label class="weui-label ziti_s">手机号码</label>
+        </view>
+        <view class="weui-cell__bd weui-flex ziti_s">
+          <input class="weui-input" type="number" maxlength="11" placeholder="填写快递上的收件手机号码" name="kd_PhoNum" placeholder-class="weui-input__placeholder" value="{{value_kd_PhoNum}}" bindinput="onInput_kd_PhoNum" />
+          <view wx:if="{{showClearBtn_kd_PhoNum}}" class="weui-btn_reset weui-btn_icon weui-btn_input-clear" bindtap="onClear_kd_PhoNum">
+            <i class="weui-icon-clear"></i>
+          </view>
+        </view>
+      </view>
+      <!-- 送达地点 -->
+      <!-- 宿舍区域 及 具体楼栋 2级选择 -->
+      <view class="weui-cell weui-cell_active">
+        <view class="weui-cell__hd">
+          <label class="weui-label ziti_s">送达地点</label>
+        </view>
+        <!-- 送达地点选择 -->
+        <view>
+          <view style="display:flex;">
+            <view class="ziti_s" style="margin-right:10rpx;">
+              <view class="weui-input xuanZeqi" placeholder-class="weui-input__placeholder" bindtap="openAndroid_sdSushe">
+                {{sd_Didian_sdSushe}}
+              </view>
+            </view>
+            <view class="weui-cell__bd ziti_s" style="width:250rpx;">
+              <view class="weui-input xuanZeqi" placeholder-class="weui-input__placeholder" bindtap="openAndroid_sdLoudong">
+                {{sd_Didian_sdLoudong}}
+              </view>
+            </view>
+          </view>
+          <!-- 送达地点弹出框 -->
+          <view wx:if="{{showAndroidDialog_sdSushe}}" class="weui-skin_android fadeIn">
+            <view class="weui-mask"></view>
+            <view class="weui-actionsheet">
+              <view class="weui-actionsheet__menu" style="display:flex">
+                <view style="flex:1;">
+                  <view class="weui-actionsheet__cell" wx:for="{{sdSusheList1}}" wx:key='index' bindtap="tosdSushe" data-name="{{item.name}}" data-id="{{index}}">{{item.name}}
+                  </view>
+                </view>
+                <view style="flex:{{sdSusheList2.length==0?'none':1}}">
+                  <view class="weui-actionsheet__cell" wx:for="{{sdSusheList2}}" wx:key='index' bindtap="tosdSushe" data-name="{{item.name}}" data-id="{{index+9}}">{{item.name}}
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+          <view wx:if="{{showAndroidDialog_sdLoudong}}" class="weui-skin_android fadeIn">
+            <view class="weui-mask"></view>
+            <view class="weui-actionsheet">
+              <view class="weui-actionsheet__menu" style="display:flex">
+                <!-- <view class="actionsheet__cell {{index>8 ?'position_absolute':''}}" style="margin-left:{{index>8 ? 274 :0}}rpx;top:{{index>8 ?(index-9)*112 : 0}}rpx;" wx:for="{{sdLoudongList}}" wx:key='index' bindtap="tosdLoudong"
+                        data-name="{{item.name}}">{{item.name}}
+                      </view> -->
+                <view style="flex:1;">
+                  <view class="weui-actionsheet__cell" style="" wx:for="{{sdLoudongList1}}" wx:key='index' bindtap="tosdLoudong" data-name="{{item.name}}">{{item.name}}
+                  </view>
+                </view>
+                <view style="flex:{{sdLoudongList2.length==0?'none':1}}">
+                  <view class="weui-actionsheet__cell" style="" wx:for="{{sdLoudongList2}}" wx:key='index' bindtap="tosdLoudong" data-name="{{item.name}}">{{item.name}}
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <!-- 备注信息 -->
+      <view class="weui-cell weui-cell_active" style="height:150rpx;padding: 50rpx 50rpx;">
+        <view class="weui-cell__bd ziti_s">
+          <view>
+            <label class="weui-label ziti_s" style="margin-bottom: 30rpx;">备注</label>
+          </view>
+          <view class="weui-cell__bd  weui-flex" wx:if="{{!dialogShow}}">
+            <textarea class="weui-textarea" placeholder-class="weui-input__placeholder" value="{{value_beizhu}}" placeholder="如有其他要求，请输入备注" style="height: 5.5em; background-color:WhiteSmoke; font-size:25rpx;" bindinput="onInput_beizhu" maxlength="200">
+                  </textarea>
+            <view wx:if="{{showClearBtn_beizhu}}" class="weui-btn_reset weui-btn_icon weui-btn_input-clear" bindtap="onClear_beizhu">
+              <i class="weui-icon-clear"></i>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- 编辑 派送微信 -->
+  <view class="weui-msg" style="padding: 30rpx;margin: 0 30rpx;">
+
+    <view class="">
+      <!-- <view class="weui-msg__tips">提示详情，可根据实际需要安排，如果换行则不超过规定长度，居中展现<a>文字链接</a></view> -->
+      <view class="weui-msg__tips" catchtap="toCopywx">此区域派送微信wx：</view>
+      <view class="weui-msg__tips" catchtap="toCopywx">
+        {{wxPaisong}}<a>复制</a>
+      </view>
+    </view>
+  </view>
+  <!-- 下单按钮 -->
+  <view class="flexjuzhong" style="margin-bottom: 56rpx">
+    <!-- <view class="weui-form__opr-area" style="margin-bottom: 56rpx">
+      <button class="weui-btn weui-btn_primary" bindtap="toCancel" size="default">取消
+      </button>
+    </view> -->
+    <view class="weui-form__opr-area" style="margin-bottom: 56rpx;margin-top: 30rpx;">
+      <button class="weui-btn weui-btn_primary" bindtap="openConfirm" size="default">确认
+      </button>
+    </view>
+  </view>
+
+  <!-- [弹窗] 编辑 信息 核对 -->
+  <mp-dialog title="确认信息" show="{{dialogShow_isEdit}}" bindbuttontap="toTijiaoEdit" buttons="{{buttons_isEdit}}">
+    <view class="dingdan">
+      <view class="dingdan_items">
+        <view class="dingdan_item1">快递点</view>
+        <view class="dingdan_item2">{{kd_Dian}}</view>
+      </view>
+      <view class="dingdan_items">
+        <view class="dingdan_item1">取货码</view>
+        <view class="dingdan_item2">{{value_qh_Ma}}</view>
+      </view>
+      <view class="dingdan_items">
+        <view class="dingdan_item1">姓名</view>
+        <view class="dingdan_item2">{{value_kd_Name}}</view>
+      </view>
+      <view class="dingdan_items">
+        <view class="dingdan_item1">手机号码</view>
+        <view class="dingdan_item2">{{value_kd_PhoNum}}</view>
+      </view>
+      <view class="dingdan_items">
+        <view class="dingdan_item1">送达地点</view>
+        <view class="dingdan_item2">{{sd_Didian}}</view>
+      </view>
+    </view>
+  </mp-dialog>
+</view>
+<!-- 通知栏 -->
+<view class="fadeIn" wx:if="{{isTongzhi&&!isEdit}}" hidden="{{tongzhiHidden}}">
+  <view class="weui-mask"></view>
+  <view class="weui-dialog" style="height:612rpx;" wx:if="{{!isEditTongzhi}}">
+    <view class="weui-dialog__bd" style="height:500rpx;">{{text_tongzhi}}</view>
+    <view class="weui-dialog__ft">
+      <a class="weui-dialog__btn weui-dialog__btn_primary" bindtap="close">知道了</a>
+    </view>
+  </view>
+</view>
+<!-- 通知栏编辑 -->
+<view class="fadeIn" wx:if="{{isEditTongzhi}}">
+  <view class="weui-mask"></view>
+  <view class="weui-dialog" style="height:724rpx;">
+    <view style="height:612rpx;">
+      <textarea auto-focus bindinput="inputTongzhi" placeholder="限制：8行128字" value="{{inputVal_tongzhi}}" class="weui-dialog__bd" style="height: 552rpx; width: 550rpx;" maxlength="128"></textarea>
+    </view>
+    <view class="weui-dialog__ft">
+      <a class="weui-dialog__btn weui-dialog__btn_default" catchtap="close">取消</a>
+      <a class="weui-dialog__btn weui-dialog__btn_primary" catchtap="toEditTongzhi">完成</a>
+    </view>
+  </view>
+</view>
+<!-- 下单关闭后蒙层 -->
+<view class="weui-mask" bindtap="toClose_tongzhi" wx:if="{{ xiadan.isXiadan_close && !isAdmin_xiadan}}"></view>
+
+<!-- 填写包裹信息   添加多个包裹 弹窗 ========================= -->
+<view class="cu-modal {{showAddqhm?'show':''}} ">
+  <view class="cu-dialog bg-white shadow margin-sm">
+    <view class="flex justify-between bg-white padding-sm solid-bottom">
+      <view class="padding-sm text-lg text-black" style="width: 90%;">{{duodingdanEdit?'编辑包裹信息':'添加包裹信息'}}</view>
+      <view class="">
+        <button class="bg-white cu-btn round cuIcon-close" style="width: 100%;" catch:tap="{{duodingdanEdit?'closeAddQuhuoma_edit':'showAddQuhuoma'}}"></button>
+      </view>
+    </view>
+    <view class="">
+      <!-- 快递点名称 -->
+      <view class="flex margin ">
+        <view class="">
+          <label class="ziti_s">快递点名称</label>
+        </view>
+        <view class="weui-cell__bd ziti_s">
+          <view class="weui-input xuanZeqi" placeholder-class="weui-input__placeholder" bindtap="openAndroid2">
+            {{kd_Dian2}}
+          </view>
+        </view>
+      </view>
+      <!-- 加入新的选择器 弹出式菜单-->
+      <!-- 选择快递点 -->
+      <view wx:if="{{showAndroidDialog2}}" class="weui-skin_android fadeIn">
+        <view class="weui-mask"></view>
+        <view class="weui-actionsheet">
+          <view class="weui-actionsheet__menu">
+            <view class="weui-actionsheet__cell" wx:for="{{kdDianList}}" wx:key='index' bindtap="tanChuSheet2" data-name="{{item.name}}">{{item.name}}
+            </view>
+          </view>
+        </view>
+      </view>
+
+
+      <!-- 取货码： -->
+      <view class="">
+        <view class="flex padding solid-top justify-between">
+          <view class="flex">
+            <view class="bg-white">取货码</view>
+            <view>
+              <text class="text-red text-sm margin-left-xs">(隐私号快递请填写快递单号)</text>
+            </view>
+          </view>
+          <view class="">
+            <view class="bg-gold sm cu-btn round" catch:tap="tapTiQudx2">提取</view>
+          </view>
+        </view>
+        <view class="flex ">
+          <view class="solid padding margin">
+            <input class="" style="width: 500rpx;" type="text" placeholder="粘贴短信可识别" placeholder-class="" name="qh_Ma" value="{{value_qh_Ma2}}" bindinput="onInput_qh_Ma2" bindblur="outInput_qh_Ma2" bindtap="tapInput_qh_Ma2" />
+          </view>
+          <view wx:if="{{showClearBtn_qh_Ma2}}" class="margin-top" bindtap="onClear_qh_Ma2">
+            <text class="weui-icon-clear margin-top"></text>
+            <!-- <text class="weui-icon-clear"></text> -->
+          </view>
+        </view>
+        <view class="flex justify-between margin" style="">
+          <button class="bg-gold cu-btn round" style="width: 100%;" catch:tap="{{duodingdanEdit?'quhuomaConfirm_edit':'quhuomaConfirm'}}">{{duodingdanEdit?'编辑完成':'确定'}}</button>
+        </view>
+      </view>
+
+
+
+    </view>
+  </view>
+</view>
+<!-- <view class="margin-sm text-sm text-gray">
+          <text class="cuIcon-info">包裹数量大于1时，请务必添加微信公众号接收消息</text>
+        </view> -->
+
+<!-- 有重复取货码订单弹窗 是否继续 -->
+
+<view class="cu-modal {{show_qh_Ma_chongfu?'show':''}} ">
+  <view class="cu-dialog bg-white shadow margin-sm">
+    <view class="flex justify-between bg-white padding-sm solid-bottom">
+      <view class="padding-sm text-lg text-black text-bold" style="width: 90%;">重复订单提示</view>
+    </view>
+    <view class="text-center margin-sm">
+      <text class="text-lg text-black">您已经下单过此取货码信息</text>
+    </view>
+    <view>
+      <view class="dingdan bg-green light radius padding">
+        <view class="dingdan_items">
+          <view class="dingdan_item1" style="width:150rpx;text-align: left;">快递点:</view>
+          <view class="dingdan_item2" style="word-break: break-all;">{{qh_Ma_chongfu_info.kd_Dian}}</view>
+        </view>
+        <view class="dingdan_items">
+          <view class="dingdan_item1" style="width:150rpx;text-align: left;">取货码:</view>
+          <view class="dingdan_item2" style="word-break: break-all;">{{qh_Ma_chongfu_info.qh_Ma}}</view>
+        </view>
+
+        <view class="dingdan_items">
+          <view class="dingdan_item1">下单时间:</view>
+          <view class="dingdan_item2">{{qh_Ma_chongfu_info.xd_time}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="text-center margin-sm">
+      <text class="text-lg text-black">是否继续下单？</text>
+    </view>
+    <view class="flex justify-between margin-sm">
+      <button class="bg-gray cu-btn round" style="width: 48%;" catch:tap="qh_Ma_chongfu">确定</button>
+      <button class="bg-gold cu-btn round" style="width: 48%;" catch:tap="qh_Ma_chongfu_cancel">我再看看</button>
+    </view>
+  </view>
+</view>
+<view class="cu-modal {{show_qh_Ma_chongfu_more?'show':''}} ">
+  <view class="cu-dialog bg-white shadow margin-sm">
+    <view class="flex justify-between bg-white padding-sm solid-bottom">
+      <view class="padding-sm text-lg text-black text-bold" style="width: 90%;">重复订单提示</view>
+    </view>
+    <view class="text-center margin-sm">
+      <text class="text-lg text-black">您已经下单过此取货码信息</text>
+    </view>
+    <view>
+      <view class="dingdan bg-green light radius padding">
+        <view class="dingdan_items">
+          <view class="dingdan_item1" style="width:150rpx;text-align: left;">快递点:</view>
+          <view class="dingdan_item2" style="word-break: break-all;">{{qh_Ma_chongfu_info.kd_Dian}}</view>
+        </view>
+        <view class="dingdan_items">
+          <view class="dingdan_item1" style="width:150rpx;text-align: left;">取货码:</view>
+          <!-- 超过换行 -->
+          <view class="dingdan_item2" style="word-break: break-all;">{{qh_Ma_chongfu_info.qh_Ma}}</view>
+        </view>
+
+        <view class="dingdan_items">
+          <view class="dingdan_item1">下单时间:</view>
+          <view class="dingdan_item2">{{qh_Ma_chongfu_info.xd_time}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="text-center margin-sm">
+      <text class="text-lg text-black">是否继续下单？</text>
+    </view>
+    <view class="flex justify-between margin-sm">
+      <button class="bg-gray cu-btn round" style="width: 48%;" catch:tap="qh_Ma_chongfu_more">确定</button>
+      <button class="bg-gold cu-btn round" style="width: 48%;" catch:tap="qh_Ma_chongfu_cancel">我再看看</button>
+    </view>
+  </view>
 </view>

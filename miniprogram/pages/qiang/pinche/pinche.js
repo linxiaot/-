@@ -1,119 +1,249 @@
-// pages/qiang/pinche/pinche.js
-let login_ok = wx.getStorageSync('login_ok')
-// 从缓存数据重获取 信息 用户是否登录
-let userinfo = wx.getStorageSync('userinfo')
-let openid = wx.getStorageSync('openid')
-// let pincheRen = {}
-
+// pages/qiang/xunwu/xunwu.js 
+var utils_toShouQuan = require('../../../utils/toShouQuan.js') //获取 是否登录 login_ok
+var url = '../../wode/ziliao/ziliao'
+var utils_time = require('../../../utils/time.js')
+var nowday = utils_time.formatTime(new Date())
 
 Page({
+    // mixins: [require('../../mixin/themeChanged')],
+    data: {
+        pincheList: [],
+        isPinche: true,
+        pageNum: 1,
+        // isRiqi: false,
+        isShaixuan: false,
+        shaixuan_list: [],
+        shaixuan_riqi: ''
 
-  data: {
+    },
 
-    avatarUrl: '../../../images/user-unlogin.png',
-    nickName: '张三',
-    disabled: false,
-    phoneNumber: '19999999999',
-    // nowNum: 0
-  },
-
-  // 拼车变数 图像被选中
-  toPinChe(e) {
-    console.log('点击拼车 获取的数据', e)
-    // 判断用户是否登录
-    this.checkLogin()
-    //  获取 nowNum 和 needNum 及 id
-    let id= e.currentTarget.id
-    let pinche = e.currentTarget.dataset.pinche
-    let pincheRen = pinche.pincheRen
-    let imageUrl = this.data.imageUrl
-    let needNum = pinche.pincheNum.needNum
-    // let login_ok = true//先写死了
-    this.setData({
-      nowNum: pinche.pincheRen.length,
-    })
-    let nowNum = this.data.nowNum
-    if (pincheRen){
-      console.log('pincheRen = ',pincheRen);
-    }
-    if (nowNum < needNum && login_ok == true) {
-      this.setData({
-        nowNum: this.data.nowNum + 1,
-      })
-      //
-      // 云函数 更新 拼车人数
-      // 云函数 新增 拼车人信息
-      // console.log('缓存中的 姓名 是：',userinfo.nickName);
-      let pincheRen_item = {}
-      pincheRen_item.avatarUrl = userinfo.avatarUrl
-      pincheRen_item.nickName = userinfo.nickName
-      pincheRen_item.phoneNumber = this.data.phoneNumber
-      pincheRen.push(pincheRen_item)
-     
-      console.log('组合后的拼车人信息：',pincheRen)
-      wx.cloud.callFunction({
-          name: 'pinche',
-          data: { 
-            id: e.currentTarget.id,
-            pincheNum: {
-              nowNum: this.data.nowNum,
-            },
-            pincheRen: pincheRen
-          }
-        })
-        .then(res => {
-          console.log('云函数 更新 拼车信息 成功', res)
-          // 即时更新 云端数据 列表渲染到前端
-          wx.cloud.database().collection('pinche').get({
-            success: res => {
-              console.log('云数据 请求成功 拼车列表：', res.data)
-              this.setData({
-                pincheList: res.data,
-              })
+    // 时间选择器
+    bindDateChange: function (e) {
+        console.log('日期选择改变，携带值为', e.detail.value)
+        var shaixuan_riqi = e.detail.value.slice(5, 7) + '月' + e.detail.value.slice(8, 10) + '日'
+        var pincheList = this.data.pincheList
+        var shaixuan_list = []
+        // shaixuan_riqi.splice(2, 1)
+        console.log(shaixuan_riqi);
+        pincheList.forEach(element => {
+            if (element.shijian.includes(shaixuan_riqi)) {
+                shaixuan_list.push(element)
             }
-          })
-        })
-        .catch(err => {
-          console.log('云函数 更新 拼车人数 失败', err)
-        })
-
-    }
-
-  },
-  // 判断用户是否登录
-  checkLogin() {
-    if (login_ok) {
-      console.log('缓存数据 获取成功 用户已登录', userinfo)
-    } else {
-      console.log('缓存数据 userinfo 不存在 需授权')
-      wx.showToast({
-        icon: 'error',
-        title: '请先授权登陆',
-        duration:1000
-      })
-      wx.navigateTo({
-        url: '../../wode/ziliao/ziliao',
-      })
-    }
-  },
-
-  onShow: function () {
-
-    // 云端 下载 拼车信息
-
-    wx.cloud.database().collection('pinche').get({
-      success: res => {
-        console.log('[页面显示] [云数据] 请求成功 拼车列表：', res.data)
+            // var riqi_element = element.createTime.slice(0,10).split('-').join('')
+            // var riqi_element = element.createTime.slice(0, 10)
+            // if (riqi_element >= shaixuan_riqi) {
+            //     if (riqi_element <= shaixuan_riqi2) {
+            //         shaixuan_list.push(element)
+            //     }
+            // }
+        });
         this.setData({
-          pincheList: res.data
+            shaixuan_riqi,
+            shaixuan_list,
+            isShaixuan: true, 
         })
-      }
-    })
-  },
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
+    },
+    toRiqi() {
+        this.setData({
+            // isRiqi: !this.data.isRiqi,
+            shaixuan_list: [],
+            isShaixuan: false,
+            shaixuan_riqi: ''
+        })
+    },
+    // 搜索框
+    toSearch() {
+        console.log('跳转搜索页');
+        wx.navigateTo({
+            url: '../../search/search?' +
+                '&searchType=pinche' +
+                '&isPinche=true'
+        })
+    },
+    checkGuoqi(resList) {
+        resList.forEach(element => {
+            var shijian = element.shijian
+            var yue_index = shijian.indexOf('月') + 1
+            var ri_index = shijian.indexOf('日') + 1
+            var month = shijian.slice(0, yue_index - 1)
+            // console.log(month);
+            var day = shijian.slice(yue_index, ri_index - 1)
+            nowday = nowday.slice(0, 10)
+            var year = nowday.slice(0, 4)
+            
+            if (Number(month) < 10) {
+                month = '0' + Number(month)
+                // console.log(month,'月份');
+            }
+            var element_riqi = element.createTime.slice(0, 4) + '-' + month + '-' + day
+            console.log('element_riqi < nowday',element_riqi,'>>',nowday);
+            if (element_riqi < nowday) {
+                element.isGuoqi = true
+            }
+        });
+        return resList
+    },
 
-  }
+    loadPinche() {
+
+        // this.setData({
+        //     pincheList: [],
+        //     pageNum: 1
+        // })
+        wx.cloud.database().collection('pinche')
+            .where({
+                isHege: true,
+            })
+            .orderBy('isXiajia', 'asc')
+            .orderBy('isZhiding', 'desc')
+            .orderBy('createTime', 'desc')
+            // .skip(0)
+            .get() //获取根据查询条件筛选后的集合数据  
+            .then(res => {
+                console.log('下载的订单列表 pincheList 为：', res.data)
+                if (res.data.length !== 0) {
+                    res.data = this.checkGuoqi(res.data)
+                    this.setData({
+                        pincheList: res.data,
+                    })
+                }
+            })
+            .catch(err => {
+                console.error(err)
+            })
+    },
+
+    toPaixu() {
+        let {
+            pincheList
+        } = this.data
+        pincheList.reverse()
+        this.setData({
+            pincheList
+        })
+    },
+
+    // 列表详情
+    toDetail(e) {
+        var _id = e.currentTarget.dataset.id
+        var _openid = e.currentTarget.dataset.openid
+        wx.navigateTo({
+            url: '../huangye/xiangqing2/xiangqing2?' +
+                '&detailType=' + 'pinche' +
+                '&_openid=' + _openid +
+                '&_id=' + _id
+        })
+    },
+
+
+    toFabu() {
+        console.log('跳转添加页');
+        var login_ok = wx.getStorageSync('login_ok')
+        if (login_ok) {
+            wx.navigateTo({
+                url: '../../add/add?' + '&addType=pinche'
+            })
+        } else {
+            utils_toShouQuan.toShouQuan(url) //跳转到授权登录页面
+        }
+    },
+
+    // 生命周期函数--监听页面加载
+    onLoad: function (options) {
+        console.log('onLoad');
+
+    },
+    /**
+     * 生命周期函数--监听页面初次渲染完成
+     */
+    onReady: function () {
+        console.log('onReady');
+    },
+
+    /**
+     * 生命周期函数--监听页面显示
+     */
+    onShow: function () {
+        console.log('onShow');
+
+        this.loadPinche()
+    },
+
+    /**
+     * 生命周期函数--监听页面隐藏
+     */
+    onHide: function () {
+
+    },
+
+    /**
+     * 生命周期函数--监听页面卸载
+     */
+    onUnload: function () {
+
+    },
+
+    /**
+     * 页面相关事件处理函数--监听用户下拉动作
+     */
+    onPullDownRefresh: function () {
+
+    },
+
+    /**
+     * 页面上拉触底事件的处理函数
+     */
+    onReachBottom: function () {
+        this.setData({
+            isShowLoading: true
+        })
+        var pincheList = this.data.pincheList
+        var pageNum = this.data.pageNum + 1
+        console.log('页面触底');
+        if (this.data.isPinche) {
+            wx.cloud.database().collection('pinche').where({
+                    isHege: true,
+                    // isPinche: true
+                })
+                .orderBy('isXiajia', 'asc')
+                .orderBy('isZhiding', 'desc')
+                .orderBy('createTime', 'desc')
+                .skip((pageNum - 1) * 20)
+                .get() //获取根据查询条件筛选后的集合数据  
+                .then(res => {
+                    if (res.data.length == 0) {
+                        this.setData({
+                            isGengDuo: true,
+                        })
+                    } else {
+                        res.data = this.checkGuoqi(res.data)
+
+                        res.data.forEach(element => {
+                            pincheList.push(element)
+                        });
+                        console.log('当前下载pincheList第' + pageNum + '页：', pincheList)
+                        this.setData({
+                            pincheList,
+                            pageNum,
+                        })
+                    }
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        }
+        setTimeout(() => {
+            this.setData({
+                isShowLoading: false
+            })
+        }, 300);
+
+    },
+
+    /**
+     * 用户点击右上角分享
+     */
+    onShareAppMessage: function () {
+
+    }
 })

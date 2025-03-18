@@ -1,0 +1,109 @@
+<view wx:if="{{!isXiadan}}">
+    <view class="weui-form__control-area" style="margin-top: 50rpx;">
+        <view class="weui-cells__group weui-cells__group_form">
+            <view class="weui-cells__title ziti_s">
+                需求信息
+            </view>
+            <view class="weui-cells weui-cells_form">
+                <view class="weui-cell weui-cell_active">
+                    <view class="weui-cell__hd">
+                        <label class="weui-label ziti_s">需求</label>
+                    </view>
+                    <view class="weui-cell__bd ziti_s" style="height:250rpx;">
+                        <view class="weui-input" placeholder-class="weui-input__placeholder">
+                            <textarea class="weui-textarea" placeholder="何时何地做何事" style="height:250rpx;" maxlength="65"
+                                name="xuqiu" bindinput="onInput_xuqiu" value="{{value_xuqiu}}" />
+                        </view>
+                    </view>
+                    <view wx:if="{{showClearBtn_xuqiu}}" class="weui-btn_reset weui-btn_icon weui-btn_input-clear"
+                        bindtap="onClear_xuqiu">
+                        <i class="weui-icon-clear"></i>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="weui-cells__group weui-cells__group_form">
+            <view class="weui-cells__title  ziti_s" style="display:flex;justify-content:end;">
+                委托人信息
+                <view class="address" bindtap="toChooseAddress">选择地址</view>
+            </view>
+            <view class="weui-cells weui-cells_form">
+                <!-- 快递姓名 -->
+                <view class="weui-cell weui-cell_active {{isWaring_name ? 'weui-cell_warn' : ''}}">
+                    <view class="weui-cell__hd">
+                        <label class="weui-label ziti_s">姓名</label>
+                    </view>
+                    <view class="weui-cell__bd weui-flex ziti_s">
+                        <view>{{value_name}}</view>
+                        <!-- <input class="weui-input" type="text" placeholder="请输入" name="name"
+                            placeholder-class="weui-input__placeholder" value="{{value_name}}"
+                            bindinput="onInput_name" />
+                        <view wx:if="{{showClearBtn_name}}" class="weui-btn_reset weui-btn_icon weui-btn_input-clear"
+                            bindtap="onClear_name">
+                            <i class="weui-icon-clear"></i>
+                        </view> -->
+
+                    </view>
+                </view>
+                <!-- 手机号码 -->
+                <view class="weui-cell weui-cell_active {{isWaring_phone   ? 'weui-cell_warn' : ''}}">
+                    <view class="weui-cell__hd">
+                        <label class="weui-label ziti_s">手机号码</label>
+                    </view>
+                    <view class="weui-cell__bd weui-flex ziti_s">
+                        <view>{{value_phone}}</view>
+                        <!-- <input class="weui-input" type="number" maxlength="11" placeholder="填写本人手机号码" name="phone"
+                            placeholder-class="weui-input__placeholder" value="{{value_phone}}"
+                            bindinput="onInput_phone" />
+                        <view wx:if="{{showClearBtn_phone}}" class="weui-btn_reset weui-btn_icon weui-btn_input-clear"
+                            bindtap="onClear_phone">
+                            <i class="weui-icon-clear"></i>
+                        </view> -->
+                    </view>
+                </view>
+                <!-- 我的地址 -->
+                <view class="weui-cell weui-cell_active" style="display:flex;justify-content:space-between">
+                    <view class="weui-cell__hd">
+                        <label class="weui-label ziti_s">详细地址</label>
+                    </view>
+                    <view class="weui-cell__bd" style="font-size:small;" wx:if="{{address !== '选择地址'}}">
+                        {{xxDizhi}}
+                    </view>
+                </view>
+
+            </view>
+        </view>
+    </view>
+    <view class="weui-form__opr-area" style="margin-bottom: 56rpx">
+        <button class="weui-btn weui-btn_primary" bindtap="openConfirm" size="" disabled="{{disabledXiadan}}">下单
+        </button>
+    </view>
+    <!-- 下单确认 -->
+    <view class="fadeIn" wx:if="{{isShowconfirm}}">
+        <view class="weui-mask" bindtap="toCloseconfirm"></view>
+        <view class="weui-dialog">
+            <view class="weui-dialog__hd"><strong class="weui-dialog__title">提示</strong></view>
+            <view class="weui-dialog__bd">确定下单？</view>
+            <view class="weui-dialog__ft">
+                <a class="weui-dialog__btn weui-dialog__btn_default" bindtap="toCloseconfirm">取消</a>
+                <a class="weui-dialog__btn weui-dialog__btn_primary" bindtap="toConfirm">确定</a>
+            </view>
+        </view>
+    </view>
+</view>
+
+<view class="weui-msg" wx:if="{{isXiadan}}">
+    <view class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></view>
+    <view class="weui-msg__text-area">
+        <h2 class="weui-msg__title">下单成功</h2>
+        <view class="weui-msg__desc">敬请等待服务人员联系您</view>
+        <view bindtap="toDingdan">
+            <a>查看订单</a>
+        </view>
+    </view>
+    <view class="weui-msg__opr-area">
+        <view class="weui-btn-area" bindtap="toShouye">
+            <a href="javascript:history.back();" class="weui-btn weui-btn_primary">返回首页</a>
+        </view>
+    </view>
+</view>

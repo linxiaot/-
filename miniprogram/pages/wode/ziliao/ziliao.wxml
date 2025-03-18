@@ -1,55 +1,266 @@
 <!--pages/wode/ziliao/ziliao.wxml-->
+<view class="mask" style="height: {{screenHeight}}px;" bindtap="closeChoose" wx:if="{{isShow_xueyuan}}">
+  <scroll-view class="xueyuan" style="height: {{screenHeight}}px;" scroll-y>
 
+    <view wx:for="{{xueyuan_banji_list}}" wx:key="list_index" wx:for-item="list_item" wx:for-index="list_index">
+      <view class="xueyuan_name" style="padding: {{(screenHeight/23-20.8)/2}}px 30rpx;" catchtap="tapXueyuan" data-list_index="{{list_index}}">{{list_item.xueyuan}} <text style="font-size: small;" wx:if="{{list_item.checked}}">▼</text></view>
 
-<view class="page" data-weui-theme="{{theme}}">
-  <view class="page__bd">
-    <!-- <view class="weui-form" style="width: 686rpx; height: 1028rpx; display: flex; box-sizing: border-box"> -->
-    <view class="weui-form" >
-      <view class="weui-form__text-area">
-        <!-- 已登陆显示 -->
-        <view class="weui-form__text-area" wx:if="{{login_ok}}">
-          <view class="weui-cell__bd">
-            <button class="userinfo-avatar"
-              style="background-image: url({{avatarUrl}}); width: 120rpx; height: 120rpx; display: block; box-sizing: border-box"
-              size="default"></button>
-            <view style="display:flex; margin-top:60rpx; margin-bottom:60rpx" >
-              <view class="danCeng1" style="flex:1;">
-                <view>昵 称：</view>
-                <view>性 别：</view>
-                <view>省 份：</view>
-                <!-- <view>电 话：</view> -->
-                <!-- <view>注册时间：</view> -->
-              </view>
-              <view class="danCeng2"style="flex:1;">
-                <view>{{nickName}}</view>
-                <view>{{gender}}</view>
-                <view>{{province}}</view>
-                <!-- <view>{{userPhoneNumber}}</view> -->
-                <!-- <view>{{zhuceTime}}</view> -->
-              </view>
-            </view> 
-          </view>
-          <!-- 退出登陆 -->
-          <button type="default" plain="true" bindtap="onRemoveStorage" style="position: relative; left: 0rpx; top: 106rpx;   border-radius: 48rpx;  border-color: gold;">退出登陆</button>
+      <view wx:for="{{list_item.banji}}" wx:key="index" wx:if="{{list_item.checked}}">
+        <view class="banji_name" catchtap="tapBanji" data-xueyuan="{{list_item.xueyuan}}" data-banji="{{item}}">{{item}}
         </view>
-        <!-- 未登陆显示 -->
-        <!--用户授权-->
-        <view wx:if="{{!login_ok}}" class="weui-form__text-area">
-          <button class="userinfo-avatar"
-            style="background-image: url({{Url}}); width: 120rpx; height: 120rpx; display: block; box-sizing: border-box"
-            size="default" bindtap="toZiliao"></button>
-          <view class="weui-cell__bd" style="margin-top:30rpx">
-            <view style="font-size: 13px; color: #888;">未登陆</view>
-          </view>
-          <view>
-            <button bindtap="onGetUserInfo" style="border-radius: 48rpx; background-color: gold; color: black; position: relative; left: 0rpx; top: 106rpx">微信授权登陆</button>
-          </view>
-        </view>
-        <!-- <view> -->
-        <!-- <view>手机号码</view> -->
-        <!-- <input type="number" placeholder="请输入11位手机号码" confirm-type="go" bindinput="inputPhoneNumber" /> -->
-        <!-- </view> -->
       </view>
+
+    </view>
+  </scroll-view>
+</view>
+
+<view class="page__bd" style="height: {{screenHeight}}px;">
+  <view class="weui-form">
+    <view class="weui-form__text-area">
+      <!-- 已登陆显示 -->
+      <view class="weui-form__text-area" wx:if="{{ login_ok && !isLookuserinfo }}">
+
+        <view style="display:flex;justify-content:flex-end">
+          <view class="edit" wx:if="{{!isEdit}}" bindtap="toEdit">编辑</view>
+          <view class="edit" wx:if="{{isEdit}}" style="background-color:goldenrod" bindtap="toEditConfirm">完成</view>
+        </view>
+
+        <view class="weui-cell__bd">
+          <!-- 头像 -->
+          <view class="">
+            <button wx:if="{{!isEdit}}" class="userinfo-avatar" style="background-image: url({{avatarUrl}}); width: 120rpx; height: 120rpx; display: block; box-sizing: border-box;background-color: gray;" size="default"></button>
+            <button wx:if="{{isEdit}}" class="userinfo-avatar" bindchooseavatar="changeAvatar" open-type="chooseAvatar" style="background-image: url({{avatarUrl}}); width: 120rpx; height: 120rpx; display: block; box-sizing: border-box;background-color: gray;" size="default"></button>
+          </view>
+          <view class="wanzhengdu">
+            <text>资料完整度</text>
+            <text style="margin-left: 10rpx;">{{ziliaoPercent}}%</text>
+          </view>
+
+          <view style="margin-top:60rpx; margin-bottom:20rpx">
+
+            <view class="row">
+              <view class="row_item">昵 称</view>
+              <!-- <view class="row_item2">{{nickName}}</view> -->
+              <view wx:if="{{!isEdit}}" class="row_item2">{{nickName}}</view>
+              <view class="row_item_input" wx:if="{{isEdit}}">
+                <input placeholder="请输入" type="text" maxlength="20" value="{{nickName}}" bindinput="input_nickName"/>
+              </view>
+            </view>
+            <view class="row">
+              <view class="row_item">性 别</view>
+              <view wx:if="{{!isEdit}}" class="row_item2">{{gender}}</view>
+              <view class="row_item_input" wx:if="{{isEdit}}">
+                <input placeholder="请输入" type="text" maxlength="3" value="{{gender}}" bindinput="input_gender" />
+              </view>
+            </view>
+            <view class="row">
+              <view class="row_item">省 份</view>
+              <view wx:if="{{!isEdit}}" class="row_item2">{{province}}</view>
+              <view class="row_item_input" wx:if="{{isEdit}}">
+                <input placeholder="请输入" type="text" maxlength="20" value="{{province}}" bindinput="input_province" />
+              </view>
+            </view>
+            <view class="row">
+              <view class="row_item">城 市</view>
+              <view wx:if="{{!isEdit}}" class="row_item2">{{city}}</view>
+              <view class="row_item_input" wx:if="{{isEdit}}">
+                <input placeholder="请输入" type="text" maxlength="20" value="{{city}}" bindinput="input_city" />
+              </view>
+            </view>
+
+            <view class="row">
+              <view class="row_item">生 日</view>
+              <view wx:if="{{!isEdit}}" class="row_item2">{{birthday}}</view>
+              <view class="row_item_input" wx:if="{{isEdit}}">
+                <picker mode="date" value="{{val_birthday}}" start="1900" bindchange="bindDateChange">
+                  <view class="picker">
+                    {{birthday == ''? '-请选择-': birthday}}
+                  </view>
+                </picker>
+              </view>
+            </view>
+
+            <view class="row">
+              <view class="row_item">年 级</view>
+              <view wx:if="{{!isEdit}}" class="row_item2">{{nianji}}</view>
+              <view class="row_item_input" wx:if="{{isEdit}}">
+                <!-- <input placeholder="请输入" type="text" maxlength="12" value="{{nianji}}" bindinput="input_nianji" /> -->
+                <picker bindchange="bindPickerChange" range="{{nianjiList}}">
+                  <text>{{nianji==''?'-请选择-':nianji}}</text>
+                </picker>
+              </view>
+            </view>
+            <view class="row">
+              <view class="row_item">学 院</view>
+              <view wx:if="{{!isEdit}}" class="row_item2">{{xueyuan}}</view>
+              <view wx:if="{{isEdit}}" class="row_item_input" catchtap="toChoose_Xueyuan">{{xueyuan == ''? '-请选择-':
+                xueyuan}}</view>
+
+              <!-- <view class="row_item_input" wx:if="{{isEdit}}">
+                <input placeholder="请输入" type="text" maxlength="20" value="{{xueyuan}}" bindinput="input_xueyuan" />
+              </view> -->
+            </view>
+            <view class="row">
+              <view class="row_item">班 级</view>
+              <view wx:if="{{!isEdit}}" class="row_item2">{{banji}}</view>
+              <view wx:if="{{isEdit}}" class="row_item_input" catchtap="toChoose_Xueyuan">{{banji == ''? '-请选择-':
+                banji}}</view>
+              <!-- <view class="row_item_input" wx:if="{{isEdit}}">
+                <input placeholder="请输入" type="text" maxlength="11" value="{{banji}}" bindinput="input_banji" />
+              </view> -->
+            </view>
+            <view class="row">
+              <view class="row_item">学 号</view>
+              <view wx:if="{{!isEdit}}" class="row_item2">{{xuehao}}</view>
+              <view class="row_item_input" wx:if="{{isEdit}}">
+                <input placeholder="请输入" type="text" maxlength="12" value="{{xuehao}}" bindinput="input_xuehao" />
+              </view>
+            </view>
+            <view class="row">
+              <view class="row_item">手 机</view>
+              <view wx:if="{{!isEdit}}" class="row_item2">{{userPhoneNumber}}</view>
+              <view class="row_item_input" wx:if="{{isEdit}}">
+                <input placeholder="请输入" type="text" maxlength="11" value="{{userPhoneNumber}}" bindinput="input_userPhoneNumber" />
+              </view>
+            </view>
+            <view class="row">
+              <view class="row_item">注册日期</view>
+              <view class="row_item2" style="color: gray;">{{zhuceTime}}</view>
+            </view>
+
+          </view>
+        </view>
+        <!-- 退出登陆 -->
+        <button type="default" plain="true" bindtap="onRemoveStorage" style="border-radius: 48rpx; border-color: gold;" wx:if="{{!isEdit}}">退出登陆</button>
+
+      </view>
+      <!-- 查看对方信息 -->
+      <view class="weui-form__text-area" wx:if="{{ isLookuserinfo && login_ok}}">
+
+        <view class="weui-cell__bd">
+          <button class="userinfo-avatar" style="background-image: url({{look_avatarUrl}}); width: 120rpx; height: 120rpx; display: block; box-sizing: border-box" size="default"></button>
+          <view style="margin-top:60rpx; margin-bottom:20rpx">
+            <view class="row">
+              <view class="row_item">昵 称</view>
+              <view wx:if="{{!isEdit}}" class="row_item2">{{look_nickName}}</view>
+              <view class="row_item_input" wx:if="{{isEdit}}">
+                <input placeholder="请输入" type="text" maxlength="11" value="{{nickName}}" bindinput="input_nickName" />
+              </view>
+            </view>
+            <view class="row">
+              <view class="row_item">性 别</view>
+              <view wx:if="{{!isEdit}}" class="row_item2">{{look_gender}}</view>
+              <view class="row_item_input" wx:if="{{isEdit}}">
+                <input placeholder="请输入" type="text" maxlength="11" value="{{gender}}" bindinput="input_gender" />
+              </view>
+            </view>
+            <view class="row">
+              <view class="row_item">省 份</view>
+              <view wx:if="{{!isEdit}}" class="row_item2">{{look_province}}</view>
+              <view class="row_item_input" wx:if="{{isEdit}}">
+                <input placeholder="请输入" type="text" maxlength="11" value="{{province}}" bindinput="input_province" />
+              </view>
+            </view>
+            <view class="row">
+              <view class="row_item">城 市</view>
+              <view wx:if="{{!isEdit}}" class="row_item2">{{look_city}}</view>
+              <view class="row_item_input" wx:if="{{isEdit}}">
+                <input placeholder="请输入" type="text" maxlength="11" value="{{city}}" bindinput="input_city" />
+              </view>
+            </view>
+            <view class="row">
+              <view class="row_item">生 日</view>
+              <view wx:if="{{!isEdit}}" class="row_item2">{{look_birthday}}</view>
+              <view class="row_item_input" wx:if="{{isEdit}}">
+                <input placeholder="请输入" type="text" maxlength="11" value="{{birthday}}" bindinput="input_birthday" />
+              </view>
+
+            </view>
+            <view class="row">
+              <view class="row_item">年 级</view>
+              <view wx:if="{{!isEdit}}" class="row_item2">{{look_nianji}}</view>
+              <view class="row_item_input" wx:if="{{isEdit}}">
+                <input placeholder="请输入" type="text" maxlength="11" value="{{nianji}}" bindinput="input_nianji" />
+              </view>
+            </view>
+            <view class="row">
+              <view class="row_item">学 院</view>
+              <view wx:if="{{!isEdit}}" class="row_item2">{{look_xueyuan}}</view>
+              <view class="row_item_input" wx:if="{{isEdit}}">
+                <input placeholder="请输入" type="text" maxlength="11" value="{{xueyuan}}" bindinput="input_xueyuan" />
+              </view>
+            </view>
+            <view class="row">
+              <view class="row_item">班 级</view>
+              <view wx:if="{{!isEdit}}" class="row_item2">{{look_banji}}</view>
+              <view class="row_item_input" wx:if="{{isEdit}}">
+                <input placeholder="请输入" type="text" maxlength="11" value="{{banji}}" bindinput="input_banji" />
+              </view>
+            </view>
+            <view class="row">
+              <view class="row_item">学 号</view>
+              <view wx:if="{{!isEdit}}" class="row_item2">{{look_xuehao}}</view>
+              <view class="row_item_input" wx:if="{{isEdit}}">
+                <input placeholder="请输入" type="text" maxlength="11" value="{{xuehao}}" bindinput="input_xuehao" />
+              </view>
+            </view>
+            <view class="row">
+              <view class="row_item">手 机</view>
+              <view wx:if="{{!isEdit}}" class="row_item2">{{look_userPhoneNumber}}</view>
+              <view class="row_item_input" wx:if="{{isEdit}}">
+                <input placeholder="请输入" type="text" maxlength="11" value="{{userPhoneNumber}}" bindinput="input_userPhoneNumber" />
+              </view>
+            </view>
+            <view class="row">
+              <view class="row_item">注册日期</view>
+              <view class="row_item">{{look_zhuceTime}}</view>
+            </view>
+
+          </view>
+        </view>
+      </view>
+
+      <!-- 未登陆显示 -->
+      <!--用户授权-->
+      <view wx:if="{{!login_ok&&!showZhuce}}" class="">
+        <image class="userinfo-avatar" src="{{Url}}" mode="cover"></image>
+        <view class="weui-cell__bd" style="margin-top:30rpx">
+          <view style="font-size: 13px; color: #888;">未登陆</view>
+        </view>
+        <view class="margin-top-lg" style="width: 100%;">
+          <button bindtap="onGetUserInfo" class="bg-yellow" style="width: 100%;">微信授权登陆</button>
+        </view>
+
+
+
+      </view>
+      <view wx:if="{{showZhuce}}">
+        <form class="" bindsubmit="gozhuce">
+          <view class="cu-form-group margin-top">
+            <view class="title">头像</view>
+
+            <view class="padding">
+              <button class="cu-btn sm text-blue" style="width:max-content;" open-type="chooseAvatar" bindchooseavatar="changeAvatar">更换头像</button>
+              <view class="cu-avatar radius margin-left" style="background-image:url({{avatarUrl}});" wx:if="{{avatarUrl}}"></view>
+              <view class="cu-avatar radius margin-left" wx:else>
+                <text class="cuIcon-people"></text>
+              </view>
+            </view>
+          </view>
+          <view class="cu-form-group">
+            <view class="title">昵称</view>
+            <input placeholder="请输入昵称" type="nickname" maxlength="20" name="nickName" />
+          </view>
+          <view class="" style="width: 100%;">
+            <button class="bg-yellow" style="width: 100%;" form-type="submit" disabled="{{disableZhuce}}">注册新用户</button>
+            <!-- <button class="bg-yellow" style="width: 100%;" form-type="submit">注册新用户</button> -->
+          </view>
+        </form>
+      </view>
+      <!-- <view> -->
+      <!-- <view>手机号码</view> -->
+      <!-- <input type="number" placeholder="请输入11位手机号码" confirm-type="go" bindinput="inputPhoneNumber" /> -->
+      <!-- </view> -->
     </view>
   </view>
 </view>

@@ -1,0 +1,449 @@
+<!--pages/qiang/huangye/xiangqing2/xiangqing2.wxml-->
+
+<!-- <view class="page__hd">
+        <view class="page__title">Article</view>
+        <view class="page__desc">文章</view>
+    </view> -->
+
+<!-- 黄页 -->
+<view class="page__bd" wx:if="{{detailType == 'huangye'}}">
+    <view class="weui-article">
+        <view class="weui-article__h1">{{name}}</view>
+        <view class="weui-article__section">
+            <!-- <view class="weui-article__h2">章标题</view> -->
+            <view class="weui-article__section">
+                <view class="flex" style="margin-left:10rpx;" bindtap="toLookuserinfo">
+                    <image mode="widthFix" style="width:50rpx;" src="{{avatarUrl}}"></image>
+                    <view class="" style="margin-left:15rpx;font-size:30rpx;font-weight:bold">{{nickName}}</view>
+                </view>
+                <view class="flex" style="justify-content:flex-end;font-size:25rpx;">{{createTime}}</view>
+                <view class="weui-article__h3 cebian">简介</view>
+                <view class="weui-article__p">{{jianjie}}</view>
+                <view class="weui-article__p flex center" wx:for="{{srcList}}" wx:key="index">
+                    <image class="weui-article__img" src="{{item}}" mode="widthFix" style="width:680rpx;" />
+                </view>
+            </view>
+            <view class="weui-article__section">
+                <view class="weui-article__h3 cebian">联系信息</view>
+                <view class="weui-article__p">
+                    地址：{{address}}
+                </view>
+                <view class="weui-article__p">电话：{{phone}}</view>
+                <!-- <ad unit-id="adunit-13f753f084bf337f" ad-type="video" ad-theme="white"></ad> -->
+            </view>
+        </view>
+    </view>
+</view>
+<!-- 失物招领 -->
+<view class="page__bd" wx:if="{{detailType == 'xunwu'}}">
+    <view class="yixiajia" wx:if="{{isXiajia}}">已解决</view>
+    <view class="weui-article">
+        <view class="weui-article__h1">{{name}}</view>
+        <view class="weui-article__section">
+            <!-- <view class="weui-article__h2">章标题</view> -->
+            <view class="weui-article__section">
+                <view class="flex" style="margin-left:10rpx;" bindtap="toLookuserinfo">
+                    <image mode="widthFix" style="width:50rpx;" src="{{avatarUrl}}"></image>
+                    <view class="" style="margin-left:15rpx;font-size:30rpx;font-weight:bold">{{nickName}}</view>
+                </view>
+                <view class="flex" style="justify-content:flex-end;font-size:25rpx;">{{createTime}}</view>
+                <view class="weui-article__section" wx:if="{{isXunwu}}">
+                    <view class="weui-article__h3 cebian">物件信息</view>
+                    <view class="weui-article__p">遗失地点：{{didian}}</view>
+                    <view class="weui-article__p">遗失时间：{{shijian}}</view>
+                    <view class="weui-article__p">联系我：{{lianxi}}</view>
+                    <view class="weui-article__h3 cebian">物件详情</view>
+                    <view class="weui-article__p">{{jianjie}}</view>
+                </view>
+                <view class="weui-article__section" wx:if="{{isXunren}}">
+                    <view class="weui-article__h3 cebian">物件信息</view>
+                    <view class="weui-article__p">拾到地点：{{didian}}</view>
+                    <view class="weui-article__p">拾到时间：{{shijian}}</view>
+                    <view class="weui-article__p">联系我：{{lianxi}}</view>
+                    <view class="weui-article__h3 cebian">物件详情</view>
+                    <view class="weui-article__p">{{jianjie}}</view>
+                </view>
+
+                <view class="weui-article__p flex center" wx:for="{{srcList}}" wx:key="index">
+                    <image class="weui-article__img" src="{{item}}" mode="widthFix" style="width:680rpx;" />
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<!-- 拼车 -->
+<view class="page__bd" wx:if="{{detailType == 'pinche'}}">
+    <view class="yixiajia" wx:if="{{isXiajia}}">已解决</view>
+    <view class="weui-article">
+        <view class="weui-article__h1">{{name}}</view>
+        <view class="weui-article__section">
+            <!-- <view class="weui-article__h2">章标题</view> -->
+            <view class="weui-article__section">
+                <view class="flex" style="margin-left:10rpx" bindtap="toLookuserinfo">
+                    <image mode="widthFix" style="width:50rpx;" src="{{avatarUrl}}"></image>
+                    <view class="" style="margin-left:15rpx;font-size:30rpx;font-weight:bold">{{nickName}}</view>
+                </view>
+                <view class="flex" style="justify-content:flex-end;font-size:25rpx;">{{createTime}}</view>
+                <view class="weui-article__section">
+                    <view class="weui-article__h3 cebian">拼车信息</view>
+                    <view class="weui-article__p">行程：{{xingch}}</view>
+                    <view class="weui-article__p">人数：{{personNum}}</view>
+                    <view class="weui-article__p">时间：{{shijian}}</view>
+                    <view class="weui-article__p">联系我：{{lianxi}}</view>
+                    <view class="weui-article__h3 cebian">备注</view>
+                    <view class="weui-article__p">{{jianjie}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<!-- 跳蚤市场 -->
+<view class="page__bd" wx:if="{{detailType == 'ershou'}}">
+    <view class="yixiajia" wx:if="{{isXiajia}}">已售出</view>
+    <view class="weui-article">
+        <view class="weui-article__h1">{{name}}</view>
+        <view class="weui-article__section">
+            <!-- <view class="weui-article__h2">章标题</view> -->
+            <view class="weui-article__section">
+                <view class="flex" style="margin-left:10rpx;" bindtap="toLookuserinfo">
+                    <image mode="widthFix" style="width:50rpx;" src="{{avatarUrl}}"></image>
+                    <view class="" style="margin-left:15rpx;font-size:30rpx;font-weight:bold">{{nickName}}</view>
+                </view>
+                <view class="flex" style="justify-content:flex-end;font-size:25rpx;">{{createTime}}</view>
+                <view class="weui-article__section hr">
+                    <!-- <view class="weui-article__h3 cebian">跳蚤市场</view> -->
+                    <!-- <view class="weui-article__h3 cebian">价格</view> -->
+                    <view class="weui-article__p" style="color:red;font-weight:bold;">￥{{jiage}}</view>
+                    <!-- <view class="weui-article__h3 cebian">备注</view> -->
+                    <view class="weui-article__p">{{jianjie}}</view>
+                </view>
+                <view class="weui-article__p flex center" wx:for="{{srcList}}" wx:key="index">
+                    <image class="weui-article__img" src="{{item}}" mode="widthFix" style="width:680rpx;" />
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<!-- 校园互助 -->
+<view class="page__bd" wx:if="{{detailType == 'huzhu'}}">
+    <view class="yixiajia" wx:if="{{isXiajia}}">已解决</view>
+    <view class="weui-article">
+        <view class="weui-article__h1">{{name}}</view>
+        <view class="weui-article__section">
+            <!-- <view class="weui-article__h2">章标题</view> -->
+            <view class="weui-article__section">
+                <view class="flex" style="margin-left:10rpx;" bindtap="toLookuserinfo">
+                    <image mode="widthFix" style="width:50rpx;" src="{{avatarUrl}}"></image>
+                    <view class="" style="margin-left:15rpx;font-size:30rpx;font-weight:bold">{{nickName}}</view>
+                </view>
+                <view class="flex" style="justify-content:flex-end;font-size:25rpx;">{{createTime}}</view>
+                <view class="weui-article__section hr">
+                    <!-- <view class="weui-article__h3 cebian">跳蚤市场</view> -->
+                    <view class="weui-article__h3 cebian">互助信息</view>
+                    <view class="weui-article__p">{{jianjie}}</view>
+                    <view class="weui-article__h3 cebian">联系我</view>
+                    <view class="weui-article__p">{{lianxi}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<!-- 校园大事件 -->
+<view class="page__bd" wx:if="{{detailType == 'bigthings'}}">
+    <view class="weui-article">
+        <view class="weui-article__h1">{{name}}</view>
+        <view class="weui-article__section">
+            <!-- <view class="weui-article__h2">章标题</view> -->
+            <view class="weui-article__section">
+                <!-- <view class="flex" style="margin-left:10rpx;">
+                    <image mode="widthFix" style="width:50rpx;" src="{{avatarUrl}}"></image>
+                    <view class="" style="margin-left:15rpx;font-size:30rpx;font-weight:bold">{{nickName}}</view>
+                </view> -->
+                <view class="flex" style="justify-content:flex-end;font-size:25rpx;">{{createTime}}</view>
+                <!-- <view class="weui-article__h3 cebian">简介</view> -->
+                <text class="weui-article__p">{{jianjie}}</text>
+
+                <view wx:if="{{video_fileid}}">
+                    <video class="pengyq_video" src="{{video_fileid}}" autoplay="{{autoplay}}" muted="{{isMuted}}"
+                        show-mute-btn bindfullscreenchange="bind_quanping"></video>
+                </view>
+
+                <view class="audio" wx:if="{{audio.fileid}}">
+                    <view class="audio_item1">
+                        <view class="jiahao_audio" bindtap="toAddAudio" wx:if="{{audio_path == ''}}">
+                            <view>+</view>
+                        </view>
+                        <image wx:if="{{!isPlay && audio_path !== ''}}" mode="widthFix" style="width: 60rpx;"
+                            src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/play.png" bindtap="audioPlay"
+                            data-src="{{item.audio.fileid}}">
+                        </image>
+                        <image wx:if="{{isPlay && audio_path !== ''}}" mode="widthFix" style="width: 60rpx;"
+                            src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/pause.png" bindtap="audioPause"
+                            data-src="{{item.audio.fileid}}">
+                        </image>
+                    </view>
+                    <view class="audio_items">
+                        <view class="audio_items_item1">
+                            <view class="audio_items_item1_item1">{{audio.name}}</view>
+                            <view class="audio_items_item1_item2">{{currentTime}} / {{duration}}</view>
+                        </view>
+                        <view class="audio_items_item2">
+                            <slider class="slider" activeColor="#8AD4AF" block-size="12" backgroundColor="#dadada"
+                                value="{{percent}}" />
+                        </view>
+                    </view>
+
+                </view>
+
+                <view class="weui-article__p flex center" wx:for="{{srcList}}" wx:key="index">
+                    <image class="weui-article__img" src="{{item}}" mode="widthFix" style="width:680rpx;" />
+                </view>
+
+            </view>
+            <!-- <view class="weui-article__p lianxi flex center">
+                <button open-type="contact" class="weui-cell__bd ziti"
+                    style="font-weight:normal; text-align: center; padding-left: 72rpx;width: 100%;">在线客服</button>
+            </view> -->
+            <!-- <view class="weui-article__section">
+                <view class="weui-article__h3 cebian">联系信息</view>
+                <view class="weui-article__p">
+                    地址：{{address}}
+                </view>
+                <view class="weui-article__p">电话：{{phone}}</view>
+                <ad unit-id="adunit-13f753f084bf337f" ad-type="video" ad-theme="white"></ad>
+            </view> -->
+        </view>
+    </view>
+</view>
+<!-- 论坛 -->
+<view class="page__bd" wx:if="{{detailType == 'luntan'}}">
+    <view class="yixiajia" wx:if="{{isXiajia}}">已下架</view>
+    <view class="weui-article">
+        <!-- <view class="weui-article__h1">{{name}}</view> -->
+        <view class="weui-article__section">
+            <!-- <view class="weui-article__h2">章标题</view> -->
+            <view class="weui-article__section">
+                <view class="flex" style="margin-left:10rpx;">
+                    <image mode="widthFix" style="width:50rpx;" src="{{avatarUrl}}"></image>
+                    <view class="" style="margin-left:15rpx;font-size:30rpx;font-weight:bold">{{nickName}}</view>
+                </view>
+                <view class="flex" style="justify-content:flex-end;font-size:25rpx;">{{createTime}}</view>
+                <!-- <view class="weui-article__h3 cebian">简介</view> -->
+                <text class="weui-article__p">{{jianjie}}</text>
+                <view class="weui-article__p flex center" wx:for="{{srcList}}" wx:key="index">
+                    <image class="weui-article__img" src="{{item}}" mode="widthFix" style="width:680rpx;" />
+                </view>
+            </view>
+
+        </view>
+    </view>
+</view>
+<!-- 交友 -->
+<view class="page__bd" wx:if="{{detailType == 'jiaoyou'}}">
+    <view class="yixiajia" wx:if="{{isXiajia}}">已下架</view>
+    <view class="weui-article">
+        <!-- <view class="weui-article__h1">{{name}}</view> -->
+        <view class="weui-article__section">
+            <!-- <view class="weui-article__h2">章标题</view> -->
+            <view class="weui-article__section">
+                <view class="flex" style="margin-left:10rpx;">
+                    <image mode="widthFix" style="width:50rpx;" src="{{avatarUrl}}"></image>
+                    <view class="" style="margin-left:15rpx;font-size:30rpx;font-weight:bold">{{nickName}}</view>
+                </view>
+                <view class="flex" style="justify-content:flex-end;font-size:25rpx;">{{createTime}}</view>
+                <!-- <view class="weui-article__h3 cebian">简介</view> -->
+                <text class="weui-article__p">{{jianjie}}</text>
+                <view class="weui-article__p flex center" wx:for="{{srcList}}" wx:key="index">
+                    <image class="weui-article__img" src="{{item}}" mode="widthFix" style="width:680rpx;" />
+                </view>
+            </view>
+
+        </view>
+    </view>
+</view>
+<!-- 租房 -->
+<view class="page__bd" wx:if="{{detailType == 'zufang'}}">
+    <view class="yixiajia" wx:if="{{isXiajia}}">已下架</view>
+    <view class="weui-article">
+        <view class="weui-article__h1">{{name}}</view>
+        <view class="weui-article__section">
+            <view class="weui-article__section">
+                <view class="flex" style="margin-left:10rpx;">
+                    <image mode="widthFix" style="width:50rpx;" src="{{avatarUrl}}"></image>
+                    <view class="" style="margin-left:15rpx;font-size:30rpx;font-weight:bold">{{nickName}}</view>
+                </view>
+                <view class="flex" style="justify-content:flex-end;font-size:25rpx;">{{createTime}}</view>
+                <text class="weui-article__p" style="color:red;font-weight:bold;">{{zujin}} 元/月</text>
+                <view class="weui-article__h3 cebian">房源信息</view>
+                <text class="weui-article__p" style="margin-right:20rpx;">{{huxing}}</text>
+                <text class="weui-article__p" style="margin-right:20rpx;">{{mianji}}㎡</text>
+                <text class="weui-article__p">{{louceng}}</text>
+                <view class="weui-article__h3 cebian">设施</view>
+                <text class="sheshi_item" wx:for="{{sheshi}}" wx:key="index">{{item}}</text>
+                <view class="weui-article__h3 cebian">房源简介</view>
+                <text class="weui-article__p">{{jianjie}}</text>
+                <view class="weui-article__p lianxi flex center">
+                    <button open-type="contact" class="weui-cell__bd ziti"
+                        style="font-weight:normal; text-align: center; padding-left: 72rpx;width: 100%;">在线客服</button>
+                </view>
+                <!-- 展示图片 -->
+                <view class="pengyq_images">
+                    <view class="pengyq_images_grid" style="box-sizing:none;" wx:for="{{srcList}}"
+                        wx:key="index">
+                        <view class="pengyq_images_item">
+                            <image mode="aspectFill" catchtap="toYulanImage" src="{{item}}"
+                                data-src="{{item}}" data-list="{{srcList}}">
+                            </image>
+                        </view>
+                    </view>
+                </view>
+                <!-- <view class="weui-article__p flex center" wx:for="{{srcList}}" wx:key="index">
+                    <image class="weui-article__img" src="{{item}}" mode="widthFix" style="width:680rpx;" />
+                </view> -->
+            </view>
+
+        </view>
+    </view>
+</view>
+<!-- 兼职 -->
+<view class="page__bd" wx:if="{{detailType == 'jianzhi'}}">
+    <view class="yixiajia" wx:if="{{isXiajia}}">已招满</view>
+    <view class="weui-article">
+        <view class="weui-article__h1">{{name}}</view>
+        <view class="weui-article__section">
+            <!-- <view class="weui-article__h2">章标题</view> -->
+            <view class="weui-article__section">
+                <view class="flex" style="margin-left:10rpx;">
+                    <image mode="widthFix" style="width:50rpx;" src="{{avatarUrl}}"></image>
+                    <view class="" style="margin-left:15rpx;font-size:30rpx;font-weight:bold">{{nickName}}</view>
+                </view>
+                <view class="flex" style="justify-content:flex-end;font-size:25rpx;">{{createTime}}</view>
+                <view class="weui-article__section hr">
+                    <!-- <view class="weui-article__h3 cebian">跳蚤市场</view> -->
+                    <view class="weui-article__p" style="color:red;font-weight:bold;">{{xinzi}}元</view>
+                    <view class="weui-article__p">招聘人数：{{personNum}}人</view>
+                    <view class="weui-article__h3 cebian">兼职类型</view>
+                    <view class="weui-article__p">{{leixing}}</view>
+                    <view class="weui-article__h3 cebian">工作内容</view>
+                    <view class="weui-article__p">{{jianjie}}</view>
+                    <view class="weui-article__h3 cebian">工作地址</view>
+                    <view class="weui-article__p">{{address}}</view>
+
+                    <view class="weui-article__p lianxi flex center">
+                        <button open-type="contact" class="weui-cell__bd ziti"
+                            style="font-weight:normal; text-align: center; padding-left: 72rpx;width: 100%;">在线客服</button>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<!-- 底部 -->
+<view class="page__bd"
+    wx:if="{{detailType == 'pinche'|| detailType == 'xunwu'|| detailType == 'ershou'|| detailType == 'huzhu'|| detailType == 'bigthings'|| detailType == 'luntan'|| detailType == 'jiaoyou'|| detailType == 'jianzhi'}}">
+    <view class="weui-article">
+        <!-- 广告 -->
+        <!-- <ad unit-id="adunit-13f753f084bf337f" ad-type="video" ad-theme="white"></ad> -->
+        <!-- 点赞 -->
+        <view class="dianzan" catchtap="toLike" data-id="{{item._id}}">
+            <view>
+                <mp-icon wx:if="{{!isLike}}" icon="like" type="outline" color="black" size="{{26}}"></mp-icon>
+                <mp-icon wx:if="{{isLike}}" icon="like" type="field" color="goldenrod" size="{{26}}"></mp-icon>
+            </view>
+            <text style="font-size:small;"> 赞 {{dianzanNum}}</text>
+        </view>
+        <!-- 留言 -->
+        <view class="liuyan" bindtap="openLiuyan">写下你的留言</view>
+        <view class="fadeIn" wx:if="{{isShowliuyan}}">
+            <view class="weui-mask" bindtap="closeLiuyan"></view>
+            <view class="weui-half-screen-dialog">
+                <view class="weui-half-screen-dialog__hd">
+                    <view class="weui-half-screen-dialog__hd__side" bindtap="closeLiuyan">
+                        <a class="weui-icon-btn">关闭<i class="weui-icon-close-thin"></i></a>
+                    </view>
+                    <view class="weui-half-screen-dialog__hd__main">
+                        <strong class="weui-half-screen-dialog__title">写留言</strong>
+                    </view>
+                    <view>
+                        <button type="primary" size="mini" bindtap="toTijiao_liuyan"
+                            disabled="{{inputVal_liuyan!==''?false:true}}">提交</button>
+                    </view>
+                </view>
+                <view class="weui-half-screen-dialog__bd" style="padding-top:10rpx;height:600rpx;">
+                    <textarea name="" style="height:600rpx;width:650rpx;" auto-focus maxlength='500'
+                        placeholder-style="留言将对所有人可见" bindinput="bindinput_liuyan"
+                        value="{{inputVal_liuyan}}"></textarea>
+                </view>
+            </view>
+        </view>
+        <view class="fadeIn" wx:if="{{isShowjiaohu}}">
+            <view class="weui-mask" bindtap="closeLiuyan"></view>
+            <view class="weui-half-screen-dialog">
+                <view class="weui-half-screen-dialog__hd">
+                    <view class="weui-half-screen-dialog__hd__side" bindtap="closeLiuyan">
+                        <a class="weui-icon-btn">关闭<i class="weui-icon-close-thin"></i></a>
+                    </view>
+                    <view class="weui-half-screen-dialog__hd__main">
+                        <strong class="weui-half-screen-dialog__title">回复：{{nickName}}</strong>
+                    </view>
+                    <view>
+                        <button type="primary" size="mini" bindtap="toTijiao_liuyan"
+                            disabled="{{inputVal_liuyan!==''?false:true}}">提交</button>
+                    </view>
+                </view>
+                <view class="weui-half-screen-dialog__bd" style="padding-top:10rpx;height:600rpx;">
+                    <textarea style="height:600rpx;width:650rpx;" auto-focus maxlength='500'
+                        placeholder-style="留言将对所有人可见" bindinput="bindinput_liuyan"
+                        value="{{inputVal_liuyan}}"></textarea>
+                </view>
+            </view>
+        </view>
+        <!-- 留言展示 -->
+        <view>
+            <view class="flex liuyanzhanshi" wx:for="{{liuyanList}}" wx:key="index" data-index="{{index}}"
+                data-nickname="{{item.nickName}}" bindtap="toJiaohu">
+                <view>
+                    <image mode="widthFix" style="width:50rpx;" src="{{item.avatarUrl}}"></image>
+                </view>
+                <view style="margin-left:15rpx;font-size:25rpx;">
+                    <view style="display:flex;">
+                        <view class="" style="color:DarkGray">{{item.nickName}}</view>
+                        <view class="author" wx:if="{{item.openid == _openid ? true : false}}">作者</view>
+                    </view>
+                    <view>{{item.value}}</view>
+                    <view style="color:darkblue" catchtap="toDelliuyan"
+                        wx:if="{{item.openid == userOpenid ? true : false}}" data-index="{{index}}"
+                        data-liuyan_val="{{item.value}}" data-floor="0">删除</view>
+                    <view>
+                        <view class="flex liuyanzhanshi" wx:for="{{item.jiaohu}}" wx:key="index" data-index="{{index}}">
+                            <view>
+                                <image mode="widthFix" style="width:50rpx;" src="{{item.avatarUrl}}"></image>
+                            </view>
+                            <view style="margin-left:15rpx;font-size:25rpx;">
+                                <view style="display:flex;">
+                                    <view class="" style="color:DarkGray">{{item.nickName}}
+                                    </view>
+                                    <view class="author" wx:if="{{item.openid == _openid ? true:false}}">作者
+                                    </view>
+                                </view>
+                                <view>{{item.value}}</view>
+                                <view style="color:darkblue" wx:if="{{item.openid == userOpenid ? true : false}}"
+                                    data-index="{{index}}" catchtap="toDelliuyan" data-floor="1"
+                                    data-liuyan_val="{{item.value}}" data-jiaohuindex="{{item.jiaohuIndex}}">删除</view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view style="text-align:center;color:LightGrey;">————.————</view>
+        </view>
+    </view>
+</view>
+<!-- 底部 在线联系-->
+<view class="diBu flex center"
+    wx:if="{{detailType == 'ershou'||detailType == 'xunwu'||detailType == 'pinche'||detailType == 'xunwu'||detailType == 'huzhu'||detailType == 'luntan'||detailType == 'jiaoyou'}}">
+    <!-- <view class="flex center" style="flex:1;padding-top:0rpx;" hover-class="hover">
+    </view> -->
+    <!-- <view hover-class="hover" style="flex:1;text-align:center;" bindtap=""></view> -->
+    <view wx:if="{{!isXiajia}}" hover-class="hover" style="flex:1;text-align:center;" bindtap="openContact">在线联系</view>
+</view>

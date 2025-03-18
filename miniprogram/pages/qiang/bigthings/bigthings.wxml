@@ -1,0 +1,310 @@
+<!--pages/qiang/bigthings/bigthings.wxml-->
+<!-- 播放窗口 --> 
+<mp-dialog title="" show="{{audioShowed}}" bindclose="toCloseAudio" buttons="{{oneButton}}"
+    bindbuttontap="toCloseAudio">
+  <view class="audio_chuangkou">
+    <view class="audio_item1">
+      <image wx:if="{{!isPlay}}" mode="widthFix" style="width: 60rpx;" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/play.png"
+        bindtap="audioPlay"></image>
+      <image wx:if="{{isPlay}}" mode="widthFix" style="width: 60rpx;" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/pause.png"
+        bindtap="audioPause"></image>
+    </view>
+    <view class="audio_items">
+      <view class="audio_items_item1">
+        <view class="audio_items_item1_item1">{{audio.name}}</view>
+        <view class="audio_items_item1_item2">{{currentTime}} / {{duration}}</view>
+      </view>
+      <view class="audio_items_item2">
+        <slider class="slider" activeColor="#8AD4AF" block-size="12" backgroundColor="#dadada" value="{{percent}}" />
+      </view>
+    </view>
+  </view>
+    <!-- <view class="audio_control">
+        <view class="audio_control_items">
+
+            <view class="audio_item1">
+                <image wx:if="{{!isPlay}}" mode="widthFix" style="width: 60rpx;" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/play.png"
+                    bindtap="audioPlay"></image>
+                <image wx:if="{{isPlay}}" mode="widthFix" style="width: 60rpx;" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/pause.png"
+                    bindtap="audioPause"></image>
+            </view>
+            <view class="audio_item2">
+                <image mode="widthFix" style="width: 75rpx;" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/replay.png"
+                    bindtap="audioStart">
+                </image>
+            </view>
+        </view>
+    </view> -->
+</mp-dialog>
+<view id="container">
+    <!-- 搜索框 -->
+    <view class="weui-search-bar {{inputShowed ? 'weui-search-bar_focusing' : ''}}" id="searchBar">
+        <view class="weui-search-bar__box">
+            <i class="weui-icon-search"></i>
+            <input type="text" class="weui-search-bar__input" placeholder="搜索" value="{{inputVal}}"
+                focus="{{inputShowed}}" bindinput="toSearchInput" confirm-type="search" bindconfirm="goSearch" />
+            <span class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput"></span>
+        </view>
+        <label class="weui-search-bar__label" bindtap="showInput">
+            <i class="weui-icon-search"></i>
+            <span class="weui-search-bar__text">搜索</span>
+        </label>
+        <!-- <view class="weui-search-bar__cancel-btn" style="color: #83B1FD;" bindtap="goSearch">确认</view> -->
+        <view class="weui-search-bar__cancel-btn" bindtap="hideInput" style="font-size: small;">取消</view>
+
+    </view>
+
+    <!--  排序 发布 -->
+    <view class="paixuhetianjia flex">
+        <!-- <view bindtap="toPaixu" hover-class="hover">
+            排序<image mode="widthFix" style="margin-top:10rpx;margin-left:10rpx;width:25rpx;"
+                src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/xiala.png">
+            </image>
+        </view> -->
+        <view class="riqi">
+            <view bindtap="toRiqi" hover-class="hover">{{isRiqi?'关闭':'日期'}}</view>
+            <image mode="widthFix" style="margin-top:10rpx;margin-left:10rpx;width:25rpx;"
+                src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/xiala.png">
+            </image>
+            <view class="riqi_items" wx:if="{{isRiqi}}">
+                <picker mode="date" value="{{shaixuan_riqi}}" start="2021" bindchange="bindDateChange">
+                    <view class="picker">
+                        {{shaixuan_riqi == ''? '-请选择-': shaixuan_riqi}}
+                    </view>
+                </picker>
+                <view>~</view>
+                <picker mode="date" value="{{shaixuan_riqi2}}" start="2021" bindchange="bindDateChange2">
+                    <view class="picker">
+                        {{shaixuan_riqi2 == ''? '-请选择-': shaixuan_riqi2}}
+                    </view>
+                </picker>
+            </view>
+        </view>
+
+        <view class="fabu" bindtap="toFabu" wx:if="{{isAdmin}}">
+            <mp-icon type="field" icon="add" color="gray" size="{{15}}"></mp-icon>
+        </view>
+    </view>
+    <!--  列表 -->
+    <!-- <view class="weui-panel weui-panel_access">
+        <view class="weui-panel__bd">
+            <view class="weui-media-box weui-media-box_appmsg" wx:for="{{bigthingsList}}" wx:key="index"
+                bindtap="toDetail" data-id="{{item._id}}" data-openid="{{item._openid}}">
+                <view class="weui-media-box__bd">
+                    <h4 class="weui-media-box__title yincang">{{item.name}}</h4>
+                    <view class="weui-media-box__desc">发布：{{item.createTime}}</view>
+                    <view style="display:flex;justify-content:flex-end;">
+                        <view class="tuijian" style="" wx:if="{{item.isZhiding&&!item.isXiajia}}">推荐</view>
+                        <view class="yixiajia" style="" wx:if="{{item.isXiajia}}">已下架</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view> -->
+
+    <!-- 朋友圈形式列表 -->
+
+    <view class="pengyq" wx:for="{{ isShaixuan ? shaixuan_list : bigthingsList }}" wx:key="list_index"
+        catchtap="toDetail" data-id="{{list._id}}" data-openid="{{list._openid}}" wx:for-item="list"
+        wx:for-index="list_index">
+
+        <view class="pengyq_touxiang">
+            <image mode="widthFix" src="{{list.avatarUrl}}" />
+        </view>
+
+        <view class="pengyq_content">
+            <view class="pengyq_xming">{{list.name}}</view>
+            <view class="pengyq_text">
+                {{list.jianjie}}
+            </view>
+            <!-- 展示图片 -->
+            <view class="pengyq_images">
+                <view class="pengyq_images_grid" style="box-sizing:none;" wx:for="{{list.imagesUrlList}}" wx:key="index"
+                    wx:for-item="imagesUrlList">
+                    <view class="pengyq_images_item">
+                        <image mode="aspectFill" catchtap="toYulanImage" src="{{imagesUrlList.imagetempFileURL}}"
+                            data-src="{{imagesUrlList.imagetempFileURL}}" data-list="{{list.imagesUrlList}}"></image>
+                    </view>
+                </view>
+            </view>
+            <!-- 展示视频 -->
+            <view wx:if="{{list.video_fileid}}" catchtap="playVideo">
+                <video class="pengyq_video" src="{{list.video_fileid}}" autoplay="{{autoplay}}" muted="{{isMuted}}"
+                    show-mute-btn bindfullscreenchange="bind_quanping"></video>
+            </view>
+            <!-- 音频 -->
+
+            <view class="audio" wx:if="{{list.audio.fileid !== ''}}" catchtap="toShowAudio" data-audio="{{list.audio}}">
+                <view class="audio_item1">
+                    <image mode="widthFix" style="width: 60rpx;" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/play.png"></image>
+                </view>
+                <view class="audio_items">
+                    <view class="audio_items_item1">
+                        <view class="audio_items_item1_item1">{{list.audio.name}}</view>
+                    </view>
+                    <view class="audio_items_item2">
+                        <slider class="slider" activeColor="#8AD4AF" block-size="12" backgroundColor="#dadada" />
+                    </view>
+                </view>
+            </view>
+            <!-- <view class="audio" wx:if="{{item.audio.fileid}}">
+                <view class="audio_item1">
+                    <image wx:if="{{!isPlay}}" mode="widthFix" style="width: 60rpx;" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/play.png" bindtap="audioPlay" data-src="{{item.audio.fileid}}"></image>
+                    <image wx:if="{{isPlay}}" mode="widthFix" style="width: 60rpx;" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/pause.png" bindtap="audioPause" data-src="{{item.audio.fileid}}"></image>
+                </view>
+                <view class="audio_items">
+                    <view class="audio_items_item1">
+                        <view class="audio_items_item1_item1">{{item.audio.name}}</view>
+                        <view class="audio_items_item1_item2">{{currentTime}} / {{duration}}</view>
+                    </view>
+                    <view class="audio_items_item2">
+                        <slider class="slider" activeColor="#8AD4AF" block-size="12" backgroundColor="#dadada" value="{{percent}}"/>
+                    </view>
+                </view>
+            </view> -->
+
+            <view class="pengyq_end">
+                <view>{{list.createTime}}</view>
+                <!-- <view>24分钟前</view> -->
+                <view style="display: flex;">
+                    <view class="tuijian" wx:if="{{list.isZhiding&&!list.isXiajia}}">推荐</view>
+                    <!-- <view bindtap="showXuanxiang">。。。</view> -->
+                </view>
+            </view>
+            <view class="xuanxiang">
+                <!-- 点赞 -->
+                <view class="dianzan" catchtap="toLike" data-id="{{list._id}}" data-item="{{list}}"
+                    data-index="{{list_index}}">
+                    <text style="font-size:small;margin-left: 10rpx;">{{list.dianzanNum == 0?'':list.dianzanNum}}</text>
+                    <view>
+                        <mp-icon wx:if="{{!list.isLike}}" icon="like" type="outline" color="black" size="{{20}}">
+                        </mp-icon>
+                        <mp-icon wx:if="{{list.isLike}}" icon="like" type="field" color="goldenrod" size="{{20}}">
+                        </mp-icon>
+                    </view>
+                </view>
+                <!-- <view class="xuanxiang_item" catchtap="openLiuyan" data-id="{{list._id}}" data-index="{{list_index}}">评论</view> -->
+                <!-- </view> -->
+            </view>
+            <!-- 留言 -->
+            <view class="liuyanzhanshi">
+                <!-- <view class="liuyan" catchtap="openLiuyan">写下你的留言</view> -->
+                <view class="" wx:if="{{isShowliuyan}}">
+                    <view class="weui-mask" catchtap="closeLiuyan"></view>
+                    <view class="weui-half-screen-dialog">
+                        <view class="weui-half-screen-dialog__hd">
+                            <view class="weui-half-screen-dialog__hd__side" catchtap="closeLiuyan">
+                                <a class="weui-icon-btn">关闭<i class="weui-icon-close-thin"></i></a>
+                            </view>
+                            <view class="weui-half-screen-dialog__hd__main">
+                                <strong class="weui-half-screen-dialog__title">写留言</strong>
+                            </view>
+                            <view>
+                                <button type="primary" size="mini" catchtap="toTijiao_liuyan"
+                                    disabled="{{inputVal_liuyan!==''?false:true}}">提交</button>
+                            </view>
+                        </view>
+                        <view class="weui-half-screen-dialog__bd" style="padding-top:10rpx;height:600rpx;">
+                            <textarea name="" style="height:600rpx;width:650rpx;" auto-focus maxlength='500'
+                                placeholder-style="留言将对所有人可见" bindinput="bindinput_liuyan"
+                                value="{{inputVal_liuyan}}"></textarea>
+                        </view>
+                    </view>
+                </view>
+                <view class="" wx:if="{{isShowjiaohu}}">
+                    <view class="weui-mask" catchtap="closeLiuyan"></view>
+                    <view class="weui-half-screen-dialog">
+                        <view class="weui-half-screen-dialog__hd">
+                            <view class="weui-half-screen-dialog__hd__side" catchtap="closeLiuyan">
+                                <a class="weui-icon-btn">关闭<i class="weui-icon-close-thin"></i></a>
+                            </view>
+                            <view class="weui-half-screen-dialog__hd__main">
+                                <strong class="weui-half-screen-dialog__title">回复：{{nickName}}</strong>
+                            </view>
+                            <view>
+                                <button type="primary" size="mini" catchtap="toTijiao_liuyan"
+                                    disabled="{{inputVal_liuyan!==''?false:true}}">提交</button>
+                            </view>
+                        </view>
+                        <view class="weui-half-screen-dialog__bd" style="padding-top:10rpx;height:600rpx;">
+                            <textarea style="height:600rpx;width:650rpx;" auto-focus maxlength='500'
+                                placeholder-style="留言将对所有人可见" bindinput="bindinput_liuyan"
+                                value="{{inputVal_liuyan}}"></textarea>
+                        </view>
+                    </view>
+                </view>
+                <!-- 留言展示 -->
+                <view>
+                    <view class="flex liuyanzhanshi" wx:for="{{list.liuyan}}" wx:key="index" data-index="{{index}}"
+                        data-nickname="{{item.nickName}}" catchtap="" data-id="{{list._id}}"
+                        data-list_index="{{list_index}}" wx:if="{{index<2}}">
+                        <view>
+                            <image mode="widthFix" style="width:50rpx;" src="{{item.avatarUrl}}"></image>
+                        </view>
+                        <view style="margin-left:15rpx;font-size:25rpx;">
+                            <view style="display:flex;">
+                                <view class="" style="color:DarkGray">{{item.nickName}}</view>
+                                <view class="author" wx:if="{{item.openid == _openid ? true : false}}">作者</view>
+                            </view>
+                            <view>{{item.value}}</view>
+                            <view style="color:darkblue" catchtap=""
+                                wx:if="{{item.openid == userOpenid ? true : false}}" data-index="{{index}}"
+                                data-liuyan_val="{{item.value}}" data-floor="0">删除</view>
+                            <view>
+                                <view class="flex liuyanzhanshi" wx:for="{{item.jiaohu}}" wx:key="index"
+                                    data-index="{{index}}">
+                                    <view>
+                                        <image mode="widthFix" style="width:50rpx;" src="{{item.avatarUrl}}"></image>
+                                    </view>
+                                    <view style="margin-left:15rpx;font-size:25rpx;">
+                                        <view style="display:flex;">
+                                            <view class="" style="color:DarkGray">{{item.nickName}}
+                                            </view>
+                                            <view class="author" wx:if="{{item.openid == _openid ? true:false}}">作者
+                                            </view>
+                                        </view>
+                                        <view>{{item.value}}</view>
+                                        <view style="color:darkblue"
+                                            wx:if="{{item.openid == userOpenid ? true : false}}" data-index="{{index}}"
+                                            catchtap="" data-floor="1" data-liuyan_val="{{item.value}}"
+                                            data-jiaohuindex="{{item.jiaohuIndex}}">删除</view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view style="text-align:center;color:LightGrey;" wx:if="{{list.liuyan.length>2}}">————查看更多————
+                    </view>
+                </view>
+            </view>
+
+        </view>
+
+
+    </view>
+    <!-- <view class="zanwu" wx:if="{{shaixuan_list.length == 0}}">
+        <view>暂无数据</view>
+    </view> -->
+
+
+    <!-- 底部 -->
+    <!-- <view style="height:200rpx;"></view> -->
+    <!-- 底部加载 无更多 显示 -->
+    <view class="weui-loadmore" wx:if="{{isShowLoading}}">
+        <i class="weui-loading"></i>
+        <text class="weui-loadmore__tips">正在加载</text>
+    </view>
+    <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot id1" wx:if="{{isGengDuo}}">
+        <text class="weui-loadmore__tips"></text>
+    </view>
+    <mp-sticky container="{{container}}" offset-top="480">
+        <view class="lianxi">
+            <button open-type="contact"
+                style="font-weight:normal; text-align: right;padding: 0rpx;width: 90rpx;height: 120rpx; font-size: 30rpx; display: flex;flex-direction: column; justify-content: center;align-items: center; background-color: rgba(255, 166, 0, 0.8);border-radius: 50%;">
+                <image mode="widthFix" style="width: 40rpx;height:40rpx;margin-top: 8rpx;margin-bottom: 4rpx; "
+                    src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/shouye/kefu.png"></image>
+                <view class="lianxi_tougao">投稿</view>
+            </button>
+        </view>
+    </mp-sticky>
+</view>

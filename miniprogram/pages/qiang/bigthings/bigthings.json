@@ -1,0 +1,11 @@
+{
+  "usingComponents": {
+    "mp-icon": "weui-miniprogram/icon/icon",
+    "mp-cells": "weui-miniprogram/cells/cells",
+    "mp-cell": "weui-miniprogram/cell/cell",
+    "mp-dialog": "weui-miniprogram/dialog/dialog",
+    "mp-sticky": "@miniprogram-component-plus/sticky"
+  },
+  "navigationBarTitleText": "牛牯塘",
+  "enablePullDownRefresh":true
+}

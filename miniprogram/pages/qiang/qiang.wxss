@@ -1,25 +1,179 @@
 /* pages/qiang/qiang.wxss */
-.content{
+.page {
+  background-color: #8AD4AF;
+}
+
+/* .content{
   flex-direction: column;
   margin: 20rpx;
-}
-.qiang{
+} */
+.qiang {
   display: flex;
 }
-.hover{
+
+.hover {
   opacity: 0.8;
-  background: orange;
+  /* background: orange; */
+  background: #dcdcdc1a;
 }
-.zhuan{
+
+.zhuan {
   flex: 1;
   text-align: center;
   border: 5rpx solid orange;
   height: 100rpx;
   padding-top: 50rpx;
 }
-.kong{
+
+.kong {
   flex: 0.5;
 }
-.zl{
+
+.zl {
   flex-flow: right;
+}
+
+.col {
+  background: orange;
+}
+
+.yincang {
+  display: -webkit-box;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.content {
+  padding: 30rpx 0rpx;
+  background-color: white;
+  /* background: url(https://786d-xmf-0g87mzf198205ada-1305629196.tcb.qcloud.la/iamges_xitong/qiang_beijingtu.png?sign=d3a55274ab3791da82fe191a0108cda2&t=1628521067); */
+  margin-bottom: 20rpx;
+  border-radius: 50rpx;
+}
+
+.choose {
+  margin-top: 20rpx;
+  display: flex;
+}
+
+.choose_item {
+  font-weight: bold;
+  font-size: small;
+  flex: 1;
+  text-align: center;
+  /* margin: 10rpx; */
+  height: 180rpx;
+  border-radius: 10rpx;
+}
+
+.choose_item image {
+  margin: 10rpx;
+  width: 50rpx;
+}
+
+.choose text {
+  text-align: center;
+  margin: 10rpx;
+}
+
+.hover {
+  opacity: 0.8;
+  background: orange;
+}
+
+
+.bigthings {
+  margin-top: 20rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  margin: 30rpx;
+  font-weight: bold;
+}
+
+.bigthings_item {
+  font-weight: bold;
+  text-align: center;
+  /* margin: 10rpx; */
+  height: 180rpx;
+  border-radius: 10rpx;
+}
+
+.bigthings image {
+  margin: 30rpx;
+  width: 50rpx;
+}
+
+.linshi {
+  height: 200rpx;
+  background-color: white;
+  margin: 30rpx;
+  text-align: center;
+  padding-top: 100rpx;
+}
+
+.huangye {
+  /* height: 650rpx; */
+  background-color: white;
+  margin: 30rpx;
+  text-align: left;
+  /* padding: 20rpx; */
+}
+
+.huangye_biaoti {
+  font-size: small;
+  font-weight: bold;
+}
+
+.fontsize_small {
+  font-size: small;
+}
+
+.dixian {
+  display: flex;
+  height: 100rpx;
+  margin: 0rpx 150rpx;
+}
+
+.dixian_item1 {
+  flex: 0.5;
+}
+
+.dixian_item1_item1 {
+  height: 50rpx;
+  border-bottom: 2rpx solid white;
+}
+
+.dixian_item2 {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* color: #aaaaaa; */
+  color: white;
+  font-size: 22rpx;
+}
+
+.yincang_title {
+  display: -webkit-box;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  width: 470rpx;
+  font-size: 32rpx;
+}
+
+.bankuai {
+  font-size: small;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20rpx;
 }

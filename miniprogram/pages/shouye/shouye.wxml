@@ -1,36 +1,350 @@
 <!--pages/shouye/shouye.wxml-->
-<!-- <view class="banner">
+<!-- 播放窗口 -->
 
-  <image src="https://img.alicdn.com/imgextra/i3/184/O1CN01teinpL1DEJXyyvcbS_!!184-0-luban.jpg" mode="widthFix"></image>
+<mp-dialog title="" show="{{audioShowed}}" bindclose="toCloseAudio" buttons="{{oneButton}}" bindbuttontap="toCloseAudio">
+  <view class="audio_chuangkou">
+    <view class="audio_item1">
+      <image wx:if="{{!isPlay}}" mode="widthFix" style="width: 60rpx;" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/play.png" bindtap="audioPlay"></image>
+      <image wx:if="{{isPlay}}" mode="widthFix" style="width: 60rpx;" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/pause.png" bindtap="audioPause"></image>
+    </view>
+    <view class="audio_items">
+      <view class="audio_items_item1">
+        <view class="audio_items_item1_item1">{{audio.name}}</view>
+        <view class="audio_items_item1_item2">{{currentTime}} / {{duration}}</view>
+      </view>
+      <view class="audio_items_item2">
+        <slider class="slider" activeColor="#8AD4AF" block-size="12" backgroundColor="#dadada" value="{{percent}}" />
+      </view>
+    </view>
+  </view>
+</mp-dialog>
+<!-- 扫码识别小程序会出现的关注公众号组件 -->
+<!-- <view>
+  <official-account bindload='isLoad' binderror='isLoaderr'></official-account>
+</view> -->
+
+
+<view wx:if="{{isShowGuanzhu}}" style="display: flex;align-items: center;justify-content: center;background-color:white;">
+  <view style="position: absolute; right: 10rpx;top: 10rpx;" catch:tap="showGuanzhu">
+    <mp-icon type="field" icon="close" color="gray" size="{{15}}"></mp-icon>
+  </view>
+  <image src="{{guanzhuurl}}" catch:tap="ShowMa" mode="widthFix" show-menu-by-longpress />
 </view>
 
-<view class="choose">
-  <view hover-class="hover" bindtap="toDaiQu">代取</view>
-  <text>|</text>
-  <view hover-class="hover" bindtap="toJiZou">寄走</view>
-  <text>|</text>
-  <view hover-class="hover" bindtap="toMeiShi">美食</view>
-</view> -->
-<!-- 临时页面 -->
-<view class="linshi">
-  <view>
-    <image class="image" src="{{url}}" mode="widthFix" bindtap="toDaiQu"></image>
+<view class="fadeIn" wx:if="{{isShowMa}}" catch:tap="ShowMa">
+  <view class="weui-mask"></view>
+  <view class="weui-dialog">
+    <view style="display: flex;flex-direction: column;align-items: center;">
+      <view style="padding: 10rpx;">
+        <text>长按识别关注公众号</text>
+      </view>
+      <view style="padding: 10rpx;">
+        <text>重要消息不错过！</text>
+      </view>
+      <!-- <textarea auto-focus bindinput="inputTongzhi" placeholder="限制：8行128字" value="{{inputVal_tongzhi}}" class="weui-dialog__bd" style="height: 552rpx; width: 550rpx;" maxlength="128"></textarea> -->
+      <image src="../../images/erweima3.jpg" mode="widthFix" style="width: 300rpx;" show-menu-by-longpress />
+    </view>
+    <view class="weui-dialog__ft">
+      <a class="weui-dialog__btn weui-dialog__btn_default" catchtap="ShowMa">关闭</a>
+    </view>
+  </view>
+</view>
+
+
+<view class="page">
+  <view class="search">
+    <view class="search_items" bindtap="toSearch">
+      <image mode="widthFix" style="width: 25rpx;" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/yonghuchaxun.png"></image>
+      <view class="search_item">搜索</view>
+    </view>
+    <view class="search_item1" bindtap="toQiandao_shouye">签到</view>
+    <view class="search_item1">
+      <button open-type="contact" class="weui-cell__bd" style="font-weight:normal; text-align: left;padding: 0 0rpx;width: 100%;font-size: 30rpx;">
+        <image mode="widthFix" style="width: 40rpx;" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/shouye/kefu.png"></image>
+      </button>
+    </view>
+  </view>
+  <!-- 广告 -->
+  <view class="banner">
+    <swiper autoplay interval="3000" style="height: {{bannerOpen_shouye?422:260}}rpx;">
+      <!-- <swiper indicator-dots autoplay interval="3000"> -->
+      <view wx:for="{{guangGaoList}}" wx:key="index" wx:if="{{bannerOpen_shouye}}">
+        <swiper-item wx:if="{{item.src!==''}}">
+          <image wx:if="{{bannerOpen_shouye}}" mode="widthFix" style="width:750rpx;" src="{{item.src}}" bindtap="toYulanImage" data-src="{{item.src}}"></image>
+          <!-- <ad wx:if="{{bannerOpen_shouye_ad}}" unit-id="adunit-2d3d434d2c91cd64"></ad> -->
+        </swiper-item>
+      </view>
+      <view wx:for="{{guangGaoList}}" wx:key="index" wx:if="{{bannerOpen_shouye_ad}}">
+        <swiper-item >
+          <ad wx:if="{{bannerOpen_shouye_ad}}" unit-id="adunit-2d3d434d2c91cd64"></ad>
+        </swiper-item>
+      </view>
+    </swiper>
+
   </view>
 
-  <view class="btn">
-    <button class="weui-btn weui-btn_default" bindtap="toDaiQu">代取下单</button>
-  </view>
-  <!-- <view class="btn">
-    <button class="weui-btn weui-btn_default" bindtap="toJiZou">预约寄件</button>
+  <view class="content">
+    <!-- <view class="zhuyingyewu">
+    <view class="zhuyingyewu_item" hover-class="hover" bindtap="toDaiQu">代取下单</view>
+    <view class="zhuyingyewu_item" hover-class="hover" bindtap="toJiZou">预约代寄</view>
   </view> -->
 
+    <view class="choose">
+      <view class="choose_item" hover-class="hover" bindtap="toDaiQu">
+        <image mode="widthFix" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/shouye/daiqu.png"></image>
+        <view>快递代取</view>
+      </view>
+      <view class="choose_item" hover-class="hover" bindtap="toJiZou">
+        <image mode="widthFix" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/shouye/jijian.png"></image>
+        <view>退货寄件</view>
+      </view>
+      <!-- <view class="choose_item" hover-class="hover" bindtap="jianshezhong">
+        <image mode="widthFix" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/shouye/paotui.png"></image>
+        <view>打印复印</view>
+      </view> -->
+      <!-- <view class="choose_item" hover-class="hover" bindtap="{{isOpen_meishi?'toMeishi':'jianshezhong'}}">
+        <image mode="widthFix" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/shouye/paotui.png"></image>
+        <view>生活服务</view>
+      </view> -->
+      <view class="choose_item" hover-class="hover" bindtap="{{isOpen_meishi?'toMeishi':'jianshezhong'}}">
+        <view class="flex justify-center">
+          <view class="round margin-sm margin-top-xs" style="background-color: rgb(245, 131, 94);height:70rpx;width: 70rpx;">
+            <image class="" style="width: 50rpx;" mode="widthFix" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/shouye/xiefu.png"></image>
+          </view>
+        </view>
+        <view>生活服务</view>
+      </view>
+
+      <!-- <view class="choose_item" hover-class="hover" bindtap="toPaotui">
+        <image mode="widthFix" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/shouye/paotui.png"></image>
+        <view>万能跑腿</view>
+      </view> -->
+      <view class="choose_item" hover-class="hover" bindtap="toQita">
+        <view class="flex justify-center">
+          <view class="round margin-sm margin-top-xs" style="background-color: rgb(245, 131, 94);height:70rpx;width: 70rpx;">
+            <image class="" style="width: 50rpx;" mode="widthFix" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/shouye/feiji.png"></image>
+          </view>
+        </view>
+        <view>机场大巴</view>
+      </view>
+
+      <!-- <text style="color:#cdcdcd;">|</text>
+    <view hover-class="hover" bindtap="toGanxi">干洗</view>
+    <text style="color:#cdcdcd;">|</text>
+    <view hover-class="hover" bindtap="toDianpu">美食</view> -->
+    </view>
+    <view class="choose">
+
+      <view class="choose_item" hover-class="hover" bindtap="toPaotui">
+        <image mode="widthFix" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/shouye/banjia.png"></image>
+        <view>搬家搬寝</view>
+      </view>
+      <!-- <view class="choose_item" hover-class="hover" bindtap="toJianzhi">
+        <image mode="widthFix" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/shouye/jianzhi.png"></image>
+        <view>兼职招聘</view>
+      </view> -->
+      <!-- <view class="choose_item" hover-class="hover" bindtap="toZufang">
+        <image mode="widthFix" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/shouye/zufang.png"></image>
+        <view>房屋租赁</view>
+      </view> -->
+      <view class="choose_item" hover-class="hover" bindtap="toPaotui">
+        <image mode="widthFix" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/shouye/paotui.png"></image>
+        <view>万能跑腿</view>
+      </view>
+      <view class="choose_item" hover-class="hover" bindtap="jianshezhong">
+        <image mode="widthFix" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/shouye/paotui.png"></image>
+        <view>筹备中</view>
+      </view>
+      <!-- <view class="choose_item" hover-class="hover" bindtap="toQita">
+        <image mode="widthFix" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/shouye/paotui.png"></image>
+        <view>洗衣洗鞋</view>
+      </view> -->
+      <!-- <view class="choose_item" hover-class="hover" bindtap="{{isOpen_meishi?'toMeishi':'jianshezhong'}}">
+        <image mode="widthFix" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/shouye/jianzhi.png"></image>
+        <view>美食</view>
+      </view> -->
+      <view class="choose_item" hover-class="hover" bindtap="toQita">
+        <image mode="widthFix" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/shouye/jianzhi.png"></image>
+        <view>其他</view>
+      </view>
+
+    </view>
+
+  </view>
+  <!-- 滚动字幕 小喇叭 跑马灯 -->
+  <view style="display: flex;">
+
+    <view style="background-color: #fe4655;height: 50rpx;position: absolute;z-index: 5000;display: flex;justify-content: center;align-items: center;">
+      <image src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/shouye/xiaolaba.png" style="width: 40rpx;color: #fe4655;" mode="widthFix"></image>
+    </view>
+    <view class="marquee_container" style="--marqueeWidth--:-{{guangbo_text.length*30}}rpx;">
+      <!-- <view class="marquee_container" style="--marqueeWidth--:-500rpx"> -->
+      <view class="marquee_text">{{guangbo_text}}</view>
+    </view>
+  </view>
+
+  <!-- 为你推荐 -->
+  <view class="bigthings">
+    <image mode="widthFix" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/huzhu.png"></image>
+    <view class="bigthings_item_text">为你推荐</view>
+  </view>
+  <view class="tuijian">
+    <!-- 推荐选项卡 -->
+    <view class="tuijian_biaoti">
+      <view class="tuijian_biaoti_item {{item.checked? 'tuijian_tap':''}}" bindtap="tapTuijian" wx:for="{{tuijian_list}}" wx:key="index" data-item="{{item}}">
+        {{item.text}}
+      </view>
+    </view>
+    <!-- 租房 -->
+    <view class="tuijian_liebiao" wx:if="{{fabuType == 'zufang'}}" wx:for="{{tuijianList}}" wx:key="index" bindtap="toDetail" data-id="{{item._id}}" data-openid="{{item._openid}}">
+      <view class="weui-media-box weui-media-box_appmsg">
+        <view style="display:flex;flex-direction:column;">
+          <view style="display:flex;">
+            <view class="weui-media-box__hd" style="height:250rpx;width:250rpx;">
+              <image class="weui-media-box__thumb" style="height:300rpx;" src="{{item.imagesUrlList[0].imagetempFileURL}}" alt></image>
+            </view>
+            <view class="weui-media-box__bd">
+              <h4 class="weui-media-box__title zufang_title">{{item.name}}</h4>
+              <view class="weui-media-box__desc" style="color: #F5835E;">{{item.zujin}}元/月
+              </view>
+              <view class="weui-media-box__desc ">户型：{{item.huxing}}</view>
+              <view class="weui-media-box__desc ">楼层：{{item.louceng}}</view>
+              <view class="weui-media-box__desc fontsize_smaller" style="margin-top: 10rpx;">发布：{{item.createTime}}
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <!-- 兼职招聘 -->
+    <view class="tuijian_liebiao" wx:if="{{fabuType == 'jianzhi'}}" wx:for="{{tuijianList}}" wx:key="index" bindtap="toDetail" data-id="{{item._id}}" data-openid="{{item._openid}}">
+      <view class="weui-media-box weui-media-box_appmsg">
+        <view class="weui-media-box__bd">
+          <h4 class="weui-media-box__title jianzhi_title">{{item.name}}
+          </h4>
+          <view class="weui-media-box__desc" style="color: #F5835E;font-weight:bold;">
+            <view class="xinzi">
+              {{item.xinzi}}
+              <text>元</text>
+            </view>
+            <view class="leixing">{{item.leixing}}</view>
+          </view>
+          <view class="weui-media-box__desc fontsize_smaller" style="margin-top: 10rpx;">发布：{{item.createTime}}
+          </view>
+        </view>
+      </view>
+    </view>
+    <!-- 牛牯塘 大事件 -->
+    <view class="pengyq" wx:if="{{fabuType == 'bigthings'}}" wx:for="{{ tuijianList }}" wx:key="list_index" catchtap="toDetail" data-id="{{list._id}}" data-openid="{{list._openid}}" wx:for-item="list" wx:for-index="list_index">
+
+      <view class="pengyq_touxiang">
+        <image mode="widthFix" src="{{list.avatarUrl}}" />
+        <view class="pengyq_info">
+          <view class="pengyq_xming">{{list.name}}</view>
+          <view class="pengyq_shijian">{{list.createTime}}</view>
+        </view>
+
+      </view>
+
+      <view class="pengyq_content">
+        <rich-text nodes="{{list.nickname}}"></rich-text>
+
+        <view class="pengyq_text">
+          {{list.jianjie}}
+        </view>
+        <!-- 展示图片 -->
+        <view class="pengyq_images">
+          <view class="pengyq_images_grid" style="box-sizing:none;" wx:for="{{list.imagesUrlList}}" wx:key="index" wx:for-item="imagesUrlList" wx:if="{{index<2}}">
+            <view class="pengyq_images_item">
+              <image mode="aspectFill" catchtap="toYulanImage2" src="{{imagesUrlList.imagetempFileURL}}" data-src="{{imagesUrlList.imagetempFileURL}}" data-list="{{list.imagesUrlList}}"></image>
+            </view>
+          </view>
+        </view>
+        <!-- 展示视频 -->
+        <view wx:if="{{list.video_fileid}}" catchtap="playVideo">
+          <video class="pengyq_video" src="{{list.video_fileid}}" autoplay="{{autoplay}}" muted="{{isMuted}}" show-mute-btn bindfullscreenchange="bind_quanping"></video>
+        </view>
+        <!-- 音频 -->
+
+        <view class="audio" wx:if="{{list.audio.fileid !== ''}}" catchtap="toShowAudio" data-audio="{{list.audio}}">
+          <view class="audio_item1">
+            <image mode="widthFix" style="width: 60rpx;" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/play.png"></image>
+          </view>
+          <view class="audio_items">
+            <view class="audio_items_item1">
+              <view class="audio_items_item1_item1">{{list.audio.name}}</view>
+            </view>
+            <view class="audio_items_item2">
+              <slider class="slider" activeColor="#8AD4AF" block-size="12" backgroundColor="#dadada" />
+            </view>
+          </view>
+        </view>
+
+        <view class="xuanxiang">
+          <view class="xuanxiang_tuijian">{{list.isZhiding?'推荐':''}}</view>
+          <view class="xuanxiang_dianzan">
+            <!-- 点赞 -->
+            <view class="dianzan" catchtap="toLike" data-id="{{list._id}}" data-item="{{list}}" data-index="{{list_index}}">
+              <text style="font-size:small;margin-left: 10rpx;">{{list.dianzanNum == 0?'':list.dianzanNum}}</text>
+              <view>
+                <mp-icon wx:if="{{!list.isLike}}" icon="like" type="outline" color="black" size="{{20}}">
+                </mp-icon>
+                <mp-icon wx:if="{{list.isLike}}" icon="like" type="field" color="goldenrod" size="{{20}}">
+                </mp-icon>
+              </view>
+            </view>
+            <view class="xuanxiang_item" catchtap="toDetail" data-id="{{list._id}}" data-index="{{list_index}}">
+              <mp-icon icon="comment" type="outline" color="black" size="{{20}}">
+              </mp-icon>
+            </view>
+          </view>
+        </view>
+
+      </view>
+
+    </view>
+
+    <!-- 美食列表 -->
+
+    <view class="dianpu" wx:if="{{fabuType == 'meishi'}}" wx:for="{{shangjiaList}}" wx:key="index" data-id="{{shangjia_item._id}}" catchtap="{{shangjia_item.isYingye?'toDianpu':'toxiuxi_tongzhi'}}" wx:for-item="shangjia_item">
+      <view class="dianpu_zuo">
+        <image style="width: 200rpx;height: 150rpx;" src="{{shangjia_item.zhaopaiUrl.imagefileID}}"></image>
+      </view>
+      <view class="dianpu_you">
+        <view class="dianpu_you_1">{{shangjia_item.name}}</view>
+        <view class="dianpu_you_2">
+          <view wx:for="{{shangjia_item.xingji_list}}" wx:key="index" style="margin-right: 10rpx;">
+            <image class="" style="width: 20rpx;height: 20rpx;" src="{{item}}">
+            </image>
+          </view>
+          <view>{{shangjia_item.peisongShijian}}分钟</view>
+          <!-- 按照30分钟0.3km换算 -->
+        </view>
+        <view class="dianpu_you_3" style="display: flex;">
+          <view>
+            起送价￥{{shangjia_item.qisong}}
+          </view>
+          <view style="color: rgba(255, 0, 0, 0.5);margin-left: 50rpx;" wx:if="{{!shangjia_item.isYingye}}">
+            {{shangjia_item.peisongTime.time1 + '~' +shangjia_item.peisongTime.time2}}休息中
+          </view>
+        </view>
+        <!-- 店铺推荐 -->
+        <!-- <view class="dianpu_you_4">
+          <view class="dianpu_you_4_items" wx:for="{{shangjia_item.foodList_zhiding}}" wx:key="index_2"
+            wx:for-index="index_2" data-id="{{shangjia_item._id}}" data-index_a="{{item.category_id}}"
+            data-index_b="{{ item.id }}" catchtap="toDetail_meishi" wx:if="{{index_2<3}}">
+            <image class="dianpu_you_4_1" style="width: 150rpx;height: 113rpx;" src="{{item.imageUrl.imagefileID}}">
+            </image>
+            <view class="dianpu_you_4_2">{{item.name}}</view>
+            <view class="dianpu_you_4_3">￥{{item.price}}</view>
+          </view>
+        </view> -->
+      </view>
+    </view>
+
+    <!-- 我是底线 -->
+    <dixian isNoMore="{{isNoMore}}"></dixian>
 
 
+  </view>
 </view>
-
-<image class="image2" style="margin:auto;" src="{{url_2}}" mode="widthFix" bindtap="erWeima"></image>
-<view style="margin:auto; font-size:small;">联系我</view>
-
-<!-- <view class="btn">
-  <button class="weui-btn weui-btn_default" open-type="contact">进入客服消息</button>
-</view> -->

@@ -5,10 +5,9 @@
 
    "triggers": [
     {
-      "name": "chufaqi_Yijichu",
+      "name": "chufaqi_Yijichu_zhuangtai",
       "type": "timer",
-      "config": "*/5 * * * * * *"
+      "config": "*/10 * * * * * *"
     }
   ]
-
 }

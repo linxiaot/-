@@ -1,0 +1,103 @@
+
+.ziti_s{
+    font-size: medium;
+  }
+  .ziti_m{
+    font-size: 40rpx;
+  }
+  .color{
+    color: red;
+  }
+  .ziti_xiao{
+    font-size: 11.5pt;
+  }
+  .form{
+    font-size: small;
+    margin: 15rpx;
+    margin-top: 30rpx;
+  }
+  .xuanZeqi{
+    color: 	#4682B4;
+  }
+  
+  .weui-btn{
+    border-radius: 48rpx;
+    background-color: gold;
+    color: black;
+  }
+  .weui-toptips, weui-switch-cp{display:block}
+  .hover {
+    opacity: 0.9;
+    background: white;
+  }
+  .hover2 {
+    opacity: 0.9;
+    background: gold;
+    justify-content: right;
+  }
+  
+  .flexjuzhong{
+    display: flex;
+    justify-content: center;
+  }
+  .weui-cells__group_form .weui-cell {
+    padding: 30rpx 60rpx;
+  }
+  .weui-cells__group_form .weui-cell__hd {
+    padding-right: 0rpx;
+  }
+  .actionsheet__cell{
+    padding: 32rpx;
+    font-size: 34rpx;
+    line-height: 1.41176471;
+    color: var(--weui-FG-0);
+    text-align: left;
+  }
+  .position_absolute{
+    position: absolute;
+  }
+  .position_fixed{
+    position: fixed;
+  }
+  .position_relative{
+    position: relative;
+  }
+  .alignitems{
+    align-items: center;
+  }
+  .banner{
+    /* background-color: rgba(0, 0, 0, 0.8); */
+    height: 600rpx;
+    position: fixed;
+    z-index: 5000;
+    top: 30%;
+    left: 16px;
+      right: 16px;
+      border-radius: 12px;
+  }
+  .banner_close{
+    position: fixed;
+    z-index: 5000;
+    /* top: 30%; */
+    left: 16px;
+      right: 16px;
+      border-radius: 12px;
+      justify-content: flex-end;
+  }
+  .banner_image{
+    width: 686rpx;
+    border-radius: 12px;
+  }
+  .address{
+    font-size: small;
+    background-color: gold;
+    border-radius: 5rpx;
+    width: 130rpx;
+    margin-left: 20rpx;
+    text-align: center;
+    
+  }
+  
+  
+  
+  /* pages/shouye/paotui/paotui.wxss */

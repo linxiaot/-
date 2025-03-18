@@ -1,2 +1,250 @@
-<!--pages/shouye/meishi/meishi.wxml-->
-<text>pages/shouye/meishi/meishi.wxml</text>
+<view class="page_dianpu" style="height: {{screenHeight}}px;">
+    <view class="dianpu" bindtap="">
+        <view class="dianpu_1">
+            <view class="dianpu_zhaopai">
+                <view class="food-item-pic" style="width: 100rpx;height: 75rpx;">
+                    <image mode="widthFix" src="{{dianpuData.zhaopaiUrl.imagefileID}}" />
+                </view>
+            </view>
+            <view>
+                <view class="dianpu_name" style="font-size: {{dianpuData.name.length>15?'28rpx':''}};">{{dianpuData.name}}</view>
+                <view style="display: flex;">
+                    <view class="dianpu_item">{{dianpuData.qisong}}元起送</view>
+                    <view class="dianpu_item">配送时间{{dianpuData.peisongShijian}}分钟</view>
+                </view>
+            </view>
+
+        </view>
+        <view class="dianpu_gonggao">公告：{{dianpuData.gonggao}}</view>
+    </view>
+    <!-- 折扣信息区 -->
+    <!-- <view class="discount">
+    <view class="dianpu_name">常德牛肉粉馆</view><text>></text>
+    <view>公告：堕落坑常德牛肉粉馆欢迎您的光临！请亲们保持手机畅通，接到电话后速速取餐，谢谢合作</view>
+    <text class="discount-txt">减</text>满{{promotion.k}}元减{{promotion.v}}元（在线支付专享）
+</view> -->
+    <view class="xuanka">
+        <xuanxiangka binditemChange="toitemChange" nameList="{{xuanxiangkaList}}"></xuanxiangka>
+    </view>
+    <!-- 评价区 -->
+    <view class="pingjia" wx:if="{{xuanxiangkaList[1].checked}}">
+        <scroll-view style="height: {{screenHeight-150}}px;" scroll-y>
+            <view class="pingjia_tou">
+                <view class="pingjia_tou_item">
+                    <view>{{xingji}}</view>
+                </view>
+                <view class="xingji2" style="">
+                    <view class="xingji_items1">
+                        <view class="" wx:for="{{xingji_list}}" wx:key="index" wx:for-item="item">
+                            <image class="" style="width: 25rpx;height: 25rpx;" src="{{item}}"></image>
+                        </view>
+                    </view>
+                    <view class="xingji_items2">"{{pingjia_list[xingjiFormat(xingji)-1]}}"</view>
+                </view>
+                <!-- <view>{{item.pingjia.pingjia_text}}</view> -->
+            </view>
+            <view class="pingjia_items" wx:for="{{pingjiaData}}" wx:key="index">
+                <view class="pingjia_item1" style="display: flex;align-items: center;">
+                    <image class="" style="width: 60rpx;height: 60rpx;border-radius: 50%;"
+                        src="{{item.pingjia.pingjia_avatarUrl}}"></image>
+                    <view style="height: 60rpx;">
+                        <view style="margin-left: 10rpx;font-size: 22rpx;">{{item.pingjia.pingjia_name}}</view>
+                        <view style="font-size: 22rpx;">{{dateFormat(item.pingjia.pingjia_time)}}</view>
+                    </view>
+                </view>
+                <view class="pingjia_item2">
+                    <view class="xingji">
+                        <view class="xingji_items1">
+                            <view class="" wx:for="{{item.xingji_list}}" wx:key="index" wx:for-item="item2">
+                                <image class="" style="width: 25rpx;height: 25rpx;" src="{{item2}}"></image>
+                            </view>
+                        </view>
+                        <view class="xingji_items2">"{{pingjia_list[item.pingjia.pingjia_fenshu-1]}}"</view>
+                    </view>
+                    <view>{{item.pingjia.pingjia_text}}</view>
+                </view>
+            </view>
+            <view style="margin-bottom: 50rpx;color: gray;font-size: small;text-align: center;"
+                catchtap="loadPingjia_more" wx:if="{{pingjiaData.length !== pingjia_count}}">展开更多评价</view>
+            <view style="margin-bottom: 50rpx;color: gray;font-size: small;text-align: center;"
+                wx:if="{{pingjiaData.length == pingjia_count}}">暂无评价</view>
+        </scroll-view>
+    </view>
+    <!-- 菜单区 -->
+    <view class="content" wx:if="{{xuanxiangkaList[0].checked}}">
+        <!-- 左侧菜单 -->
+        <view>
+            <scroll-view scroll-y="true" style="height:{{screenHeight-(80+20)-50-60}}px;">
+                <view class="category" style="">
+                    <view bindtap="tapCategory"
+                        class="category_item {{activeIndex == index ? 'category_selected' : 'category_unselect'}}"
+                        style="height: {{foodList.length<8?100:none}}rpx;" wx:for="{{foodList}}" wx:key="index"
+                        data-index="{{index}}">
+                        {{item.name}}
+                    </view>
+                </view>
+            </scroll-view>
+        </view>
+        <!-- 右侧菜单 -->
+        <view style="width:548rpx;">
+            <scroll-view style="height:{{screenHeight-(80+20)-50-60}}px;" scroll-y="true" bindscroll="foodScroll"
+                scroll-with-animation="true" bindscrolltolower="scrolltolower" scroll-top="{{scrollTop}}">
+                <view class="foodall" wx:for="{{foodList}}" wx:key="index" wx:for-index="categoryindex">
+                    <view class="food_category" id="category_{{index}}">{{item.name}}</view>
+                    <view class="food_item" wx:for="{{item.food}}" wx:key="index" wx:for-item="food"
+                        wx:if="{{!food.isXiajia_food}}">
+
+                        <view class="food-item-pic" catchtap="toDetail_meishi" data-index_a="{{ categoryindex }}"
+                            data-index_b="{{ index }}">
+                            <image src="{{food.imageUrl.imagetempFileURL}}" />
+                        </view>
+                        <view class="food-item-info" catchtap="toDetail_meishi" data-index_a="{{ categoryindex }}"
+                            data-index_b="{{ index }}">
+                            <view>{{food.name}}</view>
+                            <view class="food-item-price">{{priceFormat(food.price)}}</view>
+                        </view>
+                        <view class="food-item-opt">
+                            <image src="../../../images/jia.png" mode="widthFix" bindtap="addToCart"
+                                data-category_id="{{categoryindex}}" data-id="{{food.id}}"></image>
+                        </view>
+
+                    </view>
+                </view>
+            </scroll-view>
+        </view>
+    </view>
+    <!-- 查看店铺详情 -->
+    <view class="dianpuxiangqing" wx:if="{{xuanxiangkaList[2].checked}}">
+        <view class="weui-panel">
+            <view class="weui-media-box weui-media-box_text weui-flex">
+                <view class="weui-cell__hd">
+                    <label class="weui-label ziti_s">地址</label>
+                </view>
+                <view>{{dianpuData.dizhi}}</view>
+            </view>
+            <view class="weui-media-box weui-media-box_text weui-flex">
+                <view class="weui-cell__hd">
+                    <label class="weui-label ziti_s">电话</label>
+                </view>
+                <view bindtap="toPhoneCall" style="color:darkblue;">{{dianpuData.phone}}</view>
+            </view>
+
+        </view>
+        <view class="weui-panel">
+            <view class="weui-media-box weui-media-box_text weui-flex">
+                <view class="weui-cell__hd">
+                    <label class="weui-label ziti_s">配送服务：</label>
+                </view>
+                <view>{{dianpuData.peisongFuwu}}</view>
+            </view>
+            <view class="weui-media-box weui-media-box_text weui-flex">
+                <view class="weui-cell__hd">
+                    <label class="weui-label ziti_s">配送时间：</label>
+                </view>
+                <view>{{dianpuData.peisongShijian}}分钟 <text style="color: gray;">（平均配送时间）</text></view>
+            </view>
+            <view class="weui-media-box weui-media-box_text weui-flex">
+                <view class="weui-cell__hd">
+                    <label class="weui-label ziti_s">营业时间：</label>
+                </view>
+                <view>{{dianpuData.peisongTime.time1}} ~ {{dianpuData.peisongTime.time2}}</view>
+            </view>
+            <view class="weui-media-box weui-media-box_text weui-flex">
+                <view class="weui-cell__hd">
+                    <label class="weui-label ziti_s">起送金额：</label>
+                </view>
+                <view>￥{{dianpuData.qisong}}</view>
+            </view>
+        </view>
+        <view class="weui-cell weui-cell_active weui-panel">
+            <view class="weui-cell__hd">
+                <label class="weui-label ziti_s">商家公告：</label>
+            </view>
+            <view class="weui-cell__bd ziti_s" style="height:250rpx;">
+                <view class="weui-input" placeholder-class="weui-input__placeholder">
+                    <view>{{dianpuData.gonggao}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <!-- 满减优惠 -->
+    <!-- <view class="promotion">
+    <label wx:if="{{promotion.k - cartPrice > 0}}">满{{promotion.k}}立减{{promotion.v}}元，还差{{promotion.k -
+        cartPrice}}元</label>
+    <label wx:else>已满{{promotion.k}}元可减{{promotion.v}}元</label>
+</view> -->
+    <!-- 底部操作菜单 -->
+    <view class="dibucaozuo" wx:if="{{xuanxiangkaList[0].checked}}" style="top: {{screenHeight-65}}px;">
+        <view class="operate">
+            <view class="operate-shopcart-ball" hidden="{{!cartBall.show}}"
+                style="left: {{cartBall.x}}px; top: {{cartBall.y}}px;"></view>
+            <view class="operate-shopcart" bindtap="showCartList">
+                <view class="operate-shopcart-icon">
+                    <image
+                        src="{{cartNumber !== 0 ? '../../../images/gouwuche.png' : '../../../images/gouwuche_0.png' }}"
+                        style="width:80rpx;color:#ff9c35;" mode="widthFix"></image>
+                    <span class="gouwucheNum" wx:if="{{cartNumber !== 0}}">{{cartNumber}}</span>
+                </view>
+                <view class="operate-shopcart-empty" wx:if="{{cartNumber === 0}}">购物车是空的</view>
+                <view class="operate-shopcart-price" wx:else>
+                    <block wx:if="{{cartPrice >= promotion.k}}">
+                        <view>{{priceFormat(cartPrice - promotion.v)}}</view>
+                        <text>{{priceFormat(cartPrice)}}</text>
+                    </block>
+                    <view wx:else>{{priceFormat(cartPrice)}}</view>
+                </view>
+            </view>
+            <view wx:if="{{ cartPrice >= dianpuData.qisong }}" class="operate-submit operate-submit-activity"
+                bindtap="toOrder">选好了</view>
+            <view wx:else class="operate-submit" style="font-size: 24rpx;">起送金额￥{{dianpuData.qisong}}</view>
+            <!-- <view class="operate-submit {{cartNumber !==0 ? 'operate-submit-activity' : ''}}" bindtap="toOrder">选好了</view> -->
+        </view>
+        <!-- 购物车列表 -->
+        <view class="shopcart" wx:if="{{showCart}}">
+            <view class="shopcart-mask" bindtap="showCartList" wx:if="{{showCart}}"></view>
+            <view class="shopcart-wrap">
+                <view class="shopcart-head">
+                    <view class="shopcart-head-title">已选商品</view>
+                    <view class="shopcart-head-clean" bindtap="cartClear">
+                        <image src="../../../images/shanchu.png" style="width:25rpx;" mode="widthFix"></image>
+                        <!-- <i class="iconfont"></i> -->
+                        清空购物车
+                    </view>
+                </view>
+                <view class="shopcart-list">
+                    <view class="shopcart-item" wx:for="{{cartList}}" wx:key="id">
+                        <view class="shopcart-item-name">{{item.name}}</view>
+                        <view class="shopcart-item-price">
+                            <view>{{priceFormat(item.price * item.number)}}</view>
+                        </view>
+                        <view class="shopcart-item-number">
+                            <image src="../../../images/jian.png" style="width:40rpx;" mode="widthFix"
+                                data-id="{{index}}" bindtap="cartNumberDec"></image>
+                            <!-- <i class="iconfont shopcart-icon-dec" data-id="{{index}}" bindtap="cartNumberDec"></i> -->
+                            <view>{{item.number}}</view>
+                            <!-- <i class="iconfont shopcart-icon-add" data-id="{{index}}" bindtap="cartNumberAdd"></i> -->
+                            <image src="../../../images/jia.png" style="width:40rpx;" mode="widthFix"
+                                data-id="{{index}}" bindtap="cartNumberAdd"></image>
+
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<wxs module="priceFormat">
+    module.exports = function (price) {
+        return '¥ ' + parseFloat(price)
+    }
+</wxs>
+<wxs module="dateFormat">
+    module.exports = function (pingjia_time) {
+        return pingjia_time.slice(5, 10)
+    }
+</wxs>
+<wxs module="xingjiFormat">
+    module.exports = function (xingji) {
+        return Math.ceil(xingji)
+    }
+</wxs>

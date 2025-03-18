@@ -1,16 +1,29 @@
+<wxs module="priceFormat">
+  module.exports = function (price) {
+    return '¥ ' + parseFloat(price)
+  }
+</wxs>
+<wxs module="util" src="../../util.wxs" />
+
 <!-- 代取 订单详情 -->
 <view class="page__bd" wx:if="{{isDaiqu}}">
-  <view class="weui-form-preview__hd">
+  <view class="weui-form-preview__bd" style="border-bottom:unset;">
+    <view class="weui-form-preview__item">
+      <label class="weui-form-preview__label">取货码</label>
+    </view>
     <view class="weui-form-preview__item quhuoma">
-      <!-- <label class="weui-form-preview__label">取货码</label> -->
-      <em class="weui-form-preview__value">{{qh_Ma}}</em>
+      <em class="weui-form-preview__value" style="">{{qh_Ma}}</em>
     </view>
   </view>
-  <view class="weui-form-preview__bd">
+  <view class="weui-form-preview__bd" style="padding-bottom: 0;">
     <view class="weui-form-preview__item">
       <label class="weui-form-preview__label">快递点</label>
       <text class="weui-form-preview__value">{{kd_Dian}}</text>
     </view>
+    <!-- <view class="weui-form-preview__item">
+      <label class="weui-form-preview__label">真实姓名</label>
+      <text class="weui-form-preview__value">{{trueName}}</text>
+    </view> -->
     <view class="weui-form-preview__item">
       <label class="weui-form-preview__label">快递姓名</label>
       <text class="weui-form-preview__value">{{kd_Name}}</text>
@@ -27,20 +40,226 @@
       <label class="weui-form-preview__label">创建时间</label>
       <text class="weui-form-preview__value">{{xd_time}}</text>
     </view>
+    <view wx:if="{{wxPaisong}}" style="color: skyblue;">
+      <view class="weui-form-preview__item">
+        <label class="weui-form-preview__label">客服微信</label>
+        <text class="weui-form-preview__value" style="color: skyblue;" catch:tap="toCopyNew" data-data="{{wxPaisong}}">{{wxPaisong}}</text>
+      </view>
+      <view>(长时间未送达，请联系客服微信)</view>
+    </view>
+    <view class="weui-form-preview__item">
+      <label class="weui-form-preview__label">备注</label>
+      <text class="weui-form-preview__value">{{beizhu}}</text>
+    </view>
+    <view class="weui-form-preview__item">
+      <label class="weui-form-preview__label">订单金额</label>
+      <text class="weui-form-preview__value">{{dingdan_money !== 'undefined'?'￥'+dingdan_money:'-'}}</text>
+    </view>
+    <view class="weui-form-preview__item" style="display: flex;justify-content: space-between;">
+      <view class="flex">
+        <!-- <view>微信支付</view><text class="cu-tag bg-blue light margin-left-xs">合并支付</text> -->
+        <view>微信支付</view>
+      </view>
+      <view style="display: flex;align-items: center;">
+        <view class="anniu_item_weizhifu" wx:if="{{dd_Status == '1'}}">
+          <text>未支付</text>
+        </view>
+        <text class="weui-form-preview__value">{{yizhifu !== 'undefined'?'￥'+yizhifu:'-'}}</text>
+      </view>
+    </view>
+    <view class="weui-form-preview__item flex justify-between">
+      <view class="flex">
+        <!-- <view>蜂蜜支付</view><text class="cu-tag bg-blue light margin-left-xs">合并支付</text> -->
+        <view>蜂蜜支付</view>
+      </view>
+      <text class="weui-form-preview__value">{{yizhifu_fengmi !== 'undefined'?'￥'+yizhifu_fengmi:'-'}}</text>
+    </view>
+    <view class="weui-form-preview__item flex justify-between">
+      <label class="flex">
+        <!-- <view>积分抵扣</view><text class="cu-tag bg-blue light margin-left-xs">合并支付</text> -->
+        <view>积分抵扣</view>
+      </label>
+      <text class="weui-form-preview__value">{{yizhifu_jifen !== 'undefined'?yizhifu_jifen:'-'}}</text>
+    </view>
+    <view class="weui-form-preview__item">
+      <label class="weui-form-preview__label">订单编号</label>
+      <text class="weui-form-preview__value" style="color: rgb(156, 156, 156);font-size: small;" bindtap="toCopyDingdanhao" data-val_copy="{{dingdanhao}}">{{dingdanhao == 'undefined'?'-':dingdanhao}}</text>
+    </view>
+    <text class="cu-tag bg-blue light margin-left-xs" wx:if="{{isHebingdingdan}}">合并支付订单</text>
+    <view class="weui-form-preview__item" wx:if="{{dd_Status == '5'}}">
+      <label class="weui-form-preview__label">退款原因</label>
+      <text class="weui-form-preview__value" style="color: rgb(245, 131, 94);font-size: small;" data-val_copy="{{value_tkyy}}">{{value_tkyy == 'undefined'?'-':value_tkyy}}</text>
+    </view>
+    <view class="weui-form-preview__item" wx:if="{{dd_Status == '5'}}">
+      <label class="weui-form-preview__label">退款时间</label>
+      <text class="weui-form-preview__value" style="color: rgb(156, 156, 156);font-size: small;" data-val_copy="{{tytuikuan_time}}">{{tytuikuan_time == 'undefined'?'-':tytuikuan_time}}</text>
+    </view>
+    <view class="weui-form-preview__item">
+      <label class="weui-form-preview__label">订单状态</label>
+    </view>
   </view>
+  <!-- <view class="zhuangtai" >
+    <view style="text-align: center;">
+      {{beizhu_tuisong}}
+    </view>
+    <view class="weui-form-preview__bd shenqingtuikuan">
+      <view class="anniu">
+        <view class="anniu_item_1" wx:if="{{dd_Status == '0'&&tuikuanShow}}" catchtap="toShow_tuikuan">
+          <text>退款</text>
+        </view>
+        <view class="anniu_item_1" wx:if="{{dd_Status == '4'}}">
+          <text>退款中</text>
+        </view>
+        <view class="anniu_item_1" wx:if="{{dd_Status == '5'}}">
+          <text>退款成功</text>
+        </view>
+        <view class="anniu_item_1" wx:if="{{dd_Status == '6'}}">
+          <text>退款失败</text>
+        </view>
+        <view class="anniu_item_1" wx:if="{{dd_Status == '3'}}">
+          <text>已送达</text>
+        </view>
+      </view>
+    </view>
+  </view> -->
+
+  <!-- 订单状态 -->
+  <view class="zhuangtai" wx:if="{{dd_Status == '0'&&tuikuanShow}}">
+    <view style="text-align: center;">
+      {{'下单成功，等待蜂蜂取件'}}
+    </view>
+    <view class="weui-form-preview__bd shenqingtuikuan">
+      <view class="anniu">
+        <view class="anniu_item_1" catchtap="toShow_tuikuan">
+          <text>申请退款</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="zhuangtai" wx:if="{{dd_Status == '2'}}">
+    <view style="text-align: center;">
+      {{'蜂蜂正在取件，请不要自行前往取件哦'}}
+    </view>
+    <view class="weui-form-preview__bd shenqingtuikuan">
+      <view class="anniu">
+        <view class="anniu_item_1">
+          <text>取件中</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="zhuangtai" wx:if="{{dd_Status == '4'}}">
+    <view style="text-align: center;">
+      {{value_tkyy}}
+    </view>
+    <view class="weui-form-preview__bd shenqingtuikuan">
+      <view class="anniu">
+        <view class="anniu_item_1">
+          <text>退款中</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="zhuangtai" wx:if="{{dd_Status == '5'}}">
+    <view style="text-align: center;">
+      {{value_tkyy}}
+    </view>
+    <view class="weui-form-preview__bd shenqingtuikuan">
+      <view class="anniu">
+        <view class="anniu_item_1">
+          <text>退款成功</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="zhuangtai" wx:if="{{dd_Status == '7'|| dd_Status == '8'}}">
+    <view style="text-align: center;">
+      {{'已装车，订单派送中'}}
+    </view>
+    <view class="weui-form-preview__bd shenqingtuikuan">
+      <view class="anniu">
+        <view class="anniu_item_1">
+          <text>派送中</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="zhuangtai" wx:if="{{dd_Status == '6'}}">
+    <view style="text-align: center;">
+      {{value_tkyy}}
+    </view>
+    <view class="weui-form-preview__bd shenqingtuikuan">
+      <view class="anniu">
+        <view class="anniu_item_1">
+          <text>退款失败</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="zhuangtai" wx:if="{{dd_Status == '3'}}" style="padding:10rpx">
+    <!-- 柜体信息 -->
+    <view wx:if="{{guitiDatas&&util.indexOf(songdaInfo,'密码如下')!==-1}}">
+      <view class=" text-gray" style="border-left:10rpx solid rgb(138,212,175);padding-left: 10rpx;">
+        投柜信息
+      </view>
+      <view class="">
+        <text class="text-gray">位置：</text>{{guitiDatas.guitiName}}{{guitiDatas.guimen}}{{guitiDatas.ceng}}
+      </view>
+      <view class="">
+        <text class="text-gray">密码：</text>{{guitiDatas.mima}}
+      </view>
+    </view>
+    <view wx:if="{{songdaInfo!=='undefined'&&util.indexOf(songdaInfo,'密码如下')==-1}}">
+      <view class=" text-gray" style="border-left:10rpx solid rgb(138,212,175);padding-left: 10rpx;">
+        送达信息
+      </view>
+      <view class="text-center" wx:if="{{util.indexOf(songdaInfo,'密码如下')==-1}}">
+        {{songdaInfo}}
+      </view>
+
+    </view>
+
+    <view style="text-align: left;">
+      送达地点：{{beizhu_tuisong!=='undefined'?beizhu_tuisong:sd_Didian}}
+    </view>
+    <view style="text-align: left;">
+      送达时间：{{wc_time}}
+    </view>
+
+    <view style="text-align: left;color: gray;font-size: small;margin-top: 10rpx;">
+      (送达后若没有找到，或需要补差，请私聊客服微信)
+    </view>
+    <view class="weui-form-preview__bd shenqingtuikuan">
+      <view class="anniu" style="margin-top: 10rpx;">
+        <view class="anniu_item_1">
+          <text>已送达</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+
+
 </view>
 <!-- 寄件 订单详情 -->
 <view class="page__bd" wx:if="{{isJijian}}">
   <view class="weui-form-preview__hd">
-    <view class="weui-form-preview__item quhuoma" wx:if="{{yundanNum}}" style="background-color: gold; ">
-      <em class="weui-form-preview__value" style="font-size:32rpx;" >已寄出</em>
+    <view class="weui-form-preview__item quhuoma" wx:if="{{dd_Status == '3'}}" style="background-color: gold; ">
+      <em class="weui-form-preview__value" style="font-size:32rpx;">已寄出</em>
+    </view>
+    <view class="weui-form-preview__item quhuoma" wx:if="{{dd_Status == '5'}}" style="background-color: gray; ">
+      <em class="weui-form-preview__value" style="font-size:32rpx;">已取消</em>
     </view>
     <view class="weui-form-preview__item quhuoma">
-      <em class="weui-form-preview__value" style="font-size:32rpx;" >{{mdd}}</em>
+      <em class="weui-form-preview__value" style="font-size:32rpx;">{{mdd}}</em>
     </view>
   </view>
 
   <view class="weui-form-preview__bd">
+    <view class="weui-form-preview__item" wx:if="{{yundanNum}}">
+      <label class="weui-form-preview__label">快递公司</label>
+      <text class="weui-form-preview__value">{{company}}</text>
+    </view>
     <view class="weui-form-preview__item" wx:if="{{yundanNum}}">
       <label class="weui-form-preview__label">运单号</label>
       <text class="weui-form-preview__value" style="color:SteelBlue" bindtap="toCopy">{{yundanNum}}</text>
@@ -66,8 +285,211 @@
       <text class="weui-form-preview__value">{{JJ_Didian}}</text>
     </view>
     <view class="weui-form-preview__item">
+      <label class="weui-form-preview__label">物品类型</label>
+      <text class="weui-form-preview__value">{{qujWupin}}</text>
+    </view>
+    <view class="weui-form-preview__item">
       <label class="weui-form-preview__label">创建时间</label>
       <text class="weui-form-preview__value">{{xd_time}}</text>
     </view>
   </view>
 </view>
+<!-- 美食 订单详情 -->
+<view class="content" wx:if="{{isMeishi}}">
+  <view class="dianpu_info">
+    <view class="dianpu_info_1">
+      <view class="dianpu_info_icon">
+        <mp-icon icon="location" color="black" size="{{25}}" type="field"></mp-icon>
+      </view>
+      <view style="margin-left: 10rpx;">
+        <view class="content-title" style="font-weight: bold;">{{cartData.dianpu.dianpu_name}}</view>
+        <view class="content-title">{{cartData.dianpu.dianpu_dizhi}}</view>
+      </view>
+    </view>
+    <view class="dianpu_info_icon" bindtap="toPhoneCall">
+      <image src="../../../images/phone.png" mode="widthFix" style="width:50rpx;"></image>
+    </view>
+  </view>
+  <view class="order">
+    <view class="order-title">
+      <view>订单详情</view>
+      <view class="dingdan_item2" wx:if="{{cartData.dd_Status=='0'}}">待出餐</view>
+      <view class="dingdan_item2" wx:if="{{cartData.dd_Status=='3'}}">已送达</view>
+      <view class="dingdan_item2" wx:if="{{cartData.dd_Status=='2'}}">配送中</view>
+      <view class="dingdan_item2" wx:if="{{cartData.dd_Status=='4'}}">退款中</view>
+      <view class="dingdan_item2" wx:if="{{cartData.dd_Status=='5'}}">退款成功</view>
+      <view class="dingdan_item2" wx:if="{{cartData.dd_Status=='6'}}">退款失败</view>
+    </view>
+    <view class="order-list">
+      <view class="order-item" wx:for="{{cartData.cartList}}" wx:key="id">
+        <view class="order-item-l">
+          <image class="order-item-image" mode="widthFix" src="{{item.imageUrl.imagefileID}}" />
+          <view>
+            <view class="order-item-name">{{item.name}}</view>
+            <view class="order-item-number">x {{item.number}}</view>
+          </view>
+        </view>
+        <view class="order-item-price">{{priceFormat(item.price * item.number)}}</view>
+      </view>
+      <!-- 优惠信息 -->
+      <!-- <view class="order-item" wx:if="{{checkPromotion(promotion)}}">
+        <view class="order-item-l">
+          <i class="order-promotion-icon">减</i>优惠
+        </view>
+        <view class="order-promotion-price">- {{priceFormat(cartData.promotion)}}</view>
+      </view> -->
+      <view class="order-item">
+        <view class="order-item-l">小计</view>
+        <view class="order-total-price" style="font-size:small;">{{priceFormat(cartData.cartPrice -
+          cartData.promotion)}}</view>
+      </view>
+      <view class="order-item">
+        <view class="order-item-l">实付</view>
+        <view class="order-total-price">{{priceFormat(cartData.shijiMoney)}}</view>
+      </view>
+      <view class="xiadanshijian flex ziti_small ziti_gary">
+        <label>订单编号</label>
+        <label>{{cartData.dingdanhao}}</label>
+      </view>
+      <view class="xiadanshijian flex ziti_small ziti_gary">
+        <label>下单时间</label>
+        <label>{{cartData.xd_time}}</label>
+      </view>
+      <view class="xiadanshijian flex ziti_small ziti_gary" wx:if="{{cartData.songda_time}}">
+        <label>送达时间</label>
+        <label>{{cartData.songda_time}}</label>
+      </view>
+      <view class="xiadanshijian flex ziti_small ziti_gary" wx:if="{{cartData.tytuikuan_time}}">
+        <label>退款时间</label>
+        <label>{{cartData.tytuikuan_time}}</label>
+      </view>
+    </view>
+  </view>
+  <view class="content-comment">
+    <label style="font-size: small;">备注</label>
+    <view>{{cartData.beizhu}}</view>
+  </view>
+  <!-- <view class="weui-form-preview__hd">
+    <view class="weui-form-preview__item quhuoma">
+      <em class="weui-form-preview__value">{{cartPrice}}</em>
+    </view>
+  </view>
+  <view class="weui-form-preview__bd">
+    <view class="weui-form-preview__item">
+      <label class="weui-form-preview__label">创建时间</label>
+      <text class="weui-form-preview__value">{{xd_time}}</text>
+    </view>
+  </view> -->
+  <view class="weui-form-preview__bd shenqingtuikuan" wx:if="{{cartData.dd_Status == '0'}}">
+    <view class="anniu2">
+      <view class="anniu_item2" catchtap="toShenqing_tuikuan_meishi">
+        <text>退款</text>
+      </view>
+    </view>
+  </view>
+  <view class="content-comment" wx:if="{{cartData.pingjia.pingjia_fenshu}}" style="margin-bottom: 50rpx;">
+    <label style="font-size: small;">我的评价</label>
+    <view class="xingji" style="font-size: small;">
+      <view class="xingji_items1">
+        <view class="" wx:for="{{cartData.xingji_list}}" wx:key="index">
+          <image class="" style="width: 30rpx;height: 30rpx;" src="{{item}}"></image>
+        </view>
+      </view>
+      <view class="xingji_items2">"{{pingjia_list[cartData.pingjia.pingjia_fenshu-1]}}"</view>
+    </view>
+    <view>{{cartData.pingjia.pingjia_text}}</view>
+  </view>
+</view>
+<!-- 跑腿 订单详情 -->
+<view wx:if="{{isPaotui}}">
+  <view class="page__bd">
+    <view class="address">
+      <view class="flex">
+        <mp-icon icon="location" color="black" size="{{35}}"></mp-icon>
+        <view>
+          <view class="flex ziti_small">
+            <view class="marginleft_20">{{paotui_name}}</view>
+            <view class="marginleft_20">{{phone}}</view>
+          </view>
+          <view class="flex ziti_small marginleft_20">{{xxDizhi}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="hr"></view>
+  <view class="page__bd">
+    <view class="weui-form-preview__hd">
+      <view class="weui-form-preview__item quhuoma">
+        <em class="weui-form-preview__value">{{xuqiu}}</em>
+      </view>
+    </view>
+    <view class="weui-form-preview__bd">
+      <view class="weui-form-preview__item">
+        <label class="weui-form-preview__label">创建时间</label>
+        <text class="weui-form-preview__value">{{xd_time}}</text>
+      </view>
+    </view>
+  </view>
+  <view class="weui-form-preview__bd shenqingtuikuan">
+    <view class="shenqingtuikuan_item" wx:if="{{dd_Status == '1'}}" bindtap="toQuxiao_paotui">取消订单</view>
+    <view class="shenqingtuikuan_item" wx:if="{{dd_Status == '5'}}">已取消</view>
+  </view>
+</view>
+
+<!-- 退款提交界面 -->
+<!-- [弹窗] 下单信息 核对 -->
+<mp-dialog title="退款" show="{{dialogShow}}" bindbuttontap="toShenqing_tuikuan" buttons="{{buttons}}">
+  
+  <view class="text-black" style="margin: 0rpx 30rpx;">
+    <view wx:if="{{isHebingdingdan}}">
+      <view class="text-sm">
+        <!-- <view class="padding-xs bg-yellow light">合并订单需一起取消并退款</view> -->
+        <view class="padding-xs bg-orange light">无法取消单一订单，合并订单将全部退款</view>
+        <view class=" flex padding-xs solid-top text-left text-gray" wx:if="{{dingdanList.length>0}}">
+          <view style="flex:0.15" class="text-gray"></view>
+          <view style="flex:0.6">快递点</view>
+          <view style="flex:1">取货码</view>
+        </view>
+        <view class="flex padding-xs solid-top text-left" wx:for="{{dingdanList}}" wx:key="index">
+          <view style="flex:0.15" class="text-gray">{{index+1}}/{{dingdanList.length}}</view>
+          <view style="flex:0.6">{{item.kd_Dian}}</view>
+          <view style="flex:1" class="text-cut">{{item.qh_Ma}}</view>
+          <!-- 删除一个包裹信息 -->
+          <!-- <view style="flex:0.1" class="cuIcon-delete" catch:tap="removeQhm" data-index="{{index}}"></view> -->
+        </view>
+      </view>
+      <!-- <view class="text-center" wx:if="{{dingdanList.length>=4}}">...</view> -->
+      <view class="flex justify-end">
+        <view class="jiezhang_items_1">
+          <view class="jiezhang_item1">小计：</view>
+          <view class="jiezhang_item1">{{dingdanList.length}} x</view>
+
+          <view class="jiezhang_item2 margin-left-xs">￥{{dingdan_money}}</view>
+        </view>
+        <!-- <view class="jiezhang_items_1">
+        <view class="jiezhang_item1">小计：</view>
+        <view class="jiezhang_item2">￥{{dingdanList[0].dingdan_money*dingdanList.length}}</view>
+      </view> -->
+      </view>
+    </view>
+    <view class="dingdan_items">
+      <view class="dingdan_item1"><text style="color: red;">*</text> 退款原因</view>
+      <view class="{{value_tkyy==''?'dingdan_item2':'dingdan_item1'}}" catchtap="tochoose_tkyy">
+        {{value_tkyy==''?'请选择':value_tkyy}} >
+      </view>
+    </view>
+    <view wx:if="{{value_tkyy == '其他'}}" style="font-size: small;">（请提前与客服进行沟通）</view>
+  </view>
+  <view class="jiezhang">
+    <view class="jiezhang_items_1">
+      <view class="jiezhang_item1">退款金额：</view>
+      <view class="jiezhang_item2">￥{{dingdanList.length>0?dingdan_money*dingdanList.length:dingdan_money}}</view>
+    </view>
+  </view>
+  <!-- <view class="tijiaoitems">
+    <view class="chongzhi {{value_tkyy == ''?'butijiao':'tijiao'}}"
+      catchtap="{{value_tkyy == ''?'':'toShenqing_tuikuan'}}">提交</view>
+  </view> -->
+
+
+</mp-dialog>

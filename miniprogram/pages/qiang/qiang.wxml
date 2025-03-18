@@ -1,30 +1,208 @@
 <!--pages/qiang/qiang.wxml-->
+<wxs module="module1">
+  var format_jianjie = function (name, jianjie) {
+    var length = jianjie.length
+    var jianjie_new = jianjie.slice(name.length + 1, length) //直接赋值 
+    return jianjie_new
+  }
+  module.exports = {
+    format_jianjie: format_jianjie
+  }
+</wxs>
 
-<view class="content">
-  <view class="qiang">
-    <view class="zhuan" hover-class="hover" bindtap="toXunWu">寻物</view>
-    <view class="kong"></view>
+<view class="page">
+  <!-- 广告 -->
+  <view>
+    <swiper indicator-dots autoplay interval="3000">
+      <view wx:for="{{guangGaoList}}" wx:key="index">
+        <swiper-item>
+          <image wx:if="{{bannerOpen_shouye}}" mode="widthFix" style="width:750rpx;" src="{{item.src}}"
+            bindtap="toYulanImage" data-src="{{item.src}}"></image>
+          <ad wx:if="{{bannerOpen_shouye_ad}}" unit-id="adunit-2d3d434d2c91cd64"></ad>
+        </swiper-item>
+      </view>
+    </swiper>
   </view>
-  <view class="qiang" >
-    <view class="kong"></view>
-    <view class="zhuan" hover-class="hover" bindtap="toZhaoLing">招领</view>
-  </view>
-  <view class="qiang" >
-    <view class="zhuan" hover-class="hover" bindtap="toPinChe">拼车</view>
-    <view class="kong"></view>
-  </view>
-  <view class="qiang" >
-    <view class="kong"></view>
-    <view class="zhuan" hover-class="hover" bindtap="toJianZhi">兼职</view>
-  </view>
-  <view class="qiang" >
-    <view class="zhuan" hover-class="hover" bindtap="toErShou">二手</view>
-    <view class="kong"></view>
-  </view>
-  <view class="qiang" >
-    <view class="kong"></view>
-    <view class="zhuan" hover-class="hover" bindtap="toHuZhu">互助</view>
+  <view class="bigthings" bindtap="toBigthings">
+    <image mode="widthFix" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/dashijian.png"></image>
+    <view class="bigthings_item_text">校园大事件</view>
   </view>
 
-  <text>大事件通知...</text>
+  <view class="content">
+    <view class="choose">
+      <view class="choose_item" hover-class="hover" bindtap="toHuangye">
+        <image mode="widthFix" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/huangye.png"></image>
+        <view>黄页</view>
+      </view>
+      <view class="choose_item" hover-class="hover" bindtap="toXunWu">
+        <image mode="widthFix" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/yonghuchaxun.png"></image>
+        <view>失物招领</view>
+      </view>
+      <view class="choose_item" hover-class="hover" bindtap="toPinChe">
+        <image mode="widthFix" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/pinche.png"></image>
+        <view>校园拼车</view>
+      </view>
+
+    </view>
+    <view class="choose">
+
+      <view class="choose_item" hover-class="hover" bindtap="toErShou">
+        <image mode="widthFix" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/ershou.png"></image>
+        <view>跳蚤市场</view>
+      </view>
+      <view class="choose_item" hover-class="hover" bindtap="toHuZhu">
+        <image mode="widthFix" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/huzhu.png"></image>
+        <view>校园互助</view>
+      </view>
+      <view class="choose_item" hover-class="hover" bindtap="toKebiao">
+        <image mode="widthFix" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/kebiao.png" style="width: 40rpx;"></image>
+        <view>课表</view>
+      </view>
+
+    </view>
+  </view>
+
+  <!-- 全部 按时间先后 -->
+  <view class="huangye">
+    <view class="weui-panel weui-panel_access">
+      <view class="weui-panel__hd"></view>
+      <view class="weui-panel__bd">
+        <a class="weui-media-box weui-media-box_appmsg" style="flex-direction: column;" wx:for="{{tuijianlist_all}}" wx:key="index" bindtap="toDetail"
+          data-id="{{item._id}}" data-openid="{{item._openid}}" data-fabutype="{{item.fabuType}}">
+          <view class="bankuai">
+            <view style="font-weight: bold;" wx:if="{{item.fabuType == 'pinche'}}">校园拼车</view>
+            <view style="font-weight: bold;" wx:if="{{item.fabuType == 'xunwu'}}">失物招领</view>
+            <view style="font-weight: bold;" wx:if="{{item.fabuType == 'ershou'}}">跳蚤市场</view>
+            <view style="color: #cdcdcd;">{{item.createTime}}</view>
+          </view>
+          <view style="display: flex;flex-direction: row;">
+            <view class="weui-media-box__hd">
+              <image class="weui-media-box__thumb"
+                src="{{item.fabuType !== 'pinche'?item.imagesUrlList[0].imagetempFileURL:'cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/pinche.png'}}"
+                alt></image>
+            </view>
+            <view class="weui-media-box__bd">
+              <h4 class="weui-media-box__title yincang_title">{{item.fabuType == 'pinche'?item.xingch:item.name}}</h4>
+              <view class="weui-media-box__desc" wx:if="{{item.fabuType !== 'xunwu'}}">{{item.fabuType ==
+                'pinche'?item.shijian:module1.format_jianjie(item.name,item.jianjie)}}</view>
+              <view class="weui-media-box__desc" wx:if="{{item.fabuType == 'xunwu'}}">遗失地点：{{item.didian}}</view>
+              <view class="weui-media-box__desc" wx:if="{{item.fabuType == 'ershou'}}" style="color: #F5835E;">
+                ￥{{item.jiage}}</view>
+            </view>
+          </view>
+        </a>
+      </view>
+      <!-- <view class="weui-panel__ft" bindtap="toHuangye">
+        <a class="weui-cell weui-cell_active weui-cell_access weui-cell_link">
+          <view class="weui-cell__bd fontsize_small" >查看更多</view>
+          <text class="weui-cell__ft"></text>
+        </a>
+      </view> -->
+    </view>
+  </view>
+  <!-- 我是底线 -->
+  <view class="dixian">
+    <view class="dixian_item1">
+      <view class="dixian_item1_item1"></view>
+      <view></view>
+    </view>
+    <view class="dixian_item2">
+      <view>我是有底线的</view>
+    </view>
+    <view class="dixian_item1">
+      <view class="dixian_item1_item1"></view>
+      <view></view>
+    </view>
+  </view>
+  <!-- <view class="huangye">
+    <view class="weui-panel weui-panel_access">
+      <view class="weui-panel__hd">黄页</view>
+      <view class="weui-panel__bd">
+        <a class="weui-media-box weui-media-box_appmsg" wx:for="{{tuijianlist_huangye}}" wx:key="index">
+          <view class="weui-media-box__hd">
+            <image class="weui-media-box__thumb" src="{{item.imagesUrlList[0].imagetempFileURL}}" alt></image>
+          </view>
+          <view class="weui-media-box__bd">
+            <h4 class="weui-media-box__title">{{item.name}}</h4>
+            <view class="weui-media-box__desc">{{module1.format_jianjie(item.name,item.jianjie)}}</view>
+          </view>
+        </a>
+
+      </view>
+      <view class="weui-panel__ft" bindtap="toHuangye">
+        <a class="weui-cell weui-cell_active weui-cell_access weui-cell_link">
+          <view class="weui-cell__bd fontsize_small" >查看更多</view>
+          <text class="weui-cell__ft"></text>
+        </a>
+      </view>
+    </view>
+  </view>
+  <view class="huangye">
+    <view class="weui-panel weui-panel_access">
+      <view class="weui-panel__hd">失物招领</view>
+      <view class="weui-panel__bd">
+        <a class="weui-media-box weui-media-box_appmsg" wx:for="{{tuijianlist_xunwu}}" wx:key="index">
+          <view class="weui-media-box__hd">
+            <image class="weui-media-box__thumb" src="{{item.imagesUrlList[0].imagetempFileURL}}" alt></image>
+          </view>
+          <view class="weui-media-box__bd">
+            <h4 class="weui-media-box__title">{{item.name}}</h4>
+            <view class="weui-media-box__desc">{{module1.format_jianjie(item.name,item.jianjie)}}</view>
+          </view>
+        </a>
+
+      </view>
+      <view class="weui-panel__ft" bindtap="toXunWu">
+        <a class="weui-cell weui-cell_active weui-cell_access weui-cell_link">
+          <view class="weui-cell__bd fontsize_small" >查看更多</view>
+          <text class="weui-cell__ft"></text>
+        </a>
+      </view>
+    </view>
+  </view>
+  <view class="huangye">
+    <view class="weui-panel weui-panel_access">
+      <view class="weui-panel__hd">跳蚤市场</view>
+      <view class="weui-panel__bd">
+        <a class="weui-media-box weui-media-box_appmsg" wx:for="{{tuijianlist_ershou}}" wx:key="index">
+          <view class="weui-media-box__hd">
+            <image class="weui-media-box__thumb" src="{{item.imagesUrlList[0].imagetempFileURL}}" alt></image>
+          </view>
+          <view class="weui-media-box__bd">
+            <h4 class="weui-media-box__title">{{item.name}}</h4>
+            <view class="weui-media-box__desc">{{module1.format_jianjie(item.name,item.jianjie)}}</view>
+          </view>
+        </a>
+      </view>
+      <view class="weui-panel__ft" bindtap="toErShou">
+        <a class="weui-cell weui-cell_active weui-cell_access weui-cell_link">
+          <view class="weui-cell__bd fontsize_small" >查看更多</view>
+          <text class="weui-cell__ft"></text>
+        </a>
+      </view>
+    </view>
+  </view>
+  <view class="huangye">
+    <view class="weui-panel weui-panel_access">
+      <view class="weui-panel__hd">拼车</view>
+      <view class="weui-panel__bd">
+        <a class="weui-media-box weui-media-box_appmsg" wx:for="{{tuijianlist_pinche}}" wx:key="index">
+          <view class="weui-media-box__hd">
+            <image class="weui-media-box__thumb" style="width: 100rpx;height: 100rpx;padding: 20rpx;" src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/pinche.png" alt></image>
+          </view>
+          <view class="weui-media-box__bd">
+            <h4 class="weui-media-box__title">{{item.xingch}}</h4>
+            <view class="weui-media-box__desc">{{module1.format_jianjie(item.xingch,item.jianjie)}}</view>
+          </view>
+        </a>
+      </view>
+      <view class="weui-panel__ft" bindtap="toPinChe">
+        <a class="weui-cell weui-cell_active weui-cell_access weui-cell_link">
+          <view class="weui-cell__bd fontsize_small" >查看更多</view>
+          <text class="weui-cell__ft"></text>
+        </a>
+      </view>
+    </view>
+  </view> -->
+
 </view>

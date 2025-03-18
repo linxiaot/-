@@ -1,98 +1,240 @@
 <!-- 我的个人中心页面 -->
-
-<!-- 我的资料  头像-->
-
-<!-- <view class="ziliao" bindtap="toZiliao">点击 查看我的资料</view> -->
-
-<!-- 新的头像区域 -->
-<view class="page" data-weui-theme="{{theme}}">
-  <mp-loading wx:if="{{showLoading}}" type="circle"></mp-loading>
-  <view class="page__bd">
-    <view class="weui-cell weui-cell_active " style="margin-top:20rpx;">
-
-      <view class="weui-cell__hd"
-        style="position: relative; margin-right: 30rpx; margin-left: 30rpx; margin-top: 30rpx;" wx:if="{{login_ok}}">
-        <button class="userinfo-avatar"
-          style="background-image: url({{avatarUrl}}); width: 120rpx; height: 120rpx; display: block; box-sizing: border-box"
-          size="default" bindtap="toZiliao"></button>
-        <!-- 性别角标 -->
-        <!-- <text class="weui-badge" style="position: absolute; top: -0.4em; right: -0.4em;">男</text> -->
-      </view>
-      <view class="weui-cell__bd" wx:if="{{login_ok}}" style="margin-top:20rpx;">
-        <view>{{nickName}}</view>
-        <view style="font-size: 13px; color: #888;">已登陆</view>
-        <view class="weui-flex">
-          <view style="font-size: 13px; color: 	#4682B4;" bindtap="toJifen">积分{{jifen_total}}</view>
-          <view style="font-size: 13px; color: #888; margin-left:30rpx; " bindtap="toRefresh">
-            <mp-icon icon="refresh" color="black" size="{{15}}"></mp-icon>
-          </view>
-
+<!-- <mp-loading wx:if="{{showLoading}}" type="circle"></mp-loading> -->
+<view class="weui-cell weui-cell_active" style="background-color: #8AD4AF;padding: 32rpx; margin: 0rpx;">
+  <!-- 头像区域 -->
+  <view class="weui-cell__hd" style="position: relative; margin-right: 30rpx; margin-left: 30rpx; margin-top: 30rpx;"
+    wx:if="{{login_ok}}">
+    <button class="userinfo-avatar"
+      style="background-image: url({{avatarUrl}}); width: 120rpx; height: 120rpx; display: block; box-sizing: border-box"
+      size="default" bindtap="toZiliao"></button>
+    <!-- 性别角标 -->
+    <text class="weui-badge" style="position: absolute; top: -0.4em; right: -0.4em;"
+      wx:if="{{ balance!==0 }}">VIP</text>
+    <view class="wanzhengdu" bindtap="toZiliao">
+      <text>资料完整度</text>
+      <text style="margin-left: 10rpx;">{{ziliaoPercent}}%</text>
+    </view>
+  </view>
+  <!-- 资料 -->
+  <view class="weui-cell__bd" wx:if="{{login_ok}}" style="margin-top:20rpx;">
+    <view class="ziliao">
+      <view class="ziliao_item1">
+        <view class="ziliao_item1_item1">
+          <view bindtap="toZiliao">{{nickName}}</view>
+        </view>
+        <view class="ziliao_item1_item2">
+          <view bindtap="toMoney">钱包<text style="margin-left: 10rpx;">{{balance}}</text></view>
+          <view style="width: 20rpx;text-align: center;">|</view>
+          <view bindtap="toJifen">积分<text style="margin-left: 10rpx;">{{jifen_total}}</text> </view>
         </view>
       </view>
+      <view class="ziliao_item2">
+        <view class="qiandao" wx:if="{{!isQiandao}}">
+          <view class="qiandao_item1" wx:if="{{!isEdit}}" bindtap="toQiandao">去签到</view>
+          <view class="qiandao_item2" wx:if="{{!isEdit}}">今日签到积分+{{Val_jifen}}</view>
+        </view>
+        <view class="qiandao" wx:if="{{isQiandao}}">
+          <view class="qiandao_item1" style="color: gray;" wx:if="{{!isEdit}}">已签到</view>
+          <view class="qiandao_item2" wx:if="{{!isEdit}}">明日签到积分+{{Val_jifen_next}}</view>
+        </view>
 
-      <!-- 如果未登陆 显示以下 -->
-      <view class="weui-cell__hd"
-        style="position: relative; margin-right: 30rpx; margin-left: 30rpx; margin-top: 30rpx;" wx:if="{{!login_ok}}">
-        <button class="userinfo-avatar"
-          style="background-image: url({{Url}}); width: 120rpx; height: 120rpx; display: block; box-sizing: border-box"
-          size="default" bindtap="toZiliao"></button>
-      </view>
-      <view class="weui-cell__bd" wx:if="{{!login_ok}}" style="margin-top:20rpx;">
-        <view style="font-size: 13px; color: #888;">点击头像登陆</view>
       </view>
     </view>
-    <!-- 我的订单 -->
-    <!-- <view class="weui-cells__title">带图标、说明、跳转的列表项</view> -->
-    <view class="weui-cells weui-cells_after-title">
-      <!-- 我的订单 -->
-      <navigator url="../wode/dingdan/dingdan" class="weui-cell weui-cell_access ziti" hover-class="weui-cell_active">
-        <view class="weui-cell__hd">
-          <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
-        </view>
-        <view class="weui-cell__bd">我的订单</view>
-        <view class="weui-cell__ft weui-cell__ft_in-access">查看更多</view>
-      </navigator>
-      <view class="weui-cells weui-cells_after-title">
-        <!-- 帮助与反馈 -->
-        <!-- <navigator url="" class="weui-cell weui-cell_example weui-cell_access" hover-class="weui-cell_active">
-        <view class="weui-cell__hd">
-          <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
-          <button open-type="feedback" class="weui-cell__bd"
-          style="font-weight:normal; text-align: left; padding-left: 72rpx;">帮助与反馈</button>
-        </view>
-        <view class="weui-cell__bd">
-        </view>
-        <view class="weui-cell__ft weui-cell__ft_in-access"></view>
-      </navigator> -->
-        <!-- 联系客服 -->
-        <navigator url="" class="weui-cell weui-cell_example weui-cell_access" style="padding-top:0rpx;padding-bottom:0rpx;" hover-class="weui-cell_active">
-          <view class="weui-cell__hd">
-            <!-- <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image> -->
-            <button open-type="contact" class="weui-cell__bd ziti"
-              style="font-weight:normal; text-align: left; padding-left: 72rpx;">联系客服</button>
-          </view>
-          <view class="weui-cell__bd">
-          </view>
-          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
-        </navigator>
-        <!-- 管理登陆 -->
-        <navigator url="{{guanliUrl}}" class="weui-cell weui-cell_access ziti" hover-class="weui-cell_active">
+  </view> 
+  <!-- 如果未登陆 显示以下 -->
+  <view class="weui-cell__bd" wx:if="{{!login_ok}}" style="margin-top:20rpx;" bindtap="toZiliao">
+    <view class="weui-flex">
+      <image class="userinfo-avatar" src="{{Url}}" mode="cover"></image>
+      <view style="font-size: 13px; color: #888;margin: auto;margin-left: 0;">点击登陆</view>
+    </view>
+  </view>
+</view>
+<!-- 我的订单 -->
+<view class="dingdan">
+  <view class="dingdan_item1" style="display: flex;justify-content: space-between;">
+  <view>我的订单</view>
+  <!-- <view style="font-size: small;" catchtap="toQita">其他 >></view> -->
+  </view>
+  <view class="dingdan_items">
+    <view class="dingdan_item2" wx:for="{{dingdan_namelist}}" wx:key='index' bindtap="toDingdan" data-index="{{index}}">
+      <view class="weui-grid__icon">
+        <image mode="widthFix" style="width:{{index == 3?65:50}}rpx;" src="{{item.src}}"></image>
+      </view>
+      <view class="dingdan_item2_text">{{item.text}}</view>
+    </view>
+  </view>
+</view>
+<view class="page__bd">
+
+  <!-- <view class="weui-cells__title">带图标、说明、跳转的列表项</view> -->
+  <view class="weui-cells">
+    <!-- 校区切换 -->
+    <view class="weui-cell weui-cell_access ziti" hover-class="weui-cell_active" bindtap="toXiaoqu">
+      <view class="weui-cell__hd">
+        <image src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/wode/xiaoqu.png"
+          style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
+      </view>
+      <view class="weui-cell__bd">校区切换</view>
+      <view class="weui-cell__ft weui-cell__ft_in-access">
+        <block wx:if="{{currentTenant}}">{{currentTenant.name}}</block>
+      </view>
+    </view>
+    <!-- 我的地址 -->
+    <view class="weui-cell weui-cell_access ziti" hover-class="weui-cell_active" bindtap="toDizhi">
+      <view class="weui-cell__hd">
+        <image src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/wode/dz.png"
+          style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
+      </view>
+      <view class="weui-cell__bd">我的地址</view>
+      <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+    </view>
+  </view>
+  <view class="weui-cells">
+    <!-- 我的发布 -->
+    <view class="weui-cell weui-cell_access ziti" hover-class="weui-cell_active" bindtap="toFabu">
+      <view class="weui-cell__hd">
+        <image src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/wode/fabu.png"
+          style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
+      </view>
+      <view class="weui-cell__bd">我的发布</view>
+      <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+    </view>
+    <!-- 我的消息 -->
+    <view bindtap="toTalklist" url="" class="weui-cell weui-cell_access ziti" hover-class="weui-cell_active">
+      <view class="weui-cell__hd">
+        <image src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/wode/xinxi.png"
+          style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
+      </view>
+      <view class="weui-cell__bd">我的信息</view>
+      <view class="weui-cell__ft weui-cell__ft_in-access">
+        <text wx:if="{{isNewmessage}}" class="weui-badge weui-badge_dot"></text>
+        <text wx:if="{{isNewmessage_globalData}}" class="weui-badge weui-badge_dot"></text>
+      </view>
+    </view>
+    <!-- 任务 -->
+    <view class="weui-cell weui-cell_access ziti" hover-class="weui-cell_active" bindtap="toRenwu">
+      <view class="weui-cell__hd">
+        <image src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/wode/renwu.png"
+          style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
+      </view>
+      <view class="weui-cell__bd">任务</view>
+      <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+    </view>
+  </view>
+  <view class="weui-cells">
+    <!-- 我是商家 -->
+    <view class="weui-cell weui-cell_access ziti" hover-class="weui-cell_active" bindtap="toShangjia">
+      <view class="weui-cell__hd">
+        <image src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/wode/shangjia.png"
+          style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
+      </view>
+      <view class="weui-cell__bd">我是商家</view>
+      <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+    </view>
+    <!-- 管理登陆 -->
+    <view class="weui-cell weui-cell_access ziti" hover-class="weui-cell_active" bindtap="toGuanli">
+      <view class="weui-cell__hd">
+        <image src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/wode/guanli.png"
+          style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
+      </view>
+      <view class="weui-cell__bd">管理</view>
+      <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+    </view>
+  </view>
+
+  <view class="weui-cells">
+    <!-- 联系客服 -->
+    <view class="weui-cell weui-cell_access ziti" hover-class="weui-cell_active">
+      <view class="weui-cell__hd weui-flex" style="width:100%;">
+        <image src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/wode/lianxikefu.png"
+          style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
+        <button open-type="contact" class="weui-cell__bd"
+          style="font-weight:normal; text-align: left;padding: 0 0rpx;width: 100%;font-size: 30rpx;">联系客服</button>
+      </view>
+      <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+    </view>
+    <!-- 投诉 -->
+    <!-- <view class="weui-cell weui-cell_access ziti" hover-class="weui-cell_active" bindtap="toTousu">
+      <view class="weui-cell__hd">
+        <image src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/wode/tousu.png"
+          style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
+      </view>
+      <view class="weui-cell__bd">投诉</view>
+      <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+    </view> -->
+    <!-- 建议 -->
+    <view class="weui-cell weui-cell_access ziti" hover-class="weui-cell_active" bindtap="toJianyi">
+      <view class="weui-cell__hd">
+        <image src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/wode/jianyi.png"
+          style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
+      </view>
+      <view class="weui-cell__bd">建议</view>
+      <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+    </view>
+  </view>
+  <!-- 测试按钮区 -->
+
+  <!-- <view class="weui-cells" wx:if="{{true}}"> -->
+  <view class="weui-cells" wx:if="{{false}}">
+    <!-- <view url="{{guanliUrl}}" class="weui-cell weui-cell_access ziti" hover-class="weui-cell_active">
           <view class="weui-cell__hd">
             <image src="{{icon}}" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
           </view>
           <view class="weui-cell__bd">管理</view>
           <view class="weui-cell__ft weui-cell__ft_in-access">去登陆</view>
-        </navigator>
-        <!-- <button bindtap="toDingyue">订阅消息</button>
-        <button bindtap="toTuisong">推送消息</button>
-        <button bindtap="towebhook">webhook</button> -->
-        <!-- <button bindtap="toJianting">开启监听</button> -->
-      </view>
-    </view>
+        </view> -->
+    <!-- <button bindtap="todingyue">订阅消息2</button> -->
+    <!-- <button bindtap="toTuisong">推送消息</button> -->
+    <!-- <button bindtap="toTuisongXiaDanNew">推送下单消息</button> -->
+
+    
+    <!-- <button bindtap="toTuikuan">部分退款</button>
+    <button bindtap="toTuisongFuwuhao">推送服务号消息</button>
+    <button bindtap="getAccess_token">getAccess_token</button>
+    <button bindtap="update_token">update_token</button>
+    <button bindtap="todingyue">订阅快递送达消息</button> -->
+
+    <!-- <button bindtap="toTest_env">toTest_env</button> -->
+
+    <!-- <button bindtap="towebhook">webhook</button> -->
+    <!-- <button bindtap="toJianting">开启监听</button> -->
+    <!-- <button bindtap="toWebview" >开启网页</button> -->
+    <!-- <button bindtap="toEleme" >尝试request饿了吗</button> -->
+    <!-- <button bindtap="toLianjie" >尝试request</button> -->
+    <!-- <button bindtap="toceshi">测试</button> -->
+    <!-- <button bindtap="diaoyongyunhanshu">调用云函数yonghu</button> -->
+    <!-- <button bindtap="diaoyongyunhanshu">调用云函数</button> -->
+    <!-- <button bindtap="toDingqichuli">开启定期处理</button> -->
+    <!-- <button bindtap="toCaozuoUser_chakan">查看用户积分和蜂蜜值同时抵扣情况</button> -->
+    <!-- <button bindtap="toCaozuoUser_chuli">处理用户蜂蜜值，-2改为0</button> -->
+    <!-- <button bindtap="toFenzhang">分账_add</button> -->
+    <!-- <button bindtap="toFenzhang2">分账_danci</button> -->
+    <!-- <button bindtap="toFenzhang3">分账_tuikuan</button> -->
+    <!-- <button bindtap="toCsvin">上传课表CSV</button> -->
+    <!-- <button bindtap="toDownload">下载文件</button> -->
+    <!-- <button bindtap="toMeishi">美食店铺</button> -->
+    <!-- <navigator url="plugin-private://wxb2acc21c4f786d08/pages/index/index?userid=&color=#1cbbb4&frontcolor=#ffffff">
+      <view style="text-align: center;margin: auto;">前往领券</view>
+    </navigator> -->
+    <!-- <button bindtap="getBarcode">get条形码</button> -->
+
+    <!-- <navigator target="miniProgram" open-type="navigate" app-id="wx2c348cf579062e56" path="/packages/restaurant/restaurant/restaurant?aas=1003&cat_id=0&poi_id=1021872743320449" extra-data="" version="release">我的店铺</navigator> -->
   </view>
 </view>
-
+<view style="text-align: center;padding: 10rpx;">
+  <text style="font-size: xx-small;color: gray;">版本号 2.5.2</text>
+</view>
+<!-- <view wx:if="{{showPrivacy}}">
+  <view>隐私弹窗内容....</view>
+  <button bindtap="handleOpenPrivacyContract">查看隐私协议</button>
+  <button id="agree-btn" open-type="agreePrivacyAuthorization" bindagreeprivacyauthorization="handleAgreePrivacyAuthorization">同意</button>
+</view> -->
 <!--我的订单-->
 <!-- <view>显示现在的时间{{timeNow}}</view> -->
 <!-- <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">点击获取手机号码</button> -->
 <!--我的发布-->
+
+<!-- <view wx:if="{{showPrivacy}}">
+  <view>隐私弹窗内容....</view>
+  <button bindtap="handleOpenPrivacyContract">查看隐私协议</button>
+  <button id="agree-btn3" open-type="getUserInfo|agreePrivacyAuthorization" bindgetuserinfo="handleGetUserInfo" bindagreeprivacyauthorization="handleAgreePrivacyAuthorization">同意隐私协议并获取头像昵称信息</button> -->

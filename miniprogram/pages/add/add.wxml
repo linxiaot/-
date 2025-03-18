@@ -1,0 +1,912 @@
+<!--pages/add/add.wxml-->
+
+<!-- xunren 寻人-->
+<view class="tanchu" wx:if="{{addType=='xunwu' && isXunren}}" bindtap="toCloseShijian">
+    <view class="tanchuBiaoti" wx:if="{{!isEdit}}">失物招领发布</view>
+    <view class="tanchuBiaoti" wx:if="{{isEdit}}">失物招领编辑</view>
+    <form bindsubmit="toTijiaoSubmit_xunren">
+        <view class="weui-media-box weui-media-box_text flex tanchuRow">
+            <view style="flex:0.2">物品名称</view>
+            <view class="weui-input" style="flex:1">
+                <input placeholder="如：粉红色背包" value="{{value_name}}" type="text" name="inputVal_name" />
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text flex tanchuRow">
+            <view style="flex:0.2">拾到时间</view>
+            <!-- <view class="weui-input" style="flex:1">
+                <input placeholder="如：3月29日上午" type="text" name="inputVal_shijian" />
+            </view> -->
+
+            <view class="selected-date" catchtap="toOpenShijian">{{year}}年{{month}}月{{day}}日{{daytime}}{{time}}点</view>
+            <!-- <view class="selected-date" bindtap="toOpenShijian">{{shijian}}</view> -->
+            <picker-view wx:if="{{isShowshijian}}" mask-class="mask" indicator-style="height: 50px;"
+                style="width: 100%; height: 300px;" value="{{val}}" bindchange="bindChange">
+                <picker-view-column>
+                    <view wx:for="{{years}}" wx:key="index" style="line-height: 50px; text-align: center;">{{item}}年
+                    </view>
+                </picker-view-column>
+                <picker-view-column>
+                    <view wx:for="{{months}}" wx:key="index" style="line-height: 50px; text-align: center;">
+                        {{item}}月</view>
+                </picker-view-column>
+                <picker-view-column>
+                    <view wx:for="{{days}}" wx:key="index" style="line-height: 50px; text-align: center;">{{item}}日
+                    </view>
+                </picker-view-column>
+                <picker-view-column>
+                    <view wx:for="{{daytimes}}" wx:key="index" style="line-height: 50px; text-align: center;">{{item}}
+                    </view>
+                </picker-view-column>
+                <picker-view-column>
+                    <view wx:for="{{times}}" wx:key="index" style="line-height: 50px; text-align: center;">{{item}}
+                    </view>
+                </picker-view-column>
+            </picker-view>
+        </view>
+        <view class="weui-media-box weui-media-box_text  tanchuRow">
+            <view style="flex:0.2">拾到地点</view>
+            <view class="weui-input" style="flex:1">
+                <input placeholder="如：南苑师生食堂" value="{{value_didian}}" type="text" name="inputVal_didian" />
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text  tanchuRow">
+            <view style="flex:0.2">联系方式</view>
+            <view class="weui-input" style="flex:1">
+                <input placeholder="如：加我微信xdxmf0001" value="{{value_lianxi}}" type="text" name="inputVal_lianxi" />
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text  tanchuRow">
+            <view style="flex:0.2">具体信息</view>
+            <view class="jianjie" style="flex:1;">
+                <textarea class="weui-textarea" placeholder="描述遗失物品的特征等" value="{{value_jianjie}}"
+                    style="height:250rpx;" maxlength="200" name="inputVal_jianjie" bindinput="bindinputJianjie" />
+                <view class="weui-textarea-counter"><span>{{inputNum}}</span>/200</view>
+            </view>
+        </view>
+        <view wx:if="{{isEdit}}" class="filterList-tupian-items {{imagesUrlList.length>2?'ft_itemsmore':''}} quyu">
+            <block wx:for="{{imagesUrlList}}" wx:key="index">
+                <view>
+                    <view style="width:200rpx;">
+                        <image wx:if="{{item.imagetempFileURL !== ''}}" style="width:150rpx;" mode="widthFix"
+                            src="{{item.imagetempFileURL}}" catchtap="toAddImage" data-index="{{index}}"></image>
+                    </view>
+                    <view class="filterList-tupian-item" style="width:110rpx;" hover-class="tupian-selected"
+                        catchtap="toDelImage" data-imagefileid="{{item.imagefileID}}" data-index="{{index}}">删除</view>
+                </view>
+            </block>
+            <view style="background-color:gray; margin-bottom:90rpx;" wx:if="{{imagesUrlList.length<5}}">
+                <image style="width:150rpx;" mode="widthFix" src="../../images/shangchuantupian.png"
+                    catchtap="toAddImage2"></image>
+            </view>
+        </view>
+        <view class="page__bd" wx:if="{{!isEdit}}">
+            <mp-cells>
+                <mp-cell>
+                    <mp-uploader select="{{selectFile}}" files="{{files}}" max-count="5" binddelete="todelete"
+                        title="物件图片上传" tips="第一张为主图">
+                    </mp-uploader>
+                </mp-cell>
+            </mp-cells>
+        </view>
+
+        <button wx:if="{{isEdit}}" form-type="submit" style="margin-top:50rpx;margin-bottom: 100rpx;" type="primary"
+            disabled="{{isDisabled}}">确定</button>
+        <button wx:if="{{!isEdit}}" form-type="submit" style="margin-top:50rpx;margin-bottom: 100rpx;" type="primary"
+            disabled="{{isDisabled}}">提交审核</button>
+    </form>
+</view>
+<!-- xunwu 寻物-->
+<view class="tanchu" wx:if="{{addType=='xunwu' && isXunwu}}" bindtap="toCloseShijian">
+    <view wx:if="{{!isEdit}}" class="tanchuBiaoti">寻物启事发布</view>
+    <view wx:if="{{isEdit}}" class="tanchuBiaoti">寻物启事编辑</view>
+    <form bindsubmit="toTijiaoSubmit_xunwu">
+        <view class="weui-media-box weui-media-box_text flex tanchuRow">
+            <view style="flex:0.2">物品名称</view>
+            <view class="weui-input" style="flex:1">
+                <input placeholder="如：粉红色背包" type="text" value="{{value_name}}" name="inputVal_name" />
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text flex tanchuRow">
+            <view style="flex:0.2">遗失时间</view>
+            <!-- <view class="weui-input" style="flex:1">
+                <input placeholder="如：3月29日上午" type="text" name="inputVal_shijian" />
+            </view> -->
+
+            <view class="selected-date" catchtap="toOpenShijian">{{year}}年{{month}}月{{day}}日{{daytime}}{{time}}点</view>
+            <!-- <view class="selected-date" bindtap="toOpenShijian">{{shijian}}</view> -->
+            <picker-view wx:if="{{isShowshijian}}" mask-class="mask" indicator-style="height: 50px;"
+                style="width: 100%; height: 300px;" value="{{val}}" bindchange="bindChange">
+                <picker-view-column>
+                    <view wx:for="{{years}}" wx:key="index" style="line-height: 50px; text-align: center;">{{item}}年
+                    </view>
+                </picker-view-column>
+                <picker-view-column>
+                    <view wx:for="{{months}}" wx:key="index" style="line-height: 50px; text-align: center;">
+                        {{item}}月</view>
+                </picker-view-column>
+                <picker-view-column>
+                    <view wx:for="{{days}}" wx:key="index" style="line-height: 50px; text-align: center;">{{item}}日
+                    </view>
+                </picker-view-column>
+                <picker-view-column>
+                    <view wx:for="{{daytimes}}" wx:key="index" style="line-height: 50px; text-align: center;">{{item}}
+                    </view>
+                </picker-view-column>
+                <picker-view-column>
+                    <view wx:for="{{times}}" wx:key="index" style="line-height: 50px; text-align: center;">{{item}}
+                    </view>
+                </picker-view-column>
+            </picker-view>
+        </view>
+        <view class="weui-media-box weui-media-box_text  tanchuRow">
+            <view style="flex:0.2">遗失地点</view>
+            <view class="weui-input" style="flex:1">
+                <input placeholder="如：南苑师生食堂" type="text" value="{{value_didian}}" name="inputVal_didian" />
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text  tanchuRow">
+            <view style="flex:0.2">联系方式</view>
+            <view class="weui-input" style="flex:1">
+                <input placeholder="如：加我微信xdxmf0001" type="text" value="{{value_lianxi}}" name="inputVal_lianxi" />
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text  tanchuRow">
+            <view style="flex:0.2">具体信息</view>
+            <view class="jianjie" style="flex:1;">
+                <textarea class="weui-textarea" placeholder="描述遗失物品的特征等" value="{{value_jianjie}}"
+                    style="height:250rpx;" maxlength="200" name="inputVal_jianjie" bindinput="bindinputJianjie" />
+                <view class="weui-textarea-counter"><span>{{inputNum}}</span>/200</view>
+            </view>
+        </view>
+        <view wx:if="{{isEdit}}" class="filterList-tupian-items {{imagesUrlList.length>2?'ft_itemsmore':''}} quyu">
+            <block wx:for="{{imagesUrlList}}" wx:key="index">
+                <view>
+                    <view style="width:200rpx;">
+                        <image wx:if="{{item.imagetempFileURL !== ''}}" style="width:150rpx;" mode="widthFix"
+                            src="{{item.imagetempFileURL}}" catchtap="toAddImage" data-index="{{index}}"></image>
+                    </view>
+                    <view class="filterList-tupian-item" style="width:110rpx;" hover-class="tupian-selected"
+                        catchtap="toDelImage" data-imagefileid="{{item.imagefileID}}" data-index="{{index}}">删除</view>
+                </view>
+            </block>
+            <view style="background-color:gray; margin-bottom:90rpx;" wx:if="{{imagesUrlList.length<5}}">
+                <image style="width:150rpx;" mode="widthFix" src="../../images/shangchuantupian.png"
+                    catchtap="toAddImage2"></image>
+            </view>
+        </view>
+        <view class="page__bd" wx:if="{{!isEdit}}">
+            <mp-cells>
+                <mp-cell>
+                    <mp-uploader select="{{selectFile}}" files="{{files}}" max-count="5" binddelete="todelete"
+                        title="物件图片上传" tips="第一张图会展示在首页">
+                    </mp-uploader>
+                </mp-cell>
+            </mp-cells>
+        </view>
+
+        <button wx:if="{{isEdit}}" form-type="submit" style="margin-top:50rpx;margin-bottom: 100rpx;" type="primary"
+            disabled="{{isDisabled}}">确定</button>
+        <button wx:if="{{!isEdit}}" form-type="submit" style="margin-top:50rpx;margin-bottom: 100rpx;" type="primary"
+            disabled="{{isDisabled}}">提交审核</button>
+    </form>
+</view>
+<!-- 黄页 -->
+<view class="tanchu" wx:if="{{addType == 'huangye'}}">
+    <view class="tanchuBiaoti" wx:if="{{!isEdit}}">填写商家信息</view>
+    <view class="tanchuBiaoti" wx:if="{{isEdit}}">编辑商家信息</view>
+    <form bindsubmit="toTijiaoSubmit_huangye">
+        <view class="weui-media-box weui-media-box_text flex tanchuRow">
+            <view style="flex:0.2">名称</view>
+            <view class="weui-input" style="flex:1">
+                <input placeholder="如：苏记烧烤" type="text" value="{{value_name}}" maxlength="15" name="inputVal_name" />
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text flex tanchuRow">
+            <view style="flex:0.2">电话</view>
+            <view class="weui-input" style="flex:1">
+                <input placeholder="如：13288889999" type="text" value="{{value_phone}}" maxlength="11"
+                    name="inputVal_phone" />
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text flex tanchuRow">
+            <view style="flex:0.2">类别</view>
+            <view class="filterList-leixing-items">
+                <block wx:for="{{leibieList}}" wx:key="index">
+                    <view class="filterList-leixing-item {{leibieSelected==index?'leixing-selected':''}}"
+                        catchtap="leibieSelected" data-index="{{index}}" style="font-size:small;">{{item.text}}</view>
+                </block>
+            </view>
+
+        </view>
+        <view class="weui-media-box weui-media-box_text  tanchuRow">
+            <view style="flex:0.2">详细地址</view>
+            <view class="weui-input" style="flex:1">
+                <input placeholder="如：湘大南门联建美食街直走10号店铺" maxlength="50" type="text" value="{{value_address}}"
+                    name="inputVal_address" />
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text  tanchuRow">
+            <view style="flex:0.2">地址简称</view>
+            <view class="weui-input" style="flex:1">
+                <input placeholder="显示在首页 如：联建美食街" type="text" value="{{value_jianAddress}}" maxlength="12"
+                    name="inputVal_jianAddress" />
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text  tanchuRow">
+            <view style="flex:0.2">简介</view>
+            <view class="jianjie" style="flex:1;">
+                <textarea class="weui-textarea" placeholder="描述商家服务内容及特色" style="height:250rpx;" maxlength="200"
+                    value="{{value_jianjie}}" name="inputVal_jianjie" bindinput="bindinputJianjie" />
+                <view class="weui-textarea-counter"><span>{{inputNum}}</span>/200</view>
+            </view>
+        </view>
+        <view wx:if="{{isEdit}}" class="filterList-tupian-items {{imagesUrlList.length>2?'ft_itemsmore':''}} quyu">
+            <block wx:for="{{imagesUrlList}}" wx:key="index">
+                <view>
+                    <view style="width:200rpx;">
+                        <image wx:if="{{item.imagetempFileURL !== ''}}" style="width:150rpx;" mode="widthFix"
+                            src="{{item.imagetempFileURL}}" catchtap="toAddImage" data-index="{{index}}"></image>
+                    </view>
+                    <view class="filterList-tupian-item" style="width:110rpx;" hover-class="tupian-selected"
+                        catchtap="toDelImage" data-imagefileid="{{item.imagefileID}}" data-index="{{index}}">删除</view>
+                </view>
+            </block>
+            <view style="background-color:gray; margin-bottom:90rpx;" wx:if="{{imagesUrlList.length<5}}">
+                <image style="width:150rpx;" mode="widthFix" src="../../images/shangchuantupian.png"
+                    catchtap="toAddImage2"></image>
+            </view>
+        </view>
+        <mp-cells wx:if="{{!isEdit}}">
+            <mp-cell>
+                <mp-uploader select="{{selectFile}}" files="{{files}}" max-count="5" binddelete="todelete" title="图片上传"
+                    tips="图片尺寸建议1:1">
+                </mp-uploader>
+            </mp-cell>
+        </mp-cells>
+        <button form-type="submit" wx:if="{{isEdit}}" style="position: relative; left: -30rpx; top: 20rpx"
+            type="primary" disabled="{{isDisabled}}">确定</button>
+        <button form-type="submit" wx:if="{{!isEdit}}" style="position: relative; left: -30rpx; top: 20rpx"
+            type="primary" disabled="{{isDisabled}}">提交审核</button>
+    </form>
+</view>
+<!-- 拼车 -->
+<view class="tanchu" wx:if="{{addType=='pinche'}}" bindtap="toCloseShijian">
+    <view class="tanchuBiaoti" wx:if="{{isEdit}}">拼车编辑</view>
+    <view class="tanchuBiaoti" wx:if="{{!isEdit}}">拼车发布</view>
+    <form bindsubmit="toTijiaoSubmit_pinche"> 
+        <view class="weui-media-box weui-media-box_text flex tanchuRow">
+            <view style="flex:0.2">行程</view>
+            <view class="weui-input weui-cell" style="flex:1;display:flex;">
+                <text style="margin-right:20rpx;">出发:</text>
+                <input placeholder="如：湘大" type="text" value="{{value_xingch_start}}" name="inputVal_xingch_start" />
+            </view>
+            <view class="weui-input weui-cell" style="flex:1;display:flex;">
+                <text style="margin-right:20rpx;">终点:</text>
+                <input placeholder="如：湘潭北站" type="text" value="{{value_xingch_end}}" name="inputVal_xingch_end" />
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text flex tanchuRow">
+            <view style="flex:0.2">日期</view>
+
+            <view class="selected-date" catchtap="toOpenShijian">{{month}}月{{day}}日</view>
+            <!-- <view class="selected-date" catchtap="toOpenShijian">{{year}}年{{month}}月{{day}}日{{daytime}}{{time}}点</view> -->
+            <picker-view wx:if="{{isShowshijian}}" mask-class="mask" indicator-style="height: 50px;"
+                style="width: 100%; height: 300px;" value="{{val}}" bindchange="bindChange">
+                <!-- <picker-view-column>
+                    <view wx:for="{{years}}" wx:key="index" style="line-height: 50px; text-align: center;">{{item}}年
+                    </view>
+                </picker-view-column> -->
+                <picker-view-column>
+                    <view wx:for="{{months}}" wx:key="index" style="line-height: 50px; text-align: center;">
+                        {{item}}月</view>
+                </picker-view-column>
+                <picker-view-column>
+                    <view wx:for="{{days}}" wx:key="index" style="line-height: 50px; text-align: center;">{{item}}日
+                    </view>
+                </picker-view-column>
+                <!-- <picker-view-column>
+                    <view wx:for="{{daytimes}}" wx:key="index" style="line-height: 50px; text-align: center;">{{item}}
+                    </view>
+                </picker-view-column>
+                <picker-view-column>
+                    <view wx:for="{{times}}" wx:key="index" style="line-height: 50px; text-align: center;">{{item}}
+                    </view>
+                </picker-view-column> -->
+            </picker-view>
+        </view>
+        <view class="weui-media-box weui-media-box_text flex tanchuRow">
+            <view style="flex:0.2">时间</view>
+            <view class="weui-input" style="flex:1">
+                <input placeholder="如：上午,或09:30" type="text" value="{{value_shijian}}" name="inputVal_shijian" />
+            </view>
+
+        </view>
+        <view class="weui-media-box weui-media-box_text  tanchuRow">
+            <view style="flex:0.2">人数</view>
+            <view class="weui-input" style="flex:1">
+                <input placeholder="如：3人" type="text" value="{{value_personNum}}" name="inputVal_personNum" />
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text  tanchuRow">
+            <view style="flex:0.2">联系方式</view>
+            <view class="weui-input" style="flex:1">
+                <input placeholder="如：加我微信xdxmf0001" type="text" value="{{value_lianxi}}" name="inputVal_lianxi" />
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text  tanchuRow">
+            <view style="flex:0.2">备注信息</view>
+            <view class="jianjie" style="flex:1;">
+                <textarea class="weui-textarea" placeholder="如：不能再放行李" style="height:250rpx;" maxlength="200"
+                    value="{{value_jianjie}}" name="inputVal_jianjie" bindinput="bindinputJianjie" />
+                <view class="weui-textarea-counter"><span>{{inputNum}}</span>/200</view>
+            </view>
+        </view>
+
+        <button form-type="submit" style="margin-top:50rpx;margin-bottom: 100rpx;" type="primary"
+            disabled="{{isDisabled}}" wx:if="{{isEdit}}">确定</button>
+        <button form-type="submit" style="margin-top:50rpx;margin-bottom: 100rpx;" type="primary"
+            disabled="{{isDisabled}}" wx:if="{{!isEdit}}">提交发布</button>
+    </form>
+</view>
+<!-- ershou 跳蚤市场-->
+<view class="tanchu" wx:if="{{addType=='ershou'}}" bindtap="toCloseShijian">
+    <view class="tanchuBiaoti" wx:if="{{isEdit}}">跳蚤市场编辑</view>
+    <view class="tanchuBiaoti" wx:if="{{!isEdit}}">跳蚤市场发布</view>
+    <form bindsubmit="toTijiaoSubmit_ershou">
+        <view class="page__bd">
+
+            <view class="weui-media-box weui-media-box_text  tanchuRow">
+                <view style="flex:0.2">物品信息</view>
+                <view class="jianjie" style="flex:1;">
+                    <textarea class="weui-textarea" placeholder="物品名称，新旧程度，转手原因..." style="height:250rpx;"
+                        maxlength="500" value="{{value_jianjie}}" name="inputVal_jianjie"
+                        bindinput="bindinputJianjie" />
+                    <!-- <view class="weui-textarea-counter"><span>{{inputNum}}</span>/200</view> -->
+                </view>
+            </view>
+            <view class="weui-media-box weui-media-box_text  tanchuRow flexinput">
+                <view style="flex:0.2">价格：</view>
+                <view class="weui-input" style="flex:1">
+                    <input placeholder="￥" type="digit" value="{{value_jiage}}" name="inputVal_jiage" />
+                </view>
+            </view>
+            <view wx:if="{{isEdit}}" class="filterList-tupian-items {{imagesUrlList.length>2?'ft_itemsmore':''}} quyu">
+                <block wx:for="{{imagesUrlList}}" wx:key="index">
+                    <view>
+                        <view style="width:200rpx;">
+                            <image wx:if="{{item.imagetempFileURL !== ''}}" style="width:150rpx;" mode="widthFix"
+                                src="{{item.imagetempFileURL}}" catchtap="toAddImage" data-index="{{index}}"></image>
+                        </view>
+                        <view class="filterList-tupian-item" style="width:110rpx;" hover-class="tupian-selected"
+                            catchtap="toDelImage" data-imagefileid="{{item.imagefileID}}" data-index="{{index}}">删除
+                        </view>
+                    </view>
+                </block>
+                <view style="background-color:gray; margin-bottom:90rpx;" wx:if="{{imagesUrlList.length<5}}">
+                    <image style="width:150rpx;" mode="widthFix" src="../../images/shangchuantupian.png"
+                        catchtap="toAddImage2"></image>
+                </view>
+            </view>
+            <mp-cells wx:if="{{!isEdit}}">
+                <mp-cell>
+                    <mp-uploader select="{{selectFile}}" files="{{files}}" max-count="5" binddelete="todelete"
+                        title="图片上传" tips="第一张图会展示在首页">
+                    </mp-uploader>
+                </mp-cell>
+            </mp-cells>
+        </view>
+
+        <button form-type="submit" wx:if="{{isEdit}}" style="margin-top:50rpx;margin-bottom: 100rpx;" type="primary"
+            disabled="{{isDisabled}}">确定</button>
+        <button form-type="submit" wx:if="{{!isEdit}}" style="margin-top:50rpx;margin-bottom: 100rpx;" type="primary"
+            disabled="{{isDisabled}}">提交审核</button>
+    </form>
+</view>
+<!-- 校园互助 -->
+<view class="tanchu" wx:if="{{addType=='huzhu'}}" bindtap="toCloseShijian">
+    <view class="tanchuBiaoti" wx:if="{{isEdit}}">校园互助编辑</view>
+    <view class="tanchuBiaoti" wx:if="{{!isEdit}}">校园互助发布</view>
+    <form bindsubmit="toTijiaoSubmit_huzhu">
+        <view class="weui-media-box weui-media-box_text  tanchuRow">
+            <view style="flex:0.2">互助信息</view>
+            <view class="jianjie" style="flex:1;">
+                <textarea class="weui-textarea" value="{{value_jianjie}}" placeholder="如：帮我占个座呗" style="height:250rpx;"
+                    maxlength="200" name="inputVal_jianjie" bindinput="bindinputJianjie" />
+                <view class="weui-textarea-counter"><span>{{inputNum}}</span>/200</view>
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text  tanchuRow">
+            <view style="flex:0.2">联系方式</view>
+            <view class="weui-input" style="flex:1">
+                <input placeholder="如：加我微信xdxmf0001" type="text" value="{{value_lianxi}}" name="inputVal_lianxi" />
+            </view>
+        </view>
+        <button form-type="submit" wx:if="{{isEdit}}" style="margin-top:50rpx;margin-bottom: 100rpx;" type="primary"
+            disabled="{{isDisabled}}">确定</button>
+        <button form-type="submit" wx:if="{{!isEdit}}" style="margin-top:50rpx;margin-bottom: 100rpx;" type="primary"
+            disabled="{{isDisabled}}">提交发布</button>
+    </form>
+</view>
+<!-- 校园大事件 -->
+<view class="tanchu" wx:if="{{addType=='bigthings'}}" bindtap="toCloseShijian">
+    <view class="tanchuBiaoti" wx:if="{{isEdit}}">大事件编辑</view>
+    <view class="tanchuBiaoti" wx:if="{{!isEdit}}">大事件发布</view>
+    <form bindsubmit="toTijiaoSubmit_bigthings">
+        <!-- <view class="weui-media-box weui-media-box_text flex tanchuRow">
+            <view style="flex:0.2">标题</view>
+            <view class="weui-input" style="flex:1">
+                <input placeholder="如：2021迎来新的一届毕业生" type="text" value="{{value_name}}" maxlength="20"
+                    name="inputVal_name" />
+            </view>
+        </view> -->
+        <view class="weui-media-box weui-media-box_text  tanchuRow">
+            <view style="flex:0.2">事件内容</view>
+            <view class="bigthings_jianjie" style="flex:1;">
+                <textarea class="bingthings_text" value="{{value_jianjie}}" placeholder="请输入内容" name="inputVal_jianjie"
+                    bindinput="bindinputJianjie" maxlength="200" />
+                <view class="weui-textarea-counter"><span>{{inputNum}}/200</span></view>
+            </view>
+        </view>
+        <view wx:if="{{isEdit}}">
+            <view class="uploadxuanxiang">
+                <view bindtap="upImage" class="uploadxuanxiang_item {{isImage?'yixuan':''}}">图片</view>
+                <view bindtap="upVideo" class="uploadxuanxiang_item {{isVideo?'yixuan':''}}">视频</view>
+                <view bindtap="upAudio" class="uploadxuanxiang_item {{isAudio?'yixuan':''}}">音频</view>
+            </view>
+            <!-- 图片上传 -->
+            <view wx:if="{{audio_path == '' && video_fileid == '' && isImage}}"
+                class="filterList-tupian-items {{imagesUrlList.length>2?'ft_itemsmore':''}} quyu">
+                <block wx:for="{{imagesUrlList}}" wx:key="index">
+                    <view>
+                        <view style="width:200rpx;">
+                            <image wx:if="{{item.imagetempFileURL !== ''}}" style="width:150rpx;" mode="widthFix"
+                                src="{{item.imagetempFileURL}}" catchtap="toAddImage" data-index="{{index}}"></image>
+                        </view>
+                        <view class="filterList-tupian-item" style="width:110rpx;" hover-class="tupian-selected"
+                            catchtap="toDelImage" data-imagefileid="{{item.imagefileID}}" data-index="{{index}}">删除
+                        </view>
+                    </view>
+                </block>
+                <view style="background-color:gray; margin-bottom:90rpx;" wx:if="{{imagesUrlList.length<5}}">
+                    <image style="width:150rpx;" mode="widthFix" src="../../images/shangchuantupian.png"
+                        catchtap="toAddImage2"></image>
+                </view>
+            </view>
+            <!-- 视频 -->
+            <view wx:if="{{audio_path == '' && imagesUrlList.length == 0 && isVideo}}" class="upvideo">
+                <view class="video_text">视频上传</view>
+                <view class="jiahao" bindtap="toAddMedia" wx:if="{{video_fileid == ''}}">+</view>
+                <video class="pengyq_video" src="{{video_fileid}}" autoplay="{{autoplay}}" muted="{{isMuted}}"
+                    show-mute-btn bindfullscreenchange="bind_quanping" wx:if="{{video_fileid !== ''}}">
+                </video>
+                <view class="video_shanchu" wx:if="{{video_fileid !== ''}}" bindtap="toDelVideo">删除</view>
+            </view>
+            <!-- 上传音频 -->
+            <view style="padding:80rpx 30rpx;background-color: white;"
+                wx:if="{{video_fileid == '' && imagesUrlList.length == 0 && isAudio}}">
+                <view class="audio">
+                    <view class="audio_item1">
+                        <view class="jiahao_audio" bindtap="toAddAudio" wx:if="{{audio_path == ''}}">
+                            <view>+</view>
+                        </view>
+                        <image wx:if="{{!isPlay && audio_path !== ''}}" mode="widthFix" style="width: 60rpx;"
+                            src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/play.png" bindtap="audioPlay" data-src="{{item.audio.fileid}}">
+                        </image>
+                        <image wx:if="{{isPlay && audio_path !== ''}}" mode="widthFix" style="width: 60rpx;"
+                            src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/pause.png" bindtap="audioPause" data-src="{{item.audio.fileid}}">
+                        </image>
+                    </view>
+                    <view class="audio_items">
+                        <view class="audio_items_item1">
+                            <view class="audio_items_item1_item1">{{audio_name}}</view>
+                            <view class="audio_items_item1_item2">{{currentTime}} / {{duration}}</view>
+                        </view>
+                        <view class="audio_items_item2">
+                            <slider class="slider" activeColor="#8AD4AF" block-size="12" backgroundColor="#dadada"
+                                value="{{percent}}" />
+                        </view>
+                    </view>
+                </view>
+                <view class="audio_shanchu" wx:if="{{audio_path !== ''}}" bindtap="toDelAudio">删除</view>
+            </view>
+        </view>
+        <view wx:if="{{!isEdit}}">
+            <view class="uploadxuanxiang">
+                <view bindtap="upImage" class="uploadxuanxiang_item {{isImage?'yixuan':''}}">图片</view>
+                <view bindtap="upVideo" class="uploadxuanxiang_item {{isVideo?'yixuan':''}}">视频</view>
+                <view bindtap="upAudio" class="uploadxuanxiang_item {{isAudio?'yixuan':''}}">音频</view>
+            </view>
+            <!-- 上传图片 -->
+            <mp-cells wx:if="{{audio_path == '' && video_fileid == '' && isImage}}">
+                <mp-cell>
+                    <mp-uploader select="{{selectFile}}" files="{{files}}" max-count="9" binddelete="todelete"
+                        title="图片上传" tips="尽量不用原图">
+                    </mp-uploader>
+                </mp-cell>
+            </mp-cells>
+            <!-- 上传视频 -->
+            <view wx:if="{{audio_path == '' && imagesUrlList.length == 0 && isVideo}}" class="upvideo">
+                <view class="video_text">视频上传</view>
+                <view class="jiahao" bindtap="toAddMedia" wx:if="{{video_fileid == ''}}">+</view>
+                <video class="pengyq_video" src="{{video_fileid}}" autoplay="{{autoplay}}" muted="{{isMuted}}"
+                    show-mute-btn bindfullscreenchange="bind_quanping" wx:if="{{video_fileid !== ''}}">
+                </video>
+                <view class="video_shanchu" wx:if="{{video_fileid !== ''}}" bindtap="toDelVideo">删除</view>
+            </view>
+            <!-- 上传音频 -->
+            <view style="padding:80rpx 30rpx;background-color: white;"
+                wx:if="{{video_fileid == '' && imagesUrlList.length == 0 && isAudio}}">
+                <view class="audio">
+                    <view class="audio_item1">
+                        <view class="jiahao_audio" bindtap="toAddAudio" wx:if="{{audio_path == ''}}">
+                            <view>+</view>
+                        </view>
+                        <image wx:if="{{!isPlay && audio_path !== ''}}" mode="widthFix" style="width: 60rpx;"
+                            src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/play.png" bindtap="audioPlay" data-src="{{item.audio.fileid}}">
+                        </image>
+                        <image wx:if="{{isPlay && audio_path !== ''}}" mode="widthFix" style="width: 60rpx;"
+                            src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/qiang/pause.png" bindtap="audioPause" data-src="{{item.audio.fileid}}">
+                        </image>
+                    </view>
+                    <view class="audio_items">
+                        <view class="audio_items_item1">
+                            <view class="audio_items_item1_item1">{{audio_name}}</view>
+                            <view class="audio_items_item1_item2">{{currentTime}} / {{duration}}</view>
+                        </view>
+                        <view class="audio_items_item2">
+                            <slider class="slider" activeColor="#8AD4AF" block-size="12" backgroundColor="#dadada"
+                                value="{{percent}}" />
+                        </view>
+                    </view>
+                </view>
+                <view class="audio_shanchu" wx:if="{{audio_path !== ''}}" bindtap="toDelAudio">删除</view>
+            </view>
+        </view>
+
+        <button form-type="submit" wx:if="{{isEdit}}" style="margin-top:50rpx;margin-bottom: 100rpx;" type="primary"
+            disabled="{{isDisabled}}">确定</button>
+        <button form-type="submit" wx:if="{{!isEdit}}" style="margin-top:50rpx;margin-bottom: 100rpx;" type="primary"
+            disabled="{{isDisabled}}">提交发布</button>
+    </form>
+</view>
+<!-- 论坛 -->
+<view class="tanchu" wx:if="{{addType=='luntan'}}" bindtap="toCloseShijian">
+    <view class="tanchuBiaoti" wx:if="{{isEdit}}">论坛编辑</view>
+    <view class="tanchuBiaoti" wx:if="{{!isEdit}}">论坛发布</view>
+    <form bindsubmit="toTijiaoSubmit_luntan">
+        <!-- <view class="weui-media-box weui-media-box_text flex tanchuRow">
+            <view style="flex:0.2">标题</view>
+            <view class="weui-input" style="flex:1">
+                <input placeholder="" type="text" maxlength="20" name="inputVal_name" />
+            </view>
+        </view> -->
+        <view class="weui-media-box weui-media-box_text  tanchuRow">
+            <view style="flex:0.2">内容</view>
+            <view class="jianjie" style="flex:1;">
+                <textarea class="weui-textarea" value="{{value_jianjie}}" placeholder="" style="height:250rpx;"
+                    name="inputVal_jianjie" bindinput="bindinputJianjie" auto-height maxlength="200" />
+                <view class="weui-textarea-counter"><span>{{inputNum}}</span>/200</view>
+            </view>
+        </view>
+        <view wx:if="{{isEdit}}" class="filterList-tupian-items {{imagesUrlList.length>2?'ft_itemsmore':''}} quyu">
+            <block wx:for="{{imagesUrlList}}" wx:key="index">
+                <view>
+                    <view style="width:200rpx;">
+                        <image wx:if="{{item.imagetempFileURL !== ''}}" style="width:150rpx;" mode="widthFix"
+                            src="{{item.imagetempFileURL}}" catchtap="toAddImage" data-index="{{index}}"></image>
+                    </view>
+                    <view class="filterList-tupian-item" style="width:110rpx;" hover-class="tupian-selected"
+                        catchtap="toDelImage" data-imagefileid="{{item.imagefileID}}" data-index="{{index}}">删除</view>
+                </view>
+            </block>
+            <view style="background-color:gray; margin-bottom:90rpx;" wx:if="{{imagesUrlList.length<5}}">
+                <image style="width:150rpx;" mode="widthFix" src="../../images/shangchuantupian.png"
+                    catchtap="toAddImage2"></image>
+            </view>
+        </view>
+        <mp-cells wx:if="{{!isEdit}}">
+            <mp-cell>
+                <mp-uploader select="{{selectFile}}" files="{{files}}" max-count="5" binddelete="todelete" title="图片上传"
+                    tips="">
+                </mp-uploader>
+            </mp-cell>
+        </mp-cells>
+        <button form-type="submit" wx:if="{{isEdit}}" style="margin-top:50rpx;margin-bottom: 100rpx;" type="primary"
+            disabled="{{isDisabled}}">确定</button>
+        <button form-type="submit" wx:if="{{!isEdit}}" style="margin-top:50rpx;margin-bottom: 100rpx;" type="primary"
+            disabled="{{isDisabled}}">提交发布</button>
+    </form>
+</view>
+<!-- 交友 -->
+<view class="tanchu" wx:if="{{addType=='jiaoyou'}}" bindtap="toCloseShijian">
+    <view class="tanchuBiaoti" wx:if="{{!isEdit}}">交友发布</view>
+    <view class="tanchuBiaoti" wx:if="{{isEdit}}">交友编辑</view>
+
+    <form bindsubmit="toTijiaoSubmit_jiaoyou">
+
+        <view class="weui-media-box weui-media-box_text  tanchuRow">
+            <view style="flex:0.2">内容</view>
+            <view class="jianjie" style="flex:1;">
+                <textarea class="weui-textarea" value="{{value_jianjie}}" placeholder="" style="height:350rpx;"
+                    name="inputVal_jianjie" bindinput="bindinputJianjie" maxlength="200" />
+                <view class="weui-textarea-counter"><span>{{inputNum}}</span>/200</view>
+            </view>
+        </view>
+        <view wx:if="{{isEdit}}" class="filterList-tupian-items {{imagesUrlList.length>2?'ft_itemsmore':''}} quyu">
+            <block wx:for="{{imagesUrlList}}" wx:key="index">
+                <view>
+                    <view style="width:200rpx;">
+                        <image wx:if="{{item.imagetempFileURL !== ''}}" style="width:150rpx;" mode="widthFix"
+                            src="{{item.imagetempFileURL}}" catchtap="toAddImage" data-index="{{index}}"></image>
+                    </view>
+                    <view class="filterList-tupian-item" style="width:110rpx;" hover-class="tupian-selected"
+                        catchtap="toDelImage" data-imagefileid="{{item.imagefileID}}" data-index="{{index}}">删除</view>
+                </view>
+            </block>
+            <view style="background-color:gray; margin-bottom:90rpx;" wx:if="{{imagesUrlList.length<5}}">
+                <image style="width:150rpx;" mode="widthFix" src="../../images/shangchuantupian.png"
+                    catchtap="toAddImage2"></image>
+            </view>
+        </view>
+
+        <mp-cells wx:if="{{!isEdit}}">
+            <mp-cell>
+                <mp-uploader select="{{selectFile}}" files="{{files}}" max-count="5" binddelete="todelete" title="图片上传"
+                    tips="">
+                </mp-uploader>
+            </mp-cell>
+        </mp-cells>
+        <button wx:if="{{isEdit}}" form-type="submit" style="margin-top:50rpx;margin-bottom: 100rpx;" type="primary"
+            disabled="{{isDisabled}}">确认</button>
+        <button wx:if="{{!isEdit}}" form-type="submit" style="margin-top:50rpx;margin-bottom: 100rpx;" type="primary"
+            disabled="{{isDisabled}}">提交审核</button>
+    </form>
+</view>
+<!-- 租房 -->
+<view class="tanchu" wx:if="{{addType == 'zufang'}}">
+    <view class="tanchuBiaoti" wx:if="{{isEdit}}">租房编辑</view>
+    <view class="tanchuBiaoti" wx:if="{{!isEdit}}">租房发布</view>
+    <form bindsubmit="toTijiaoSubmit_zufang">
+
+        <view class="weui-media-box weui-media-box_text flex tanchuRow">
+            <view style="flex:0.2">小区名称或地址</view>
+            <view class="weui-input" style="flex:1">
+                <input placeholder="请填写" value="{{value_name}}" type="text" maxlength="15" name="inputVal_name" />
+            </view>
+            <view class="filterList-leixing-items quyu">
+                <block wx:for="{{quyuList}}" wx:key="index">
+                    <view class="filterList-leixing-item {{quyuSelected==index?'leixing-selected':''}}"
+                        catchtap="quyuSelected" data-index="{{index}}">{{item.text}}</view>
+                </block>
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text flex tanchuRow">
+            <view style="flex:0.2">房屋户型</view>
+            <picker mode="multiSelector" bindchange="toHuxing" value="{{multiIndex}}" range="{{multiArray}}">
+                <view class="weui-input flexinput" style="flex:1">
+                    <view style="color:darkblue;">{{huxing}}
+                    </view>
+                </view>
+            </picker>
+        </view>
+        <view class="weui-media-box weui-media-box_text flex tanchuRow">
+            <view style="flex:0.2">房屋面积</view>
+            <view class="weui-input flexinput" style="flex:1">
+                <input style="width:160rpx;" placeholder="请输入" value="{{value_mianji}}" type="number" maxlength="4"
+                    name="inputVal_mianji" />
+                <text>㎡</text>
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text flex tanchuRow">
+            <view style="flex:0.2">楼层信息</view>
+            <view class="weui-input flexinput" style="flex:1">
+                <view class="flexinput" style="margin-right:15rpx;">
+                    <text>第</text>
+                    <input style="width:100rpx;text-align:center;" placeholder="" type="number" maxlength="2"
+                        name="inputVal_louceng1" value="{{value_louceng1}}" />
+                    <text>层</text>
+                </view>
+                <view class="flexinput">
+                    <text>共</text>
+                    <input style="width:100rpx;text-align:center;" placeholder="" type="number" maxlength="2"
+                        name="inputVal_louceng2" value="{{value_louceng2}}" />
+                    <text>层</text>
+                </view>
+            </view>
+
+        </view>
+        <view class="weui-media-box weui-media-box_text flex tanchuRow">
+            <view style="flex:0.2">月租金</view>
+            <view class="weui-input flexinput" style="flex:1">
+                <input style="width:160rpx;" placeholder="请输入" type="number" maxlength="5" name="inputVal_zujin"
+                    value="{{value_zujin}}" />
+                <text>元/月</text>
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text flex tanchuRow">
+            <view style="flex:0.2">出租类型</view>
+            <view class="filterList-zfleixing-items">
+                <block wx:for="{{zfleixingList}}" wx:key="index">
+                    <view class="filterList-leixing-item {{zfleixingSelected==index?'leixing-selected':''}}"
+                        catchtap="zfleixingSelected" data-index="{{index}}">{{item.text}}</view>
+                </block>
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text flex tanchuRow">
+            <view style="flex:0.2">联系人</view>
+            <view class="weui-input" style="flex:1">
+                <input placeholder="请输入" type="text" maxlength="15" name="inputVal_lianxiren"
+                    value="{{value_lianxiren}}" />
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text flex tanchuRow">
+            <view style="flex:0.2">电话</view>
+            <view class="weui-input" style="flex:1">
+                <input placeholder="请输入" type="number" maxlength="11" name="inputVal_phone" bindinput="bindinputPhone"
+                    value="{{value_phone}}" />
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text flex tanchuRow">
+            <view style="flex:0.2">房屋设施</view>
+            <checkbox-group bindchange="checkboxChange_sheshi" class="sheshi" wx:if="{{!isSheshiGengduo}}">
+                <view wx:for="{{sheshiList}}" wx:key="index">
+                    <view wx:if="{{index < 3}}" class="sheshi_item">
+                        <checkbox class="checkbox" value="{{item.name}}" checked="{{item.checked}}">
+                            <view class="">{{item.name}}</view>
+                        </checkbox>
+                    </view>
+                </view>
+            </checkbox-group>
+            <checkbox-group bindchange="checkboxChange_sheshi" wx:if="{{isSheshiGengduo}}">
+                <view wx:for="{{sheshiList}}" wx:key="index">
+                    <view class="sheshi_item">
+                        <checkbox class="checkbox" value="{{item.name}}" checked="{{item.checked}}">
+                            <view class="">{{item.name}}</view>
+                        </checkbox>
+                    </view>
+                </view>
+            </checkbox-group>
+            <view class="sheshi_gengduo">
+                <view bindtap="toSheshi_gengduo" wx:if="{{!isSheshiGengduo}}">更多</view>
+                <view bindtap="toSheshi_gengduo" wx:if="{{isSheshiGengduo}}">收起</view>
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text  tanchuRow">
+            <view style="flex:0.2">房源简介</view>
+            <view class="jianjie" style="flex:1;">
+                <textarea class="weui-textarea" placeholder="补充房源信息，更快找到租客" style="height:250rpx;" maxlength="200"
+                    name="inputVal_jianjie" bindinput="bindinputJianjie" value="{{value_jianjie}}" />
+                <view class="weui-textarea-counter"><span>{{inputNum}}</span>/200</view>
+            </view>
+        </view>
+        <view wx:if="{{isEdit}}" class="filterList-tupian-items {{imagesUrlList.length>2?'ft_itemsmore':''}} quyu">
+            <block wx:for="{{imagesUrlList}}" wx:key="index">
+                <view>
+                    <view style="width:200rpx;">
+                        <image wx:if="{{item.imagetempFileURL !== ''}}" style="width:150rpx;" mode="widthFix"
+                            src="{{item.imagetempFileURL}}" catchtap="toAddImage" data-index="{{index}}"></image>
+                    </view>
+                    <view class="filterList-tupian-item" style="width:110rpx;" hover-class="tupian-selected"
+                        catchtap="toDelImage" data-imagefileid="{{item.imagefileID}}" data-index="{{index}}">删除</view>
+                </view>
+            </block>
+            <view style="background-color:gray; margin-bottom:90rpx;" wx:if="{{imagesUrlList.length<5}}">
+                <image style="width:150rpx;" mode="widthFix" src="../../images/shangchuantupian.png"
+                    catchtap="toAddImage2"></image>
+            </view>
+        </view>
+        <mp-cells wx:if="{{!isEdit}}">
+            <mp-cell>
+                <mp-uploader select="{{selectFile}}" files="{{files}}" max-count="9" binddelete="todelete" title="图片上传"
+                    tips="图片尺寸建议4:3">
+                </mp-uploader>
+            </mp-cell>
+        </mp-cells>
+        <button wx:if="{{isEdit}}" form-type="submit" style="position: relative; left: -30rpx; top: 20rpx"
+            type="primary" disabled="{{isDisabled}}">确认</button>
+        <!-- <button wx:if="{{isEdit&&isXiajia}}" form-type="submit" style="margin-left: 40rpx; position: relative; left: -30rpx; top: 20rpx"
+            type="primary" disabled="{{isDisabled}}">重新上架</button> -->
+        <button wx:if="{{!isEdit}}" form-type="submit" style="position: relative; left: -30rpx; top: 20rpx"
+            type="primary" disabled="{{isDisabled}}">提交审核</button>
+    </form>
+</view>
+<!-- 兼职 -->
+<view class="tanchu" wx:if="{{addType == 'jianzhi'}}">
+    <view class="tanchuBiaoti" wx:if="{{isEdit}}">兼职编辑</view>
+    <view class="tanchuBiaoti" wx:if="{{!isEdit}}">兼职发布</view>
+    <form bindsubmit="toTijiaoSubmit_jianzhi">
+        <view class="weui-media-box weui-media-box_text flex tanchuRow">
+            <view style="flex:0.2">兼职内容</view>
+            <view class="weui-input" style="flex:1">
+                <input placeholder="请填写" type="text" value="{{value_name}}" maxlength="15" name="inputVal_name" />
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text flex tanchuRow">
+            <view style="flex:0.2">招聘人数</view>
+            <view class="weui-input" style="flex:1">
+                <input placeholder="请填写" type="number" value="{{value_personNum}}" maxlength="3"
+                    name="inputVal_personNum" />
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text flex tanchuRow">
+            <view style="flex:0.2">兼职类型</view>
+            <view class="filterList-leixing-items">
+                <block wx:for="{{leixingList}}" wx:key="index">
+                    <view class="filterList-leixing-item {{leixingSelected==index?'leixing-selected':''}}"
+                        catchtap="leixingSelected" data-index="{{index}}">{{item.text}}</view>
+                </block>
+            </view>
+            <!-- <view class="weui-input" style="flex:1">
+                <input placeholder="如：周日周六全天" type="text" maxlength="15" name="inputVal_leixing" />
+            </view> -->
+        </view>
+        <view class="weui-media-box weui-media-box_text flex tanchuRow">
+            <view style="flex:0.2">薪资水平</view>
+            <view class="weui-input" style="flex:1">
+                <input placeholder="请填写" type="number" value="{{value_xinzi}}" maxlength="4" name="inputVal_xinzi" />
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text flex tanchuRow">
+            <view style="flex:0.2">联系人</view>
+            <view class="weui-input" style="flex:1">
+                <input placeholder="请输入" type="text" value="{{value_lianxiren}}" maxlength="15"
+                    name="inputVal_lianxiren" />
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text flex tanchuRow">
+            <view style="flex:0.2">电话</view>
+            <view class="weui-input" style="flex:1">
+                <input placeholder="请输入" type="number" value="{{value_phone}}" maxlength="11" name="inputVal_phone"
+                    bindinput="bindinputPhone" />
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text  tanchuRow">
+            <view style="flex:0.2">详细地址</view>
+            <view class="weui-input" style="flex:1">
+                <input placeholder="如：湘大南门联建美食街直走10号店铺" value="{{value_address}}" maxlength="50" type="text"
+                    name="inputVal_address" />
+            </view>
+        </view>
+        <view class="weui-media-box weui-media-box_text  tanchuRow">
+            <view style="flex:0.2">工作内容</view>
+            <view class="jianjie" style="flex:1;">
+                <textarea class="weui-textarea" value="{{value_jianjie}}" placeholder="请输入" style="height:250rpx;"
+                    maxlength="200" name="inputVal_jianjie" bindinput="bindinputJianjie" />
+                <view class="weui-textarea-counter"><span>{{inputNum}}</span>/200</view>
+            </view>
+        </view>
+        <button wx:if="{{isEdit}}" form-type="submit" style="position: relative; left: -30rpx; top: 20rpx"
+            type="primary" disabled="{{isDisabled}}">确认</button>
+        <button wx:if="{{!isEdit}}" form-type="submit" style="position: relative; left: -30rpx; top: 20rpx"
+            type="primary" disabled="{{isDisabled}}">提交审核</button>
+    </form>
+</view>
+
+<!-- ershou 建议-->
+<view class="tanchu" wx:if="{{addType=='jianyi'}}">
+    <view class="tanchuBiaoti">提交建议</view>
+    <form bindsubmit="toTijiaoSubmit_jianyi">
+        <view class="page__bd">
+
+            <view class="weui-media-box weui-media-box_text  tanchuRow">
+                <view style="flex:0.2">我的建议：</view>
+                <view class="jianjie" style="flex:1;">
+                    <textarea class="weui-textarea" placeholder="请输入内容" style="height:250rpx;" maxlength="500"
+                        value="{{value_jianjie}}" name="inputVal_jianjie" bindinput="bindinputJianjie" />
+                    <!-- <view class="weui-textarea-counter"><span>{{inputNum}}</span>/200</view> -->
+                </view>
+            </view>
+
+            <mp-cells>
+                <mp-cell>
+                    <mp-uploader select="{{selectFile}}" files="{{files}}" max-count="1" binddelete="todelete"
+                        title="图片上传" tips="可以提供图片给我们">
+                    </mp-uploader>
+                </mp-cell>
+            </mp-cells>
+        </view>
+
+        <button form-type="submit" style="margin-top:50rpx;margin-bottom: 100rpx;" type="primary"
+            disabled="{{isDisabled}}">确定</button>
+    </form>
+</view>

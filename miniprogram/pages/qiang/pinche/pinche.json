@@ -1,5 +1,6 @@
 {
-  "usingComponents": {},
-  "navigationBarTitleText": "拼车信息"
-
+  "usingComponents": {
+    "mp-icon": "weui-miniprogram/icon/icon"
+  },
+  "navigationBarTitleText": "校园拼车"
 }

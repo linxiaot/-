@@ -1,0 +1,73 @@
+.flex {
+  display: flex;
+}
+
+.center {
+  align-items: center;
+  justify-content: center;
+}
+
+.flex_1 {
+  flex: 1;
+}
+
+.fontsize_s {
+  font-size: small;
+}
+
+.hover {
+  opacity: 0.8;
+  background: #dcdcdc;
+}
+
+.class_toTap {
+  font-weight: bold;
+  font-size: 40rpx;
+}
+
+.class_unTap {
+  font-weight: lighter;
+}
+
+.jianjie textarea {
+  border-radius: 10rpx;
+  /* background-color: #f0f0f0; */
+}
+
+.paixuhetianjia {
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.paixuhetianjia>view:first-child {
+  margin-left: 30rpx;
+}
+
+.paixuhetianjia>view:last-child {
+  margin-left: 550rpx;
+  width: 50rpx;
+}
+
+.yincang {
+  display: -webkit-box;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.tuijian {
+  justify-content: end;
+  font-size: small;
+  color: gold
+}
+
+.yixiajia {
+  margin-left: 15rpx;
+  border-radius: 15rpx;
+  background-color: #f0f0f07c;
+  padding: 0rpx 8rpx;
+  color: gray;
+  font-size: small;
+}

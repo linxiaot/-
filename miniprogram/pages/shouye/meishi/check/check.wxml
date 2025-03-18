@@ -1,0 +1,81 @@
+<wxs module="priceFormat">
+    module.exports = function (price) {
+        return '¥ ' + parseFloat(price)
+    }
+</wxs>
+<wxs module="checkPromotion">
+    module.exports = function (promotion) {
+        return parseFloat(promotion) > 0
+    }
+</wxs>
+
+<view class="content" wx:if="{{isCheck}}">
+    <view class="order-title">收货地址</view>
+    <view class="dianpu_info">
+
+        <view class="dianpu_info_1" bindtap="toChooseAddress">
+            <view class="dianpu_info_icon">
+                <mp-icon icon="location" color="black" size="{{25}}"></mp-icon>
+            </view>
+            <view class="content-titles">
+                <!-- <view class="content-title">{{cartData.dianpu.dianpu_name}}</view>
+                <view class="content-title">{{cartData.dianpu.dianpu_dizhi}}</view> -->
+                <view class="content-title">{{value_name}} {{value_phone}}</view>
+                <view class="content-title_address">{{value_address_jian}}</view>
+
+            </view>
+            <view class="dianpu_info_icon2">></view>
+        </view>
+        <!-- <view class="dianpu_info_icon" bindtap="toPhoneCall">
+            <image src="../../../../images/phone.png" mode="widthFix" style="width:50rpx;"></image>
+        </view> -->
+    </view>
+    <view class="order">
+        <view class="order-title">订单详情</view>
+        <view class="order-list">
+            <view class="order-item" wx:for="{{cartData.cartList}}" wx:key="id">
+                <view class="order-item-l">
+                    <image class="order-item-image" mode="widthFix" src="{{item.imageUrl.imagetempFileURL}}" />
+                    <view>
+                        <view class="order-item-name">{{item.name}}</view>
+                        <view class="order-item-number">x {{item.number}}</view>
+                    </view>
+                </view>
+                <view class="order-item-price">{{priceFormat(item.price * item.number)}}</view>
+            </view>
+            <view class="order-item" wx:if="{{checkPromotion(promotion)}}">
+                <view class="order-item-l">
+                    <i class="order-promotion-icon">减</i>满减优惠
+                </view>
+                <view class="order-promotion-price">- {{priceFormat(promotion)}}</view>
+            </view>
+            <view class="order-item">
+                <view class="order-item-l">小计</view>
+                <view class="order-total-price">{{priceFormat(cartData.cartPrice - promotion)}}</view>
+            </view>
+        </view>
+    </view>
+    <view class="content-comment">
+        <label>备注</label>
+        <textarea placeholder="如有其他要求，请输入备注" bindinput="inputBeizhu"></textarea>
+    </view>
+    <view class="operate">
+        <view class="operate-info">合计：{{priceFormat(cartData.cartPrice - promotion)}}</view>
+        <view class="operate-submit" bindtap="{{isshowPay?'toPay':''}}" wx:if="{{login_ok}}">去支付</view>
+        <view class="operate-submit" bindtap="checkLogin" style="color: gray;" wx:if="{{!login_ok}}">去支付</view>
+    </view>
+
+</view>
+
+<!-- <view class="weui-msg" wx:if="{{isConfirm}}">
+    <view class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></view>
+    <view class="weui-msg__text-area">
+        <h2 class="weui-msg__title">支付成功</h2>
+        <view class="weui-msg__desc">{{priceFormat(cartData.cartPrice - promotion)}}</view>
+    </view>
+    <view class="weui-msg__opr-area">
+        <view class="weui-btn-area">
+            <a class="weui-btn weui-btn_primary" bindtap="close">确定</a>
+        </view>
+    </view>
+</view> -->
