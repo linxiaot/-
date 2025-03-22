@@ -68,17 +68,7 @@
 
   <!-- <view class="weui-cells__title">带图标、说明、跳转的列表项</view> -->
   <view class="weui-cells">
-    <!-- 校区切换 -->
-    <view class="weui-cell weui-cell_access ziti" hover-class="weui-cell_active" bindtap="toXiaoqu">
-      <view class="weui-cell__hd">
-        <image src="cloud://xmf-0g87mzf198205ada.786d-xmf-0g87mzf198205ada-1305629196/banner/tubiao/wode/xiaoqu.png"
-          style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
-      </view>
-      <view class="weui-cell__bd">校区切换</view>
-      <view class="weui-cell__ft weui-cell__ft_in-access">
-        <block wx:if="{{currentTenant}}">{{currentTenant.name}}</block>
-      </view>
-    </view>
+    <!-- 校区切换已移至首页左上角 -->
     <!-- 我的地址 -->
     <view class="weui-cell weui-cell_access ziti" hover-class="weui-cell_active" bindtap="toDizhi">
       <view class="weui-cell__hd">

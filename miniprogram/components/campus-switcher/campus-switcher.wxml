@@ -1,0 +1,4 @@
+<view class="campus-switcher" bindtap="switchCampus">
+  <view class="campus-name">{{campusName}}</view>
+  <view class="campus-arrow">▼</view>
+</view> 

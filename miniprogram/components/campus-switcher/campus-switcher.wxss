@@ -1,0 +1,24 @@
+.campus-switcher {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  cursor: pointer;
+  padding: 0 10rpx;
+  background-color: transparent;
+}
+
+.campus-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  max-width: 180rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.campus-arrow {
+  font-size: 24rpx;
+  margin-left: 8rpx;
+  color: #333;
+} 

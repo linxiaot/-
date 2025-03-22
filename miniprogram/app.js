@@ -278,41 +278,112 @@ App({
   },
 
   loadCurrentTenant() {
+    console.log('Loading current tenant information');
     // 从本地存储获取当前选择的校区ID
     const currentTenantId = wx.getStorageSync('currentTenantId');
+    console.log('Current tenant ID from storage:', currentTenantId);
+    
     if (!currentTenantId) {
+      console.log('No tenant ID found, loading default tenant');
       // 如果没有选择过校区，则从云数据库获取校区列表，并默认选择第一个
-      wx.cloud.database().collection('tenant').get().then(res => {
-        console.log('获取校区列表成功', res.data);
+      wx.cloud.database().collection('tenant').get()
+        .then(res => {
+          console.log('获取校区列表成功', res.data);
+          if (res.data && res.data.length > 0) {
+            // 默认选择第一个校区
+            this.globalData.currentTenant = res.data[0];
+            wx.setStorageSync('currentTenantId', res.data[0]._id);
+            
+            // 同步tenant_id到旧系统，使用code字段作为tenant_id
+            if (res.data[0].code) {
+              wx.setStorageSync('tenant_id', res.data[0].code);
+              console.log('已同步tenant_id:', res.data[0].code);
+            }
+            
+            // 通知页面更新校区信息
+            if (this.campusSwitcherReadyCallback) {
+              this.campusSwitcherReadyCallback(res.data[0]);
+            }
+          } else {
+            console.log('校区列表为空，设置默认值');
+            this.setDefaultTenant();
+          }
+        })
+        .catch(err => {
+          console.error('获取校区列表失败', err);
+          this.setDefaultTenant();
+        });
+    } else {
+      console.log('Found tenant ID, loading tenant info');
+      // 如果已经选择过校区，则根据校区ID从云数据库获取校区信息
+      wx.cloud.database().collection('tenant').doc(currentTenantId).get()
+        .then(res => {
+          console.log('获取当前校区信息成功', res.data);
+          this.globalData.currentTenant = res.data;
+          
+          // 同步tenant_id到旧系统，使用code字段作为tenant_id
+          if (res.data.code) {
+            wx.setStorageSync('tenant_id', res.data.code);
+            console.log('已同步tenant_id:', res.data.code);
+          }
+          
+          // 通知页面更新校区信息
+          if (this.campusSwitcherReadyCallback) {
+            this.campusSwitcherReadyCallback(res.data);
+          }
+        })
+        .catch(err => {
+          console.error('获取当前校区信息失败', err);
+          // 如果获取失败，尝试重新获取校区列表
+          this.resetAndFetchTenantList();
+        });
+    }
+  },
+
+  // 设置默认校区信息
+  setDefaultTenant() {
+    console.log('Setting default tenant information');
+    const defaultTenant = {
+      _id: 'default',
+      name: '默认校区',
+      code: 'default'
+    };
+    this.globalData.currentTenant = defaultTenant;
+    
+    // 通知页面更新校区信息
+    if (this.campusSwitcherReadyCallback) {
+      this.campusSwitcherReadyCallback(defaultTenant);
+    }
+  },
+  
+  // 重置并重新获取校区列表
+  resetAndFetchTenantList() {
+    console.log('Resetting and fetching tenant list');
+    wx.removeStorageSync('currentTenantId');
+    wx.removeStorageSync('tenant_id');
+    
+    wx.cloud.database().collection('tenant').get()
+      .then(res => {
+        console.log('重新获取校区列表成功', res.data);
         if (res.data && res.data.length > 0) {
-          // 默认选择第一个校区
           this.globalData.currentTenant = res.data[0];
           wx.setStorageSync('currentTenantId', res.data[0]._id);
           
-          // 同步tenant_id到旧系统，使用code字段作为tenant_id
           if (res.data[0].code) {
             wx.setStorageSync('tenant_id', res.data[0].code);
-            console.log('已同步tenant_id:', res.data[0].code);
           }
+          
+          if (this.campusSwitcherReadyCallback) {
+            this.campusSwitcherReadyCallback(res.data[0]);
+          }
+        } else {
+          this.setDefaultTenant();
         }
-      }).catch(err => {
-        console.error('获取校区列表失败', err);
+      })
+      .catch(err => {
+        console.error('重新获取校区列表失败', err);
+        this.setDefaultTenant();
       });
-    } else {
-      // 如果已经选择过校区，则根据校区ID从云数据库获取校区信息
-      wx.cloud.database().collection('tenant').doc(currentTenantId).get().then(res => {
-        console.log('获取当前校区信息成功', res.data);
-        this.globalData.currentTenant = res.data;
-        
-        // 同步tenant_id到旧系统，使用code字段作为tenant_id
-        if (res.data.code) {
-          wx.setStorageSync('tenant_id', res.data.code);
-          console.log('已同步tenant_id:', res.data.code);
-        }
-      }).catch(err => {
-        console.error('获取当前校区信息失败', err);
-      });
-    }
   },
 
 })

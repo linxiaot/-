@@ -613,11 +613,7 @@
         url: '../wode/jifen/jifen?jifen_total=' + jifen_total,
       })
     },
-    toXiaoqu() {
-      wx.navigateTo({
-        url: '../wode/xiaoqu/xiaoqu'
-      })
-    },
+    // 校区切换功能已移至首页左上角
     ziliaoPercent(list) {
       var ziliaoNum = 0
       list.forEach(element => {

@@ -519,3 +519,43 @@
   animation-timing-function:linear;
 }
 /*首页跑马灯效果*/
+
+/* Header styles */
+.header-container {
+  display: flex;
+  align-items: center;
+  height: 80rpx;
+  position: relative;
+  justify-content: center;
+  padding: 10rpx 0;
+  background-color: #8AD4AF;
+  z-index: 100;
+}
+
+.title-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 1;
+}
+
+.title-text {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.campus-switcher-container {
+  position: absolute;
+  left: 20rpx;
+  z-index: 10;
+  height: 80rpx;
+}
+
+/* Campus switcher container in the homepage */
+.page .campus-switcher-container {
+  display: flex;
+  align-items: center;
+}
