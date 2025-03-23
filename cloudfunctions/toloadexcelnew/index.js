@@ -18,7 +18,8 @@ exports.main = async (event, context) => {
     meiyeNum = meiyeNum/100
     var whereData = {
         xd_time: _.lte(event.dateEnd).gte(event.dateStart),
-        dd_Status: _.or([_.eq('0'), _.eq('2'), _.eq('6')]) //包含拒退的订单, 取件中的
+        dd_Status: _.or([_.eq('0'), _.eq('2'), _.eq('6')]), //包含拒退的订单, 取件中的
+        tenant_id: event.tenant_id
         // dd_Status: _.or([_.eq('0'), _.eq('2'), _.eq('6'), _.eq('3')]) //包含拒退的订单, 取件中的   测试
     }
     console.log('whereData',whereData);

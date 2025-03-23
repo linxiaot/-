@@ -1,0 +1,28 @@
+<view class="container">
+  <!-- 现有的代取页面内容 -->
+  <view class="time-section">
+    <view class="time-item">
+      <text>起始：</text>
+      <text>{{startTime}}</text>
+      <text class="tag">今日14点</text>
+    </view>
+    <view class="time-item">
+      <text>终止：</text>
+      <text>{{endTime}}</text>
+      <text class="tag">今日18点</text>
+    </view>
+  </view>
+
+  <view class="action-section">
+    <button class="query-btn" bindtap="onQuery">查询</button>
+    <button class="notify-btn" bindtap="onSubmitNotification">寄件跑腿通知</button>
+  </view>
+
+  <!-- 添加查看日志入口 -->
+  <view class="log-section">
+    <button class="log-btn" bindtap="onViewLogs">
+      <text class="log-icon">📋</text>
+      <text>查看操作日志</text>
+    </button>
+  </view>
+</view> 

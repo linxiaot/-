@@ -23,6 +23,7 @@
         <view style="display:flex;justify-content:flex-end">
           <view class="edit" wx:if="{{!isEdit}}" bindtap="toEdit">编辑</view>
           <view class="edit" wx:if="{{isEdit}}" style="background-color:goldenrod" bindtap="toEditConfirm">完成</view>
+          <view class="edit" style="margin-left: 20rpx;" bindtap="toLog">日志</view>
         </view>
 
         <view class="weui-cell__bd">

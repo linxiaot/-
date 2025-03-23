@@ -1,4 +1,3 @@
-
 // 云函数入口文件
 const cloud = require('wx-server-sdk')
 
@@ -10,7 +9,8 @@ exports.main = async (event, context) => {
   if (event.isDaiqu) {
     return await cloud.database().collection('daiqu').where({
       xd_time: _.lte(event.dateEnd).gte(event.dateStart),
-      dd_Status:'0'
+      dd_Status:'0',
+      tenant_id: event.tenant_id
       })
       .orderBy('xd_time', 'desc')
       // .skip((event.pageNum - 1) * 20)
@@ -26,7 +26,8 @@ exports.main = async (event, context) => {
       })
   } else if (event.isCountDaiqu) { //查询总数
     return await cloud.database().collection('daiqu').where({
-        xd_time: _.lte(event.dateEnd).gte(event.dateStart)
+        xd_time: _.lte(event.dateEnd).gte(event.dateStart),
+        tenant_id: event.tenant_id
       })
       .count()
       .then(res => {
@@ -41,7 +42,7 @@ exports.main = async (event, context) => {
     return await cloud.database().collection('jijian').where({
       xd_time: _.lte(event.dateEnd).gte(event.dateStart),
       dd_Status: _.lt('3'),
-      
+      tenant_id: event.tenant_id
       })
       .count()
       .then(res => {
@@ -56,6 +57,7 @@ exports.main = async (event, context) => {
     return await cloud.database().collection('jijian').where({
       xd_time: _.lte(event.dateEnd).gte(event.dateStart),
       dd_Status: _.lt('3'),
+      tenant_id: event.tenant_id
       })
       .orderBy('xd_time', 'desc')
       // .skip((event.pageNum - 1) * 20)

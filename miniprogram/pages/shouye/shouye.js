@@ -464,6 +464,7 @@ Page({
       tuijianList: [],
       pageNum: 1
     })
+    console.log('fabuType', fabuType);
     wx.cloud.database().collection(fabuType)
       .where({
         isHege: true,
@@ -589,7 +590,12 @@ Page({
         wx.hideLoading({})
         if (res.data.length == 0) {
           this.setData({
-            isNoMore: true
+            isNoMore: true,
+            shangjiaList: []
+          })
+          wx.showToast({
+            icon: 'none',
+            title: '暂无店铺数据',
           })
         } else {
           res.data.forEach(element => {
@@ -603,6 +609,11 @@ Page({
       })
       .catch(err => {
         console.error(err)
+        wx.hideLoading({})
+        wx.showToast({
+          icon: 'none',
+          title: '加载失败，请重试',
+        })
       })
   },
   loadmore_dianpu() {
@@ -775,7 +786,6 @@ Page({
         index: 2,
       })
     }
-    // this.loadTuijian(this.data.fabuType)
     
     db.collection('banner').doc('meishidata0001').get().then(res => {
       console.log('后台主参数 meishi', res.data);
@@ -790,15 +800,13 @@ Page({
       }else{
         this.setData({isShowGuanzhu:true})
       }
+      
+      // 只在这里执行一次，避免重复调用
+      if (!isOpen_meishi) {
+        var e = {currentTarget:{dataset:{item:{text:'牛牯塘', fabuType:'bigthings'}}}}
+        this.tapTuijian(e)
+      }
     })
-    // if (!isOpen_meishi) {
-    //   var e = {currentTarget:{dataset:{item:'牛牯塘'}}}
-    //   this.tapTuijian(e)
-    // }
-
-      // var e = {currentTarget:{dataset:{item:'牛牯塘'}}}
-      // this.tapTuijian(e)
-
     
   },
 

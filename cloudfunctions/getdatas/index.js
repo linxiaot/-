@@ -30,6 +30,7 @@ exports.main = async (event, context) => {
             [`${xd_time_name}`]: _.lte(dateEnd).gte(dateStart),
             dd_Status,
             gonghao,
+            tenant_id: event.tenant_id,
             // dd_Status: _.eq('0').or(_.eq('6'))
             // dd_Status: _.or([_.eq('7'), _.eq('3'), _.eq('8')]) // 已装车7,已送达
         }
@@ -67,6 +68,7 @@ exports.main = async (event, context) => {
             [`${xd_time_name}`]: _.lte(dateEnd).gte(dateStart),
             // dd_Status,
             gonghao,
+            tenant_id: event.tenant_id,
             // dd_Status: _.eq('0').or(_.eq('6'))
             // dd_Status: _.or([_.eq('7'), _.eq('3'), _.eq('8')]) // 已装车7,已送达
         }
@@ -97,6 +99,7 @@ exports.main = async (event, context) => {
             [`${xd_time_name}`]: _.lte(dateEnd).gte(dateStart),
             dd_Status,
             gonghao,
+            tenant_id: event.tenant_id,
             // dd_Status: _.eq('0').or(_.eq('6'))
             // dd_Status: _.or([_.eq('7'), _.eq('3'), _.eq('8')]) // 已装车7,已送达
         }
@@ -125,6 +128,7 @@ exports.main = async (event, context) => {
             [`${xd_time_name}`]: _.lte(dateEnd).gte(dateStart),
             // dd_Status,
             gonghao,
+            tenant_id: event.tenant_id,
             // dd_Status: _.eq('0').or(_.eq('6'))
             // dd_Status: _.or([_.eq('7'), _.eq('3'), _.eq('8')]) // 已装车7,已送达
         }
@@ -178,6 +182,7 @@ exports.main = async (event, context) => {
             [`${xd_time_name}`]: _.lte(dateEnd).gte(dateStart),
             dd_Status,
             gonghao,
+            tenant_id: event.tenant_id,
             // dd_Status: _.eq('0').or(_.eq('6'))
             // dd_Status: _.or([_.eq('7'), _.eq('3'), _.eq('8')]) // 已装车7,已送达
         }
@@ -209,6 +214,7 @@ exports.main = async (event, context) => {
             [`${xd_time_name}`]: _.lte(dateEnd).gte(dateStart),
             dd_Status,
             gonghao,
+            tenant_id: event.tenant_id,
             // dd_Status: _.eq('0').or(_.eq('6'))
             // dd_Status: _.or([_.eq('7'), _.eq('3'), _.eq('8')]) // 已装车7,已送达
         }
@@ -246,6 +252,7 @@ exports.main = async (event, context) => {
             [`${xd_time_name}`]: _.lte(dateEnd).gte(dateStart),
             dd_Status: '3',
             kd_Name,
+            tenant_id: event.tenant_id,
             // dd_Status: _.eq('0').or(_.eq('6'))
             // dd_Status: _.or([_.eq('7'), _.eq('3'), _.eq('8')]) // 已装车7,已送达
         }
@@ -275,6 +282,7 @@ exports.main = async (event, context) => {
             [`${xd_time_name}`]: _.lte(dateEnd).gte(dateStart),
             // dd_Status:'3',
             // kd_Name,
+            tenant_id: event.tenant_id,
             // dd_Status: _.eq('0').or(_.eq('6'))
             dd_Status: _.or([_.eq('7'), _.eq('0'), _.eq('2'), _.eq('8')]), // 待处理2，已装车7,已送达3,问题建8
             sd_Didian: {

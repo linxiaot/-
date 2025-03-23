@@ -12,9 +12,8 @@ exports.main = async (event, context) => {
         xd_time: _.lte(event.dateEnd).gte(event.dateStart),
         // dd_Status: '0'
         // dd_Status: _.eq('0').or(_.eq('6'))
-        dd_Status: _.or([_.eq('0'), _.eq('2'), _.eq('6')]) //包含拒退的订单, 取件中的
-
-
+        dd_Status: _.or([_.eq('0'), _.eq('2'), _.eq('6')]), //包含拒退的订单, 取件中的
+        tenant_id: event.tenant_id
     }).orderBy('xd_time', 'desc').count()
     console.log('有多少数量', res_count.total);
     var pageNum = Math.ceil(res_count.total / 100) //向上取整
@@ -24,9 +23,9 @@ exports.main = async (event, context) => {
             xd_time: _.lte(event.dateEnd).gte(event.dateStart),
             // dd_Status: '0'
             // dd_Status: _.eq('0').or(_.eq('6')) //包含拒退的订单
-            dd_Status: _.or([_.eq('0'), _.eq('2'), _.eq('6')]) //包含拒退的订单, 取件中的
+            dd_Status: _.or([_.eq('0'), _.eq('2'), _.eq('6')]), //包含拒退的订单, 取件中的
+            tenant_id: event.tenant_id
             // dd_Status: _.or([_.eq('0'), _.eq('2'), _.eq('6'), _.eq('7')]) //包含拒退的订单, 取件中的,7已装车
-
         }).orderBy('xd_time', 'desc').skip(index * 100).get()
         res.data.forEach(element => {
             // element.dingdanhaoYuan = element.dingdanhao

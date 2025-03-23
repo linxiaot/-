@@ -82,7 +82,7 @@ exports.main = async (event, context) => {
         var yearBegin = vYear;
         var monthBegin = vMon;
         var dayBegin = '01';
-        var day = new Date(vYear, vMon, 0).getDate(); // 当前月份天数
+        var day = new Date(vYear, vMon, 0).getDate(); // 当前月份天数
         var yearEnd = vYear;
         var monthEnd = vMon;
         var dayEnd = day - num;
@@ -122,7 +122,7 @@ exports.main = async (event, context) => {
         var yearBegin = vYear;
         var monthBegin = vMon;
         var dayBegin = '01';
-        var day = new Date(vYear, vMon, 0).getDate(); // 当前月份天数
+        var day = new Date(vYear, vMon, 0).getDate(); // 当前月份天数
         var yearEnd = vYear;
         var monthEnd = vMon;
         var dayEnd = day;
@@ -139,7 +139,8 @@ exports.main = async (event, context) => {
 
     return await dbCollection_meishi
         .where({
-            dd_Status: '0'
+            dd_Status: '0',
+            tenant_id: event.tenant_id
         })
         .count()
         .then(res => {
@@ -151,7 +152,8 @@ exports.main = async (event, context) => {
                 dbCollection_meishi
                     .where({
                         // dd_Status: _.neq('3') // 状态  ！=3  的推送消息
-                        dd_Status: '0'
+                        dd_Status: '0',
+                        tenant_id: event.tenant_id
                     })
                     .skip(index * 100)
                     .get()

@@ -29,6 +29,7 @@ exports.main = async (event, context) => {
   if (event.loaddataType == 'tuikuan_jilu') {
     var res_count = await db.collection('tuikuan').where({
         isYunxu_tuikuan: true,
+        tenant_id: event.tenant_id
       })
       .orderBy('xd_time', 'desc')
       .count()
@@ -41,6 +42,7 @@ exports.main = async (event, context) => {
     for (let index = 0; index < pageNum; index++) {
       var res = await db.collection('tuikuan').where({
           isYunxu_tuikuan: true,
+          tenant_id: event.tenant_id
         })
         .orderBy('xd_time', 'desc')
         .skip(index * 100)

@@ -208,7 +208,6 @@ Page({
 
   },
   toEditConfirm() {
-
     wx.showLoading({
       title: '上传..',
     })
@@ -230,7 +229,6 @@ Page({
       userPhoneNumber,
     } = this.data
 
-
     var list = [nianji, xueyuan, banji, xuehao, userPhoneNumber, nickName, gender, province, city, birthday, ]
     var ziliaoPercent = this.ziliaoPercent(list)
     userinfo.nickName = nickName
@@ -238,6 +236,16 @@ Page({
     userinfo.city = city
     userinfo.province = province
     userinfo.avatarUrl = avatarUrl
+
+    // 记录操作日志
+    wx.cloud.callFunction({
+      name: 'addLog',
+      data: {
+        content: `更新了个人资料：${nickName}`
+      }
+    }).catch(err => {
+      console.error('记录日志失败：', err)
+    })
 
     wx.cloud.database().collection('user').doc(userId)
       .update({
@@ -267,21 +275,22 @@ Page({
           icon: 'none',
           title: '修改完成',
         })
+
         if (ziliaoPercent == 100) {
           wx.cloud.callFunction({
-              name: 'liuyan',
-              data: {
-                isZiliaoPercent: true,
-                userId,
-                nowTime: gx_Time
-              }
-            })
-            .then(res => {
-              console.log('资料100加积分 成功 res', res);
-            })
-            .catch(err => {
-              console.log('资料100加积分 失败 err', err);
-            })
+            name: 'liuyan',
+            data: {
+              isZiliaoPercent: true,
+              userId,
+              nowTime: gx_Time
+            }
+          })
+          .then(res => {
+            console.log('资料100加积分 成功 res', res);
+          })
+          .catch(err => {
+            console.log('资料100加积分 失败 err', err);
+          })
         }
       })
       .catch(err => {
@@ -1316,5 +1325,11 @@ Page({
    */
   onShareAppMessage: function () {
 
-  }
+  },
+
+  toLog: function() {
+    wx.navigateTo({
+      url: '/pages/wode/log/log'
+    })
+  },
 })

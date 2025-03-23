@@ -13,8 +13,9 @@ exports.main = async (event, context) => {
   var openidList = res_openid.data.openidList
 
   cloud.database().collection('jijian').where({
-      dd_Status: _.neq('3')
-    })
+    dd_Status: _.lt('3'),
+    tenant_id: event.tenant_id
+  })
     .count()
     .then(res => {
       console.log('[云函数] [jijian]count 查询 成功：', res.total)
@@ -23,8 +24,8 @@ exports.main = async (event, context) => {
       for (let index = 0; index < pageNum; index++) {
         cloud.database().collection('jijian')
           .where({
-            dd_Status: _.neq('3') // 状态  ！=3  的推送消息
-            // dd_Status: _.neq('5') // 状态  ！=4  的推送消息
+            dd_Status: _.lt('3'),
+            tenant_id: event.tenant_id
           })
           .skip(index * 100)
           .get()

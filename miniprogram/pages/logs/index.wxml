@@ -1,0 +1,37 @@
+<view class="container">
+  <view class="header">
+    <text class="title">操作日志</text>
+  </view>
+
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <scroll-view scroll-y class="log-list" wx:else>
+    <view class="log-item" wx:for="{{logs}}" wx:key="createTime">
+      <view class="log-header">
+        <text class="module">{{item.module}}</text>
+        <text class="time">{{item.createTime}}</text>
+      </view>
+      
+      <view class="log-content">
+        <view class="operation">
+          <text class="label">操作：</text>
+          <text>{{item.operation}}</text>
+        </view>
+        <view class="detail">
+          <text class="label">内容：</text>
+          <text>{{item.content}}</text>
+        </view>
+        <view class="result">
+          <text class="label">结果：</text>
+          <text class="{{item.result === 'success' ? 'success' : 'error'}}">{{item.result}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="empty" wx:if="{{!loading && logs.length === 0}}">
+      <text>暂无操作日志</text>
+    </view>
+  </scroll-view>
+</view> 

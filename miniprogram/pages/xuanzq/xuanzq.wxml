@@ -14,6 +14,8 @@
         </view>
         <view class="{{isQita ? 'class_toTap' : 'class_unTap'}}" style="flex:1; text-align:center; border-left: 2rpx solid black;" hover-class="hover" bindtap="tapQita">其他
         </view>
+        <view class="{{isRizhi ? 'class_toTap' : 'class_unTap'}}" style="flex:1; text-align:center; border-left: 2rpx solid black;" hover-class="hover" bindtap="tapRizhi">日志
+        </view>
       </view>
     </view>
 
@@ -269,7 +271,7 @@
           <text class="weui-loadmore__tips weui-loadmore__tips_in-line" style="font-size: small;">无更多数据</text>
         </view>
       </view>
-      <!--其他版块 -->
+      <!--other版块 -->
       <!-- <view class="kebiao">
         <view>其他版块设置</view>
         <view class="" style="font-size: small;color: gray;" hover-class="hover" catchtap="toQita_bankuai">
@@ -1340,4 +1342,47 @@
       </view>
     </view>
   </scroll-view>
+</view>
+
+<!-- 添加日志页面内容 -->
+<view wx:if="{{isRizhi}}">
+  <view class="section">
+    <view class="padding-sm text-lg text-bold">操作日志</view>
+    <view class="padding-xs">
+      <view class="flex justify-between">
+        <view class="text-df">筛选时间段:</view>
+        <picker mode="date" value="{{rizhiDateStart}}" start="2020-01-01" end="2030-12-31" bindchange="bindRizhiDateStartChange">
+          <view class="picker">
+            {{rizhiDateStart}}
+          </view>
+        </picker>
+        <view>至</view>
+        <picker mode="date" value="{{rizhiDateEnd}}" start="2020-01-01" end="2030-12-31" bindchange="bindRizhiDateEndChange">
+          <view class="picker">
+            {{rizhiDateEnd}}
+          </view>
+        </picker>
+        <button size="mini" type="primary" bindtap="searchLogs">查询</button>
+      </view>
+    </view>
+    
+    <view class="logs-list padding-sm">
+      <view wx:if="{{logsList.length == 0}}" class="text-center padding-lg text-gray">暂无日志记录</view>
+      <view wx:for="{{logsList}}" wx:key="index" class="log-item padding-sm margin-bottom-xs bg-white">
+        <view class="flex justify-between">
+          <view class="text-bold">{{item.operation}}</view>
+          <view class="text-sm text-gray">{{item.formattedTime}}</view>
+        </view>
+        <view class="text-df padding-top-xs">{{item.details}}</view>
+        <view class="text-sm text-gray padding-top-xs">操作人: {{item.operator}}</view>
+      </view>
+    </view>
+    
+    <view wx:if="{{logsList.length > 0 && !isLogsNoMore}}" class="padding-sm text-center">
+      <button size="mini" bindtap="loadMoreLogs">加载更多</button>
+    </view>
+    <view wx:if="{{isLogsNoMore && logsList.length > 0}}" class="padding-sm text-center text-gray">
+      已显示全部日志
+    </view>
+  </view>
 </view>

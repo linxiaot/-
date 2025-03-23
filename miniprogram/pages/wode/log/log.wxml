@@ -1,0 +1,14 @@
+<!--pages/wode/log/log.wxml-->
+<view class="container">
+  <view class="log-list">
+    <block wx:if="{{logList.length > 0}}">
+      <view class="log-item" wx:for="{{logList}}" wx:key="index">
+        <view class="log-time">{{item.createTime}}</view>
+        <view class="log-content">{{item.content}}</view>
+      </view>
+    </block>
+    <view class="empty-state" wx:else>
+      暂无操作记录
+    </view>
+  </view>
+</view> 
